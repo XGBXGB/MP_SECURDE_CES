@@ -2,6 +2,7 @@
     <head>
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/signup.css" rel="stylesheet">
+        <link href="css/bootstrap-form-helpers.min.css" rel="stylesheet" media="screen">
     </head>
 
     <body>
@@ -47,11 +48,7 @@
                                 <!-- Button -->
 
                                 <div class="col-sm-12 controls">
-                                    <a id="btn-login" href="#" class="btn btn-success">Login </a> <a
-                                        id="btn-fblogin" href="#" class="btn btn-primary">Login
-                                        with Facebook</a>
-
-                                </div>
+                                    <a id="btn-login" href="#" class="btn btn-success">Login </a>                                </div>
                             </div>
 
 
@@ -103,7 +100,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <input type="text" class="form-control" name="middleinitial"
-                                        placeholder="M. Initial">
+                                        placeholder="M.I.">
                                 </div>
                                 <div class="col-md-3">
                                     <input type="text" class="form-control" name="lastname"
@@ -139,44 +136,44 @@
                             <span class="info-category">Billing Address:</span>
                             
                             <div class="form-group">
-                                    <label for="email" class="col-md-3 control-label">House #</label>
+                                    <label for="housenoB" class="col-md-3 control-label">House #</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="email" placeholder="Email Address">
+                                        <input type="text" class="form-control" name="housenoB" placeholder="House Number">
                                     </div>
                             </div>
                             
                             <div class="form-group">
-                                    <label for="email" class="col-md-3 control-label">Street</label>
+                                    <label for="streetB" class="col-md-3 control-label">Street</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="email" placeholder="Email Address">
+                                        <input type="text" class="form-control" name="streetB" placeholder="Street">
                                     </div>
                             </div>
                             
                             <div class="form-group">
-                                    <label for="email" class="col-md-3 control-label">Subdivision</label>
+                                    <label for="subdivisionB" class="col-md-3 control-label">Subdivision</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="email" placeholder="Email Address">
+                                        <input type="text" class="form-control" name="subdivisionB" placeholder="Subdivision">
                                     </div>
                             </div>
                             
                             <div class="form-group">
-                                    <label for="email" class="col-md-3 control-label">City</label>
+                                    <label for="cityB" class="col-md-3 control-label">City</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="email" placeholder="Email Address">
+                                        <input type="text" class="form-control" name="cityB" placeholder="City">
                                     </div>
                             </div>
                             
                             <div class="form-group">
-                                    <label for="email" class="col-md-3 control-label">Postal Code</label>
+                                    <label for="postalcodeB" class="col-md-3 control-label">Postal Code</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="email" placeholder="Email Address">
+                                        <input type="text" class="form-control" name="postalcodeB" placeholder="Postal Code">
                                     </div>
                             </div>
                             
                             <div class="form-group">
-                                    <label for="email" class="col-md-3 control-label">Country</label>
+                                    <label for="countryB" class="col-md-3 control-label">Country</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="email" placeholder="@@@MAKE DROPDOWN @@@@@">
+                                        <select name="countryB" class="form-control bfh-countries" data-country="PH"></select>
                                     </div>
                             </div>
                             
@@ -184,65 +181,57 @@
                             <span class="info-category">Shipping Address:</span>
                             
                             <div class="form-group">
-                                    <label for="email" class="col-md-3 control-label">House #</label>
+                                    <label for="housenoS" class="col-md-3 control-label">House #</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="email" placeholder="Email Address">
+                                        <input type="text" class="form-control" name="housenoS" placeholder="House Number">
                                     </div>
                             </div>
                             
                             <div class="form-group">
-                                    <label for="email" class="col-md-3 control-label">Street</label>
+                                    <label for="streetS" class="col-md-3 control-label">Street</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="email" placeholder="Email Address">
+                                        <input type="text" class="form-control" name="streetS" placeholder="Street">
                                     </div>
                             </div>
                             
                             <div class="form-group">
-                                    <label for="email" class="col-md-3 control-label">Subdivision</label>
+                                    <label for="subdivisionS" class="col-md-3 control-label">Subdivision</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="email" placeholder="Email Address">
+                                        <input type="text" class="form-control" name="subdivisionS" placeholder="Subdivision">
                                     </div>
                             </div>
                             
                             <div class="form-group">
-                                    <label for="email" class="col-md-3 control-label">City</label>
+                                    <label for="cityS" class="col-md-3 control-label">City</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="email" placeholder="Email Address">
+                                        <input type="text" class="form-control" name="cityS" placeholder="City">
                                     </div>
                             </div>
                             
                             <div class="form-group">
-                                    <label for="email" class="col-md-3 control-label">Postal Code</label>
+                                    <label for="postalcodeS" class="col-md-3 control-label">Postal Code</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="email" placeholder="Email Address">
+                                        <input type="text" class="form-control" name="postalcodeS" placeholder="Postal Code">
                                     </div>
                             </div>
                             
                             <div class="form-group">
-                                    <label for="email" class="col-md-3 control-label">Country</label>
+                                    <label for="countryS" class="col-md-3 control-label">Country</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="email" placeholder="@@@MAKE DROPDOWN @@@@@">
+                                        <select name="countryS" class="form-control bfh-countries" data-country="PH"></select>
                                     </div>
                             </div>
                             
                             <div class="form-group">
                                 <!-- Button -->
-                                <div class="col-md-offset-3 col-md-9">
+                                <div class="col-md-offset-5 col-md-3">
                                     <button id="btn-signup" type="button" class="btn btn-info">
                                         <i class="icon-hand-right"></i> &nbsp Sign Up
                                     </button>
-                                    <span style="margin-left: 8px;">or</span>
                                 </div>
                             </div>
                             
-                            <div style="border-top: 1px solid #999; padding-top: 20px"
-                                class="form-group">
-                                <div class="col-md-offset-3 col-md-9">
-                                    <button id="btn-fbsignup" type="button" class="btn btn-primary">
-                                        <i class="icon-facebook"></i>   Sign Up with Facebook
-                                    </button>
-                                </div>
-                            </div>
+                            
                         </form>
                     </div>
                 </div>
@@ -255,6 +244,7 @@
         <script src="js/jquery.js"></script>
 
         <!-- Bootstrap Core JavaScript -->
+        <script src="js/bootstrap-formhelpers.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
     </body>
 </html>
