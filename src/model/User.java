@@ -5,8 +5,14 @@ public class User {
 	public static String COLUMN_ID = "id";
 	public static String COLUMN_USERNAME = "username";
 	public static String COLUMN_PASSWORD = "password";
-	public static String COLUMN_FNAME = "first_name";
-	public static String COLUMN_LNAME = "last_name";
+	public static String COLUMN_FNAME = "firstname";
+	public static String COLUMN_LNAME = "lastname";
+	public static String COLUMN_MNAME = "middlename";
+	public static String COLUMN_EMAIL = "email";
+	public static String COLUMN_BILLING = "billingAddressID";
+	public static String COLUMN_SHIPPING = "shippingAddressID";
+	public static String COLUMN_TYPE = "typeID";
+
 	
 	private int id;
 	private String username;
@@ -17,7 +23,7 @@ public class User {
 	private String email;
 	private int billingAddressId;
 	private int shippingAddressId;
-	private String userType;
+	private int userType;
 	
 	
 	
@@ -75,10 +81,10 @@ public class User {
 	public void setShippingAddressId(int shippingAddressId) {
 		this.shippingAddressId = shippingAddressId;
 	}
-	public String getUserType() {
+	public int getUserType() {
 		return userType;
 	}
-	public void setUserType(String userType) {
+	public void setUserType(int userType) {
 		this.userType = userType;
 	}
 	

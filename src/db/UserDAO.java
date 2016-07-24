@@ -40,6 +40,11 @@ public class UserDAO {
 				u.setUsername(rs.getString(User.COLUMN_USERNAME));
 				u.setFirstName(rs.getString(User.COLUMN_FNAME));
 				u.setLastName(rs.getString(User.COLUMN_LNAME));
+				u.setEmail(rs.getString(User.COLUMN_EMAIL));
+				u.setMiddleName(rs.getString(User.COLUMN_MNAME));
+				u.setBillingAddressId(rs.getInt(User.COLUMN_BILLING));
+				u.setShippingAddressId(rs.getInt(User.COLUMN_SHIPPING));
+				u.setUserType(rs.getInt(User.COLUMN_TYPE));
 				return u;
 			}
 		} catch (SQLException e) {
