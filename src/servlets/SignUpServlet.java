@@ -10,6 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.Controller;
+import model.Address;
+import model.PasswordService;
+import model.User;
+
 /**
  * Servlet implementation class SignUpServlet
  */
@@ -47,7 +52,7 @@ public class SignUpServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		
 		//Billing Address:
-		String houseNoB = request.getParameter("housenoB");
+		int houseNoB = Integer.parseInt(request.getParameter("housenoB"));
 		String streetB = request.getParameter("streetB");
 		String subdivisionB = request.getParameter("subdivisionB");
 		String cityB = request.getParameter("cityB");
@@ -55,7 +60,7 @@ public class SignUpServlet extends HttpServlet {
 		String countryB = request.getParameter("countryB");
 		
 		//Shipping Address:
-		String houseNoS = request.getParameter("housenoS");
+		int houseNoS = Integer.parseInt(request.getParameter("housenoS"));
 		String streetS = request.getParameter("streetS");
 		String subdivisionS = request.getParameter("subdivisionS");
 		String cityS = request.getParameter("cityS");
@@ -64,16 +69,52 @@ public class SignUpServlet extends HttpServlet {
 		
 		
 		//SIGNUP FUCNTION
+		Controller controller = new Controller();
+		if(controller.validateUsername(userName))
+		{
+			if(controller.validateEmail(email))
+			{
+				//encrypt the password to check against what's stored in DB
+				PasswordService pws = new PasswordService();
+				String encryptedPass = pws.encrypt(password);
+				
+				int b = controller.validateAddress( new Address(0, houseNoB, streetB, subdivisionB, cityB, postalCodeB, countryB));
+				int s = controller.validateAddress( new Address(0, houseNoS, streetS, subdivisionS, cityS, postalCodeS, countryS));
+				controller.addUser(new User(0, userName, encryptedPass, lName, fName, mInitial, email, b, s, 4));				
+				PrintWriter out = response.getWriter();
+				out.println("<script type=\"text/javascript\">");
+				out.println("alert('You can now login using your account!');");
+				out.println("location='index.jsp';");
+				out.println("</script>");
+				
+				String url = "index.jsp";
+				RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+				dispatcher.forward(request, response);
+			}
+			else
+			{
+				PrintWriter out = response.getWriter();
+				out.println("<script type=\"text/javascript\">");
+				out.println("alert('That email already exists! Choose a different one.');");
+				out.println("</script>");
+
+			}
+		}
+		else
+		{
+			PrintWriter out = response.getWriter();
+			out.println("<script type=\"text/javascript\">");
+			out.println("alert('That username already exists! Choose a different one.');");
+			out.println("</script>");
+			
+		}
+		
 		
 		//SIGNUP FUNCTION
 		
-		//RESPONSE
-		PrintWriter out = response.getWriter();
-		out.println("<script type=\"text/javascript\">");
-		out.println("alert('You can now login using your account!');");
-		out.println("location='index.jsp';");
-		out.println("</script>");
 		
+		
+		//RESPONSE
 	}
 
 }

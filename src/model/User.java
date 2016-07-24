@@ -7,20 +7,47 @@ public class User {
 	public static String COLUMN_PASSWORD = "password";
 	public static String COLUMN_FNAME = "firstname";
 	public static String COLUMN_LNAME = "lastname";
+	public static String COLUMN_MNAME = "middlename";
+	public static String COLUMN_EMAIL = "email";
+	public static String COLUMN_BILLING = "billingAddressID";
+	public static String COLUMN_SHIPPING = "shippingAddressID";
+	public static String COLUMN_TYPE = "typeID";
 	
 	private int id;
 	private String username;
-	private String psasword;
+	private String password;
 	private String lastName;
 	private String firstName;
 	private String middleName;
 	private String email;
 	private int billingAddressId;
 	private int shippingAddressId;
-	private String userType;
+	private int userType;
 	
 	
 	
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	public User(int id, String username, String password, String lastName, String firstName, String middleName,
+			String email, int billingAddressId, int shippingAddressId, int userType) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.lastName = lastName;
+		this.firstName = firstName;
+		this.middleName = middleName;
+		this.email = email;
+		this.billingAddressId = billingAddressId;
+		this.shippingAddressId = shippingAddressId;
+		this.userType = userType;
+	}
+
+
+
 	public int getId() {
 		return id;
 	}
@@ -33,11 +60,11 @@ public class User {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public String getPsasword() {
-		return psasword;
+	public String getpassword() {
+		return password;
 	}
-	public void setPsasword(String psasword) {
-		this.psasword = psasword;
+	public void setpassword(String password) {
+		this.password = password;
 	}
 	public String getLastName() {
 		return lastName;
@@ -75,10 +102,10 @@ public class User {
 	public void setShippingAddressId(int shippingAddressId) {
 		this.shippingAddressId = shippingAddressId;
 	}
-	public String getUserType() {
+	public int getUserType() {
 		return userType;
 	}
-	public void setUserType(String userType) {
+	public void setUserType(int userType) {
 		this.userType = userType;
 	}
 	
