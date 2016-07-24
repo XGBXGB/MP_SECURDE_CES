@@ -34,7 +34,7 @@
 									type="text" class="form-control" name="username" value=""
 									placeholder="username or email" required>
 							</div>
-    						<div class="help-block with-errors" style="margin:0 !important; padding:0 !important"></div>
+    						<div class="help-block with-errors"></div>
 						</div>
 						
 						<div class="form-group">
@@ -92,7 +92,7 @@
 				</div>
 			</div>
 			<div class="panel-body">
-				<form id="signupform" class="form-horizontal" data-toggle="validator" role="form">
+				<form id="signupform" class="form-horizontal" data-toggle="validator" role="form" action="SignUpServlet">
 					<div id="signupalert" style="display: none"
 						class="alert alert-danger">
 						<p>Error:</p>
@@ -101,66 +101,74 @@
 					<span class="info-category">Personal Information:</span>
 					<label class="col-md-3 control-label" for="firstname">Name</label>
 					<div class="form-group col-md-4">
-							<input type="text" class="form-control" name="firstname"
+							<input pattern="^[ A-z]{1,}$" type="text" class="form-control" name="firstname"
 									placeholder="First Name" required>
 					</div>
 					<div class="form-group col-md-2">
-							<input type="text" class="form-control" name="middleinitial"
+							<input maxlegnth="1" pattern="[A-z]" type="text" class="form-control" name="middleinitial"
 									placeholder="M.I." required>
 					</div>
 					<div class="form-group col-md-3">
-							<input type="text" class="form-control" name="lastname"
+							<input pattern="^[ A-z]{1,}$" type="text" class="form-control" name="lastname"
 									placeholder="Last Name" required>
 					</div>
 					
 
 					<label for="username" class="col-md-3 control-label">Username</label>
 					<div class="form-group col-md-9">
-							<input type="text" class="form-control" name="username"
-								placeholder="Username" required>
+							<input data-minlength="6" pattern="^[_A-z0-9]{1,}$" type="text" class="form-control" name="username"
+								placeholder="Minimum of 6 characters. Composed of numbers, letters and _" required>
+						<div class="help-block with-errors"></div>
 					</div>
 					<label for="password" class="col-md-3 control-label">Password</label>
 					<div class="form-group col-md-9">
-							<input id="passwd" type="password" class="form-control" name="password"
-								placeholder="Password" required>
+							<input pattern="^[_A-z0-9]{1,}$" data-minlength="6" id="passwd" type="password" class="form-control" name="password"
+								placeholder="Minimum of 6 characters" required>
+							<div class="help-block with-errors"></div>
 					</div>
 					<label for="password" class="col-md-3 control-label">Confirm Pass</label>
 					<div class="form-group col-md-9">
 							<input data-match="#passwd" type="password" class="form-control" name="confirmpassword"
-								placeholder="Confirm Password" required>
+								placeholder="Match input with password" required>
 							<div class="help-block with-errors" style="margin:0 !important; padding:0 !important"></div>
 					</div>
 					<label for="email" class="col-md-3 control-label">Email</label>
 					<div class="form-group col-md-9">
-							<input type="text" class="form-control" name="email"
+							<input pattern="^[_@A-z0-9]{1,}$" type="email" class="form-control" name="email"
 								placeholder="Email Address" required>
+							<div class="help-block with-errors"></div>
 					</div>
 					<hr>
 					<span class="info-category">Billing Address:</span>
-					<label for="housenoB" class="col-md-3 control-label">House #</label>
+					<label class="col-md-3 control-label">House #</label>
 					<div class="form-group col-md-9">
-							<input type="text" class="form-control" name="housenoB"
+							<input for="housenoB" pattern="^[0-9]{1,}$" type="text" class="form-control" name="housenoB"
 								placeholder="House Number" required>
+							<div class="help-block with-errors"></div>
 					</div>
 					<label for="streetB" class="col-md-3 control-label">Street</label>
 					<div class="form-group col-md-9">
-							<input type="text" class="form-control" name="streetB"
+							<input pattern="^[ A-z]{1,}$" type="text" class="form-control" name="streetB"
 								placeholder="Street" required>
+							<div class="help-block with-errors"></div>
 					</div>
 					<label for="subdivisionB" class="col-md-3 control-label">Subdivision</label>
 					<div class="form-group col-md-9">
-							<input type="text" class="form-control" name="subdivisionB"
+							<input pattern="^[ A-z]{1,}$" type="text" class="form-control" name="subdivisionB"
 								placeholder="Subdivision" required>
+							<div class="help-block with-errors"></div>
 					</div>
 					<label for="cityB" class="col-md-3 control-label">City</label>
 					<div class="form-group col-md-9">
-							<input type="text" class="form-control" name="cityB"
+							<input pattern="^[ A-z]{1,}$" type="text" class="form-control" name="cityB"
 								placeholder="City" required>
+							<div class="help-block with-errors"></div>
 					</div>
 					<label for="postalcodeB" class="col-md-3 control-label">Postal Code</label>
 					<div class="form-group col-md-9">
-							<input type="text" class="form-control" name="postalcodeB"
+							<input for="housenoB" pattern="^[0-9]{1,}$" type="text" class="form-control" name="postalcodeB"
 								placeholder="Postal Code" required>
+							<div class="help-block with-errors"></div>
 					</div>
 					<label for="countryB" class="col-md-3 control-label">Country</label>
 					<div class="form-group col-md-9">
@@ -173,29 +181,34 @@
 					<label for="housenoS" class="col-md-3 control-label">House
 							#</label>
 					<div class="form-group col-md-9">
-							<input type="text" class="form-control" name="housenoS"
+							<input pattern="^[0-9]{1,}$" type="text" class="form-control" name="housenoS"
 								placeholder="House Number" required>
+							<div class="help-block with-errors"></div>
 					</div>
 					<label for="streetS" class="col-md-3 control-label">Street</label>
 					<div class="form-group col-md-9">
-							<input type="text" class="form-control" name="streetS"
+							<input pattern="^[ A-z]{1,}$" type="text" class="form-control" name="streetS"
 								placeholder="Street" required>
+							<div class="help-block with-errors"></div>
 					</div>
 					<label for="subdivisionS" class="col-md-3 control-label">Subdivision</label>
 					<div class="form-group col-md-9">
-							<input type="text" class="form-control" name="subdivisionS"
+							<input pattern="^[ A-z]{1,}$" type="text" class="form-control" name="subdivisionS"
 								placeholder="Subdivision" required>
+							<div class="help-block with-errors"></div>
 					</div>
 					<label for="cityS" class="col-md-3 control-label">City</label>
 					<div class="form-group col-md-9">
-							<input type="text" class="form-control" name="cityS"
+							<input pattern="^[ A-z]{1,}$" type="text" class="form-control" name="cityS"
 								placeholder="City" required>
+							<div class="help-block with-errors"></div>
 					</div>
 					<label for="postalcodeS" class="col-md-3 control-label">Postal
 							Code</label>
 					<div class="form-group col-md-9">
-							<input type="text" class="form-control" name="postalcodeS"
+							<input pattern="^[0-9]{1,}$" type="text" class="form-control" name="postalcodeS"
 								placeholder="Postal Code" required>
+							<div class="help-block with-errors"></div>
 					</div>
 					<label for="countryS" class="col-md-3 control-label">Country</label>
 					<div class="form-group col-md-9">
