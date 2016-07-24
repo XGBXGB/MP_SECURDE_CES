@@ -92,167 +92,123 @@
 				</div>
 			</div>
 			<div class="panel-body">
-				<form id="signupform" class="form-horizontal" role="form">
+				<form id="signupform" class="form-horizontal" data-toggle="validator" role="form">
 					<div id="signupalert" style="display: none"
 						class="alert alert-danger">
 						<p>Error:</p>
 						<span></span>
 					</div>
 					<span class="info-category">Personal Information:</span>
-
-					<div class="form-group">
-						<label class="col-md-3 control-label">Name</label>
-						<div class="col-md-4">
+					<label class="col-md-3 control-label" for="firstname">Name</label>
+					<div class="form-group col-md-4">
 							<input type="text" class="form-control" name="firstname"
-								placeholder="First Name">
-						</div>
-						<div class="col-md-2">
+									placeholder="First Name" required>
+					</div>
+					<div class="form-group col-md-2">
 							<input type="text" class="form-control" name="middleinitial"
-								placeholder="M.I.">
-						</div>
-						<div class="col-md-3">
+									placeholder="M.I." required>
+					</div>
+					<div class="form-group col-md-3">
 							<input type="text" class="form-control" name="lastname"
-								placeholder="Last Name">
-						</div>
-
+									placeholder="Last Name" required>
 					</div>
+					
 
-
-					<div class="form-group">
-						<label for="username" class="col-md-3 control-label">Username</label>
-						<div class="col-md-9">
+					<label for="username" class="col-md-3 control-label">Username</label>
+					<div class="form-group col-md-9">
 							<input type="text" class="form-control" name="username"
-								placeholder="Username">
-						</div>
+								placeholder="Username" required>
 					</div>
-
-					<div class="form-group">
-						<label for="password" class="col-md-3 control-label">Password</label>
-						<div class="col-md-9">
-							<input type="password" class="form-control" name="passwd"
-								placeholder="Password">
-						</div>
+					<label for="password" class="col-md-3 control-label">Password</label>
+					<div class="form-group col-md-9">
+							<input id="passwd" type="password" class="form-control" name="password"
+								placeholder="Password" required>
 					</div>
-
-					<div class="form-group">
-						<label for="email" class="col-md-3 control-label">Email</label>
-						<div class="col-md-9">
+					<label for="password" class="col-md-3 control-label">Confirm Pass</label>
+					<div class="form-group col-md-9">
+							<input data-match="#passwd" type="password" class="form-control" name="confirmpassword"
+								placeholder="Confirm Password" required>
+							<div class="help-block with-errors" style="margin:0 !important; padding:0 !important"></div>
+					</div>
+					<label for="email" class="col-md-3 control-label">Email</label>
+					<div class="form-group col-md-9">
 							<input type="text" class="form-control" name="email"
-								placeholder="Email Address">
-						</div>
+								placeholder="Email Address" required>
 					</div>
 					<hr>
 					<span class="info-category">Billing Address:</span>
-
-					<div class="form-group">
-						<label for="housenoB" class="col-md-3 control-label">House
-							#</label>
-						<div class="col-md-9">
+					<label for="housenoB" class="col-md-3 control-label">House #</label>
+					<div class="form-group col-md-9">
 							<input type="text" class="form-control" name="housenoB"
-								placeholder="House Number">
-						</div>
+								placeholder="House Number" required>
 					</div>
-
-					<div class="form-group">
-						<label for="streetB" class="col-md-3 control-label">Street</label>
-						<div class="col-md-9">
+					<label for="streetB" class="col-md-3 control-label">Street</label>
+					<div class="form-group col-md-9">
 							<input type="text" class="form-control" name="streetB"
-								placeholder="Street">
-						</div>
+								placeholder="Street" required>
 					</div>
-
-					<div class="form-group">
-						<label for="subdivisionB" class="col-md-3 control-label">Subdivision</label>
-						<div class="col-md-9">
+					<label for="subdivisionB" class="col-md-3 control-label">Subdivision</label>
+					<div class="form-group col-md-9">
 							<input type="text" class="form-control" name="subdivisionB"
-								placeholder="Subdivision">
-						</div>
+								placeholder="Subdivision" required>
 					</div>
-
-					<div class="form-group">
-						<label for="cityB" class="col-md-3 control-label">City</label>
-						<div class="col-md-9">
+					<label for="cityB" class="col-md-3 control-label">City</label>
+					<div class="form-group col-md-9">
 							<input type="text" class="form-control" name="cityB"
-								placeholder="City">
-						</div>
+								placeholder="City" required>
 					</div>
-
-					<div class="form-group">
-						<label for="postalcodeB" class="col-md-3 control-label">Postal
-							Code</label>
-						<div class="col-md-9">
+					<label for="postalcodeB" class="col-md-3 control-label">Postal Code</label>
+					<div class="form-group col-md-9">
 							<input type="text" class="form-control" name="postalcodeB"
-								placeholder="Postal Code">
-						</div>
+								placeholder="Postal Code" required>
 					</div>
-
-					<div class="form-group">
-						<label for="countryB" class="col-md-3 control-label">Country</label>
-						<div class="col-md-9">
+					<label for="countryB" class="col-md-3 control-label">Country</label>
+					<div class="form-group col-md-9">
 							<select name="countryB" class="form-control bfh-countries"
 								data-country="PH"></select>
-						</div>
 					</div>
 
 					<hr>
 					<span class="info-category">Shipping Address:</span>
-
-					<div class="form-group">
-						<label for="housenoS" class="col-md-3 control-label">House
+					<label for="housenoS" class="col-md-3 control-label">House
 							#</label>
-						<div class="col-md-9">
+					<div class="form-group col-md-9">
 							<input type="text" class="form-control" name="housenoS"
-								placeholder="House Number">
-						</div>
+								placeholder="House Number" required>
 					</div>
-
-					<div class="form-group">
-						<label for="streetS" class="col-md-3 control-label">Street</label>
-						<div class="col-md-9">
+					<label for="streetS" class="col-md-3 control-label">Street</label>
+					<div class="form-group col-md-9">
 							<input type="text" class="form-control" name="streetS"
-								placeholder="Street">
-						</div>
+								placeholder="Street" required>
 					</div>
-
-					<div class="form-group">
-						<label for="subdivisionS" class="col-md-3 control-label">Subdivision</label>
-						<div class="col-md-9">
+					<label for="subdivisionS" class="col-md-3 control-label">Subdivision</label>
+					<div class="form-group col-md-9">
 							<input type="text" class="form-control" name="subdivisionS"
-								placeholder="Subdivision">
-						</div>
+								placeholder="Subdivision" required>
 					</div>
-
-					<div class="form-group">
-						<label for="cityS" class="col-md-3 control-label">City</label>
-						<div class="col-md-9">
+					<label for="cityS" class="col-md-3 control-label">City</label>
+					<div class="form-group col-md-9">
 							<input type="text" class="form-control" name="cityS"
-								placeholder="City">
-						</div>
+								placeholder="City" required>
 					</div>
-
-					<div class="form-group">
-						<label for="postalcodeS" class="col-md-3 control-label">Postal
+					<label for="postalcodeS" class="col-md-3 control-label">Postal
 							Code</label>
-						<div class="col-md-9">
+					<div class="form-group col-md-9">
 							<input type="text" class="form-control" name="postalcodeS"
-								placeholder="Postal Code">
-						</div>
+								placeholder="Postal Code" required>
 					</div>
-
-					<div class="form-group">
-						<label for="countryS" class="col-md-3 control-label">Country</label>
-						<div class="col-md-9">
+					<label for="countryS" class="col-md-3 control-label">Country</label>
+					<div class="form-group col-md-9">
 							<select name="countryS" class="form-control bfh-countries"
 								data-country="PH"></select>
-						</div>
 					</div>
 
 					<div class="form-group">
 						<!-- Button -->
 						<div class="col-md-offset-5 col-md-3">
-							<button id="btn-signup" type="button" class="btn btn-info">
-								<i class="icon-hand-right"></i> &nbsp Sign Up
-							</button>
+							<a onclick="$(this).closest('form').submit()" id="btn-signup" href="#" class="btn btn-info">
+								<i class="icon-hand-right"></i> Sign Up
+							</a>
 						</div>
 					</div>
 
@@ -263,7 +219,6 @@
 	</div>
 	<!-- END OF SIGN UP FORM NIGGAAHHHHHH-->
 
-	</div>
 
 	<!-- jQuery -->
 	<script src="js/jquery.js"></script>
