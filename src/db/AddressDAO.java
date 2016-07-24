@@ -17,7 +17,7 @@ public class AddressDAO {
 		//controller = Controller.getInstance();
 	}
 	
-	public int validateAddress(Address address) {
+	public boolean validateAddress(Address address) {
 		String query = "SELECT * FROM " + Address.TABLE_NAME + " WHERE " + 
 						Address.COLUMN_HN + " = ? "
 						+ "AND "+ Address.COLUMN_STREET + "= ? "
@@ -45,13 +45,13 @@ public class AddressDAO {
 		try {
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()){
-				return rs.getInt(Address.COLUMN_ID);
+				return true;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
 		}
-		return addAddress(address);
+		return false;
 	}
 	
 	public int getAddressID(Address address)
@@ -92,7 +92,7 @@ public class AddressDAO {
 			return -1;
 	}
 	
-	public int addAddress(Address address)
+	public void addAddress(Address address)
 	{
 		String query = "INSERT INTO " + Address.TABLE_NAME + " "
 				+ "("+ Address.COLUMN_HN +"," + Address.COLUMN_STREET + "," + Address.COLUMN_SUB + "," + Address.COLUMN_CITY + ","
@@ -107,12 +107,10 @@ public class AddressDAO {
 			pstmt = connection.prepareStatement(query);
 			pstmt.executeUpdate();
 			
-			return getAddressID(address);
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
 			//e2.printStackTrace();
 		}			
 		
-		return -1;
 	}
 }

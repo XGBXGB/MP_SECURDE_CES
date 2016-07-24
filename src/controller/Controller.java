@@ -41,9 +41,17 @@ public class Controller {
 		userDao.addUser(user);
 	}
 	
-	public int validateAddress(Address address)
+	public boolean validateAddress(Address address)
 	{
 		return addressDao.validateAddress(address);
 	}
+
+	public void addAddress(Address address) {
+		addressDao.addAddress(address);	
+	}
 	
+	public int getAddressID(Address address)
+	{
+		return addressDao.getAddressID(address);
+	}
 }

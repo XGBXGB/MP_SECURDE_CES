@@ -78,9 +78,23 @@ public class SignUpServlet extends HttpServlet {
 				PasswordService pws = new PasswordService();
 				String encryptedPass = pws.encrypt(password);
 				
-				int b = controller.validateAddress( new Address(0, houseNoB, streetB, subdivisionB, cityB, postalCodeB, countryB));
-				int s = controller.validateAddress( new Address(0, houseNoS, streetS, subdivisionS, cityS, postalCodeS, countryS));
-				controller.addUser(new User(0, userName, encryptedPass, lName, fName, mInitial, email, b, s, 4));				
+				boolean b = controller.validateAddress( new Address(0, houseNoB, streetB, subdivisionB, cityB, postalCodeB, countryB));
+				int bid = -1;
+				if(!b)
+				{
+					controller.addAddress(new Address(0, houseNoB, streetB, subdivisionB, cityB, postalCodeB, countryB));
+					bid = controller.getAddressID(new Address(0, houseNoB, streetB, subdivisionB, cityB, postalCodeB, countryB));
+				}
+				
+				boolean s = controller.validateAddress( new Address(0, houseNoS, streetS, subdivisionS, cityS, postalCodeS, countryS));
+				
+				int sid = -1;
+				if(!s)
+				{
+					controller.addAddress(new Address(0, houseNoS, streetS, subdivisionS, cityS, postalCodeS, countryS));
+					sid = controller.getAddressID(new Address(0, houseNoS, streetS, subdivisionS, cityS, postalCodeS, countryS));
+				}
+				controller.addUser(new User(0, userName, encryptedPass, lName, fName, mInitial, email, bid, sid, 4));				
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('You can now login using your account!');");

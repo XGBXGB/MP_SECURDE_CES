@@ -108,12 +108,13 @@ public class UserDAO {
 	{
 		String query = "INSERT INTO " + User.TABLE_NAME + " " + 
 				" (" + User.COLUMN_USERNAME + "," + User.COLUMN_PASSWORD + "," + User.COLUMN_LNAME + ","
-				+ "," + User.COLUMN_FNAME + "," + User.COLUMN_MNAME + "," + User.COLUMN_EMAIL + "," + User.COLUMN_BILLING 
+				+ User.COLUMN_FNAME + "," + User.COLUMN_MNAME + "," + User.COLUMN_EMAIL + "," + User.COLUMN_BILLING 
 				+ "," + User.COLUMN_SHIPPING + "," + User.COLUMN_TYPE + ") "
 				+ " VALUES ('" + user.getUsername() + "', '" + user.getpassword()
 		+ "', '" + user.getLastName() + "', '" + user.getFirstName() + "', '" + user.getMiddleName() + "', '" + user.getEmail()
 		+ "', " + user.getBillingAddressId() + ", " + user.getShippingAddressId() + ", " + user.getUserType() + ");";
 		
+		System.out.println("QUERY: " + query);
 		Connection connection = dbConnection.getConnection();
 		PreparedStatement pstmt = null;
 		try {
