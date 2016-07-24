@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class SignUpServlet
  */
-@WebServlet("/SignUpServlet")
+@WebServlet(name="SignUpServlet",urlPatterns={"/SignUpServlet"})
 public class SignUpServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -67,7 +67,6 @@ public class SignUpServlet extends HttpServlet {
 		
 		//SIGNUP FUNCTION
 		
-		
 		//RESPONSE
 		PrintWriter out = response.getWriter();
 		out.println("<script type=\"text/javascript\">");
@@ -75,8 +74,6 @@ public class SignUpServlet extends HttpServlet {
 		out.println("location='index.jsp';");
 		out.println("</script>");
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
-		dispatcher.forward(request, response);
 	}
 
 }
