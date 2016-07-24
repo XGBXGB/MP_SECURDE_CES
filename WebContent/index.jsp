@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -23,10 +23,13 @@
 				</div>
 
 				<div style="padding: 30px" class="panel-body">
+					
 					<form id="loginform" method="post" class="form-horizontal" action="LoginServlet"
 						data-toggle="validator" role="form">
-						<div style="display: none" id="login-alert"
+						<%if(request.getAttribute("errorMessage")!=null){ %>
+						<div style="" id="login-alert"
 							class="alert alert-danger col-sm-12">${errorMessage}</div>
+						<%} %>
 						<div class="form-group">
 							<div class="input-group">
 								<span class="input-group-addon"><i
