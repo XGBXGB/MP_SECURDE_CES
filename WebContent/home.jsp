@@ -1,4 +1,7 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+	<%@page import="model.User"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 
 <head>
@@ -28,6 +31,7 @@
 
 <body>
 
+	<%User u = (User) session.getAttribute("user"); %>
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
@@ -42,9 +46,7 @@
                 <a class="navbar-brand" href="#">Start Bootstrap</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                
-			    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-			    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+			    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Hello <%=u.getFirstName()%>!</a></li>
                 <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> (0) - View cart</a></li>
 		    </ul>
             <!-- Collect the nav links, forms, and other content for toggling -->

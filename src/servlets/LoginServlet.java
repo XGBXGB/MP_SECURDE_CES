@@ -87,7 +87,7 @@ public class LoginServlet extends HttpServlet {
 				session.invalidate();
 				session=request.getSession(true);
 				session.setAttribute("user", user);
-				url="UserAccount.jsp";
+				url="home.jsp";
 			}
 			// user doesn't exist, redirect to previous page and show error
 			else{
