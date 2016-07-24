@@ -1,244 +1,238 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+	pageEncoding="EUC-KR"%>
+<%@page import="controller.Controller"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="model.TripWithCapacity"%>
+<%@page import="java.sql.Date"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link href="css/bootstrap.min.css" rel="stylesheet">
-<link href="css/signup.css" rel="stylesheet">
-<link href="css/bootstrap-formhelpers.min.css" rel="stylesheet"
-	media="screen">
+<!--Import Google Icon Font-->
+<title>Arrows Express</title>
+<link href="http://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+<!--Import materialize.css-->
+<link type="text/css" rel="stylesheet"
+	href="materialize/css/materialize.css" media="screen,projection" />
+<link type="text/css" rel="stylesheet" href="css/main.css" />
+<link type="text/css" rel="stylesheet" href="css/login.css"/>
+<!--Let browser know website is optimized for mobile-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
 <body>
-	<div class="container">
-		<div id="loginbox" style="margin-top: 50px;"
-			class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-			<div class="panel panel-info">
-				<div class="panel-heading">
-					<div class="panel-title">Sign In</div>
-					<div
-						style="float: right; font-size: 80%; position: relative; top: -10px">
-						<a href="#">Forgot password?</a>
+
+
+<%
+ 	Controller controller = Controller.getInstance();
+ 	Calendar cal = Calendar.getInstance();
+ 	cal.add(Calendar.DAY_OF_MONTH, 1);
+ 	Date dateTomorrow = new Date(cal.getTimeInMillis());
+ 	SimpleDateFormat f = new SimpleDateFormat("hh:mm a");
+
+ 	controller.getAllRoutes();
+
+ 	ArrayList<TripWithCapacity> stcmnlTrips = controller.getTripsWithRouteAndDate("1", dateTomorrow);
+ 	ArrayList<TripWithCapacity> mnlstcTrips = controller.getTripsWithRouteAndDate("2", dateTomorrow);
+ %>
+	<div class="main-reserve"
+		style="padding-top: 0; margin-top: 0 !important">
+		<div class="container main-container">
+			<div class="row">
+				<div class="booking">
+					<div class="row" style="margin: 0;">
+						<div class="book-lbl" style="">
+							Reserve a seat for tomorrow (<%=dateTomorrow%>)
+						</div>
+						<div class="other-dates-lbl">Reserve for a different date?
+							Click here for more trips</div>
 					</div>
 				</div>
+				<div class="col l6 m6 s12" style="padding-top: 10px;">
+					<div class="upcoming-trip green">
+						<div class="container">
+							<div class="row">
+								<div class="upcoming-trip-title white-text">Manila to STC</div>
+								<div class="trip-list-container col s12">
 
-				<div style="padding: 30px" class="panel-body">
-					<form id="loginform" class="form-horizontal" action="LoginServlet"
-						data-toggle="validator" role="form">
-						<div style="display: none" id="login-alert"
-							class="alert alert-danger col-sm-12">${errorMessage}</div>
-						<div class="form-group">
-							<div class="input-group">
-								<span class="input-group-addon"><i
-									class="glyphicon glyphicon-user"></i></span> <input id="login-username"
-									type="text" class="form-control" name="username" value=""
-									placeholder="username or email" required>
-							</div>
-    						<div class="help-block with-errors"></div>
-						</div>
-						
-						<div class="form-group">
-							<div class="input-group">
-								<span class="input-group-addon"><i
-									class="glyphicon glyphicon-lock"></i></span> <input id="login-password"
-									type="password" class="form-control" name="password"
-									placeholder="password" required>
-							</div>
-							<div class="help-block with-errors" style="margin:0 !important; padding:0 !important"></div>
-						</div>
+									<form action="ReserveServlet" method="post">
+										<input type="hidden" id="hiddenstuffId" name="hiddenstuff">
+										<%
+											for (int i = 0; i < mnlstcTrips.size(); i++) {
+												TripWithCapacity trip = mnlstcTrips.get(i);
+										%>
+										<button id="<%=trip.getId()%>"
+											class=" col s12 white btn <%if (trip.getNumReservation() == trip.getTempCapacity()) {%>disabled disabled-btn<%} else {%> upcoming-btn  waves-effect waves-light <%}%>"
+											type="submit" name="action"
+											onclick="clicked(<%=trip.getTripId()%>)">
+											<div class="col s6 upcoming-lbl valign-wrapper">
+												<div>
+													<div class="col s12 upcoming-lbl-elem"><%=trip.getId()%></div>
+													<div class="col s12 upcoming-lbl-elem"><%=f.format(trip.getDepTime())%></div>
+												</div>
+											</div>
+											<div
+												class="col s6 upcoming-lbl battery-container valign-wrapper">
+												<div class="battery-outline">
+													<%
+														if (trip.getNumReservation() == trip.getTempCapacity()) {
+													%>
+													<div class="col s4 battery-cell cell-1"></div>
+													<div class="col s4 battery-cell cell-2"></div>
+													<div class="col s4 battery-cell cell-3"></div>
 
+													<%
+														} else if (trip.getTempCapacity() - trip.getNumReservation() <= 10
+																	&& trip.getTempCapacity() - trip.getNumReservation() > 5) {
+													%>
+													<div class="col s4 battery-cell cell-1 yellow"></div>
+													<div class="col s4 battery-cell cell-2 yellow"></div>
+													<div class="col s4 battery-cell cell-3"></div>
+													<%
+														} else if (trip.getTempCapacity() - trip.getNumReservation() <= 5
+																	&& trip.getTempCapacity() - trip.getNumReservation() > 0) {
+													%>
+													<div class="col s4 battery-cell cell-1 red"></div>
+													<div class="col s4 battery-cell cell-2"></div>
+													<div class="col s4 battery-cell cell-3"></div>
 
+													<%
+														} else {
+													%>
+													<div class="col s4 battery-cell cell-1 green"></div>
+													<div class="col s4 battery-cell cell-2 green"></div>
+													<div class="col s4 battery-cell cell-3 green"></div>
+													<%
+														}
+													%>
+												</div>
 
-						<div style="margin-top: 10px;padding-left:0px;margin-left:0" class="">
-							<div class="col-sm-12 controls form-group">
-								<a onclick="$(this).closest('form').submit()" id="btn-login"
-									href="#" class="btn btn-success">Login </a>
-							</div>
-						</div>
+											</div>
 
-						<div class="form-group">
-							<div class="col-md-12 control">
-								<div style="font-size: 85%">
-									Don't have an account! <a href="#"
-										onClick="$('#loginbox').hide(); $('#signupbox').show()">
-										Sign Up Here </a>
+										</button>
+										<%
+											}
+										%>
+									</form>
 								</div>
 							</div>
 						</div>
-					</form>
+					</div>
 				</div>
+				<div class="col l6 m6 s12" style="padding-top: 10px;">
+					<div class="upcoming-trip green">
+						<div class="container">
+							<div class="row">
+								<div class="upcoming-trip-title white-text">STC to Manila</div>
+								<div class="trip-list-container col s12">
+									<form action="ReserveServlet" method="post">
+									<input type="hidden" id="hiddenstuffId2" name="hiddenstuff">
+										<%
+											for (int i = 0; i < stcmnlTrips.size(); i++) {
+												TripWithCapacity trip = stcmnlTrips.get(i);
+										%>
+										<button id="<%=trip.getId()%>"
+											class=" col s12 white btn <%if (trip.getNumReservation() == trip.getTempCapacity()) {%>disabled disabled-btn<%} else {%> upcoming-btn  waves-effect waves-light <%}%>"
+											type="submit" name="action"
+											onclick="clicked2(<%=trip.getTripId()%>)">
+											<div class="col s6 upcoming-lbl valign-wrapper">
+												<div>
+													<div class="col s12 upcoming-lbl-elem"><%=trip.getId()%></div>
+													<div class="col s12 upcoming-lbl-elem"><%=f.format(trip.getDepTime())%></div>
+												</div>
+											</div>
+											<div
+												class="col s6 upcoming-lbl battery-container valign-wrapper">
+												<div class="battery-outline">
+													<%
+														if (trip.getNumReservation() == trip.getTempCapacity()) {
+													%>
+													<div class="col s4 battery-cell cell-1"></div>
+													<div class="col s4 battery-cell cell-2"></div>
+													<div class="col s4 battery-cell cell-3"></div>
 
+													<%
+														} else if (trip.getTempCapacity() - trip.getNumReservation() <= 10
+																	&& trip.getTempCapacity() - trip.getNumReservation() > 5) {
+													%>
+													<div class="col s4 battery-cell cell-1 yellow"></div>
+													<div class="col s4 battery-cell cell-2 yellow"></div>
+													<div class="col s4 battery-cell cell-3"></div>
+													<%
+														} else if (trip.getTempCapacity() - trip.getNumReservation() <= 5
+																	&& trip.getTempCapacity() - trip.getNumReservation() > 0) {
+													%>
+													<div class="col s4 battery-cell cell-1 red"></div>
+													<div class="col s4 battery-cell cell-2"></div>
+													<div class="col s4 battery-cell cell-3"></div>
 
+													<%
+														} else {
+													%>
+													<div class="col s4 battery-cell cell-1 green"></div>
+													<div class="col s4 battery-cell cell-2 green"></div>
+													<div class="col s4 battery-cell cell-3 green"></div>
+													<%
+														}
+													%>
+												</div>
 
+											</div>
 
-
-
-
-			</div>
-		</div>
-	</div>
-
-	<!-- START OF SIGN UP FORM NIGGAAHHHHHH-->
-	<div id="signupbox" style="display: none; margin-top: 50px"
-		class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-		<div class="panel panel-info">
-			<div class="panel-heading">
-				<div class="panel-title">Sign Up</div>
-				<div
-					style="float: right; font-size: 85%; position: relative; top: -10px">
-					<a id="signinlink" href="#"
-						onclick="$('#signupbox').hide(); $('#loginbox').show()">Sign
-						In</a>
-				</div>
-			</div>
-			<div class="panel-body">
-				<form id="signupform" class="form-horizontal" data-toggle="validator" role="form" action="SignUpServlet">
-					<div id="signupalert" style="display: none"
-						class="alert alert-danger">
-						<p>Error:</p>
-						<span></span>
-					</div>
-					<span class="info-category">Personal Information:</span>
-					<label class="col-md-3 control-label" for="firstname">Name</label>
-					<div class="form-group col-md-4">
-							<input pattern="^[ A-z]{1,}$" type="text" class="form-control" name="firstname"
-									placeholder="First Name" required>
-					</div>
-					<div class="form-group col-md-2">
-							<input maxlegnth="1" pattern="[A-z]" type="text" class="form-control" name="middleinitial"
-									placeholder="M.I." required>
-					</div>
-					<div class="form-group col-md-3">
-							<input pattern="^[ A-z]{1,}$" type="text" class="form-control" name="lastname"
-									placeholder="Last Name" required>
-					</div>
-					
-
-					<label for="username" class="col-md-3 control-label">Username</label>
-					<div class="form-group col-md-9">
-							<input data-minlength="6" pattern="^[_A-z0-9]{1,}$" type="text" class="form-control" name="username"
-								placeholder="Minimum of 6 characters. Composed of numbers, letters and _" required>
-						<div class="help-block with-errors"></div>
-					</div>
-					<label for="password" class="col-md-3 control-label">Password</label>
-					<div class="form-group col-md-9">
-							<input pattern="^[_A-z0-9]{1,}$" data-minlength="6" id="passwd" type="password" class="form-control" name="password"
-								placeholder="Minimum of 6 characters" required>
-							<div class="help-block with-errors"></div>
-					</div>
-					<label for="password" class="col-md-3 control-label">Confirm Pass</label>
-					<div class="form-group col-md-9">
-							<input data-match="#passwd" type="password" class="form-control" name="confirmpassword"
-								placeholder="Match input with password" required>
-							<div class="help-block with-errors" style="margin:0 !important; padding:0 !important"></div>
-					</div>
-					<label for="email" class="col-md-3 control-label">Email</label>
-					<div class="form-group col-md-9">
-							<input pattern="^[_@A-z0-9]{1,}$" type="email" class="form-control" name="email"
-								placeholder="Email Address" required>
-							<div class="help-block with-errors"></div>
-					</div>
-					<hr>
-					<span class="info-category">Billing Address:</span>
-					<label class="col-md-3 control-label">House #</label>
-					<div class="form-group col-md-9">
-							<input for="housenoB" pattern="^[0-9]{1,}$" type="text" class="form-control" name="housenoB"
-								placeholder="House Number" required>
-							<div class="help-block with-errors"></div>
-					</div>
-					<label for="streetB" class="col-md-3 control-label">Street</label>
-					<div class="form-group col-md-9">
-							<input pattern="^[ A-z]{1,}$" type="text" class="form-control" name="streetB"
-								placeholder="Street" required>
-							<div class="help-block with-errors"></div>
-					</div>
-					<label for="subdivisionB" class="col-md-3 control-label">Subdivision</label>
-					<div class="form-group col-md-9">
-							<input pattern="^[ A-z]{1,}$" type="text" class="form-control" name="subdivisionB"
-								placeholder="Subdivision" required>
-							<div class="help-block with-errors"></div>
-					</div>
-					<label for="cityB" class="col-md-3 control-label">City</label>
-					<div class="form-group col-md-9">
-							<input pattern="^[ A-z]{1,}$" type="text" class="form-control" name="cityB"
-								placeholder="City" required>
-							<div class="help-block with-errors"></div>
-					</div>
-					<label for="postalcodeB" class="col-md-3 control-label">Postal Code</label>
-					<div class="form-group col-md-9">
-							<input for="housenoB" pattern="^[0-9]{1,}$" type="text" class="form-control" name="postalcodeB"
-								placeholder="Postal Code" required>
-							<div class="help-block with-errors"></div>
-					</div>
-					<label for="countryB" class="col-md-3 control-label">Country</label>
-					<div class="form-group col-md-9">
-							<select name="countryB" class="form-control bfh-countries"
-								data-country="PH"></select>
-					</div>
-
-					<hr>
-					<span class="info-category">Shipping Address:</span>
-					<label for="housenoS" class="col-md-3 control-label">House
-							#</label>
-					<div class="form-group col-md-9">
-							<input pattern="^[0-9]{1,}$" type="text" class="form-control" name="housenoS"
-								placeholder="House Number" required>
-							<div class="help-block with-errors"></div>
-					</div>
-					<label for="streetS" class="col-md-3 control-label">Street</label>
-					<div class="form-group col-md-9">
-							<input pattern="^[ A-z]{1,}$" type="text" class="form-control" name="streetS"
-								placeholder="Street" required>
-							<div class="help-block with-errors"></div>
-					</div>
-					<label for="subdivisionS" class="col-md-3 control-label">Subdivision</label>
-					<div class="form-group col-md-9">
-							<input pattern="^[ A-z]{1,}$" type="text" class="form-control" name="subdivisionS"
-								placeholder="Subdivision" required>
-							<div class="help-block with-errors"></div>
-					</div>
-					<label for="cityS" class="col-md-3 control-label">City</label>
-					<div class="form-group col-md-9">
-							<input pattern="^[ A-z]{1,}$" type="text" class="form-control" name="cityS"
-								placeholder="City" required>
-							<div class="help-block with-errors"></div>
-					</div>
-					<label for="postalcodeS" class="col-md-3 control-label">Postal
-							Code</label>
-					<div class="form-group col-md-9">
-							<input pattern="^[0-9]{1,}$" type="text" class="form-control" name="postalcodeS"
-								placeholder="Postal Code" required>
-							<div class="help-block with-errors"></div>
-					</div>
-					<label for="countryS" class="col-md-3 control-label">Country</label>
-					<div class="form-group col-md-9">
-							<select name="countryS" class="form-control bfh-countries"
-								data-country="PH"></select>
-					</div>
-
-					<div class="form-group">
-						<!-- Button -->
-						<div class="col-md-offset-5 col-md-3">
-							<a onclick="$(this).closest('form').submit()" id="btn-signup" href="#" class="btn btn-info">
-								<i class="icon-hand-right"></i> Sign Up
-							</a>
+										</button>
+										<%
+											}
+										%>
+									</form>
+								</div>
+							</div>
 						</div>
 					</div>
-
-
-				</form>
+				</div>
 			</div>
+
 		</div>
 	</div>
-	<!-- END OF SIGN UP FORM NIGGAAHHHHHH-->
+
+	</section>
 
 
-	<!-- jQuery -->
-	<script src="js/jquery.js"></script>
 
-	<!-- Bootstrap Core JavaScript -->
-	<script src="js/bootstrap-formhelpers.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/validator.js"></script>
+
+
+
+      <!-- google sign-in files js-->
+      <meta name="google-signin-client_id" content="1035312031605-s9lh4kq3vre7768ffc3h4t11jmodempt.apps.googleusercontent.com">
+	  <script type="text/javascript" src="js/init.js"></script>
+	  <script type="text/javascript" src="https://apis.google.com/js/platform.js?onload=onLoad"></script> <!-- google sign-in -->
+      <script type="text/javascript" src="js/logout.js"></script>
+      
+      <!--Import jQuery before materialize.js-->
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script type="text/javascript" src="materialize/js/materialize.js"></script>
+      <script type="text/javascript" src="js/navbar.js"></script>
+
+	
+	<script>
+	function clicked(id) {
+		document.getElementById("hiddenstuffId").value = id;
+	}
+	function clicked2(id) {
+		document.getElementById("hiddenstuffId2").value = id;
+	}
+		$(document).ready(function() {
+
+			$('select').material_select();
+		});
+
+		$('.datepicker').pickadate({
+			selectMonths : true, // Creates a dropdown to control month
+			selectYears : 15
+		// Creates a dropdown of 15 years to control year
+		});
+		$(".button-collapse").sideNav();
+	</script>
 </body>
 </html>
