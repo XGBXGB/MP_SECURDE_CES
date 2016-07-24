@@ -1,6 +1,9 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -60,8 +63,20 @@ public class SignUpServlet extends HttpServlet {
 		String countryS = request.getParameter("countryS");
 		
 		
+		//SIGNUP FUCNTION
 		
-		doGet(request, response);
+		//SIGNUP FUNCTION
+		
+		
+		//RESPONSE
+		PrintWriter out = response.getWriter();
+		out.println("<script type=\"text/javascript\">");
+		out.println("alert('You can now login using your account!');");
+		out.println("location='index.jsp';");
+		out.println("</script>");
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+		dispatcher.forward(request, response);
 	}
 
 }
