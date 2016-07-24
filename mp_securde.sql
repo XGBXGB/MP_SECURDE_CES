@@ -108,10 +108,13 @@ DROP TABLE IF EXISTS `transactions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `transactions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `productID` int(10) unsigned NOT NULL,
   `userID` int(10) unsigned NOT NULL,
   `review` varchar(200) DEFAULT NULL,
   `date` date NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `productID_key_idx` (`productID`),
   CONSTRAINT `productID_key` FOREIGN KEY (`productID`) REFERENCES `products` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -197,4 +200,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-07-24 14:20:00
+-- Dump completed on 2016-07-24 14:47:38
