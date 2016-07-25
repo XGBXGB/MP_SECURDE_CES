@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import controller.Controller;
 import db.DBConnection;
+import model.BCrypt;
 import model.User;
 
 public class UserDAO {
@@ -14,29 +15,28 @@ public class UserDAO {
 
 	public UserDAO() {
 		dbConnection = DBConnection.getInstance();
-		//controller = Controller.getInstance();
+		// controller = Controller.getInstance();
 	}
-	
-	public User authenticateUser(String username, String encryptedPass) {
-		String query = "SELECT * FROM " + User.TABLE_NAME + " WHERE " + User.COLUMN_USERNAME + " = ? "
-				+ "AND "+User.COLUMN_PASSWORD+"= ?;";
-		
-		Connection connection = dbConnection.getConnection();
+
+	public User authenticateUser(String username, String password) {
+		String query = "SELECT * FROM " + User.TABLE_NAME + " WHERE " + User.COLUMN_USERNAME + " = ?;";
+
+		Connection connection = DBConnection.getConnection();
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = connection.prepareStatement(query);
 			pstmt.setString(1, username);
-			pstmt.setString(2, encryptedPass);
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		try {
 			ResultSet rs = pstmt.executeQuery();
-			if(rs.next()){
+			if (rs.next()) {
 				User u = new User();
 				u.setId(rs.getInt(User.COLUMN_ID));
+				String userP = rs.getString(User.COLUMN_PASSWORD);
 				u.setUsername(rs.getString(User.COLUMN_USERNAME));
 				u.setFirstName(rs.getString(User.COLUMN_FNAME));
 				u.setLastName(rs.getString(User.COLUMN_LNAME));
@@ -45,7 +45,8 @@ public class UserDAO {
 				u.setBillingAddressId(rs.getInt(User.COLUMN_BILLING));
 				u.setShippingAddressId(rs.getInt(User.COLUMN_SHIPPING));
 				u.setUserType(rs.getInt(User.COLUMN_TYPE));
-				return u;
+				if (BCrypt.checkpw(password, userP))
+					return u;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -53,10 +54,10 @@ public class UserDAO {
 		}
 		return null;
 	}
-	
+
 	public boolean validateUsername(String username) {
 		String query = "SELECT * FROM " + User.TABLE_NAME + " WHERE " + User.COLUMN_USERNAME + " = ? ";
-		
+
 		Connection connection = dbConnection.getConnection();
 		PreparedStatement pstmt = null;
 		try {
@@ -66,10 +67,10 @@ public class UserDAO {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		try {
 			ResultSet rs = pstmt.executeQuery();
-			if(rs.next()){
+			if (rs.next()) {
 				return false;
 			}
 		} catch (SQLException e) {
@@ -78,10 +79,10 @@ public class UserDAO {
 		}
 		return true;
 	}
-	
+
 	public boolean validateEmail(String email) {
 		String query = "SELECT * FROM " + User.TABLE_NAME + " WHERE " + User.COLUMN_EMAIL + " = ? ";
-		
+
 		Connection connection = dbConnection.getConnection();
 		PreparedStatement pstmt = null;
 		try {
@@ -91,10 +92,10 @@ public class UserDAO {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		try {
 			ResultSet rs = pstmt.executeQuery();
-			if(rs.next()){
+			if (rs.next()) {
 				return false;
 			}
 		} catch (SQLException e) {
@@ -103,17 +104,15 @@ public class UserDAO {
 		}
 		return true;
 	}
-	
-	public void addUser(User user)
-	{
-		String query = "INSERT INTO " + User.TABLE_NAME + " " + 
-				" (" + User.COLUMN_USERNAME + "," + User.COLUMN_PASSWORD + "," + User.COLUMN_LNAME + ","
-				+ User.COLUMN_FNAME + "," + User.COLUMN_MNAME + "," + User.COLUMN_EMAIL + "," + User.COLUMN_BILLING 
-				+ "," + User.COLUMN_SHIPPING + "," + User.COLUMN_TYPE + ") "
-				+ " VALUES ('" + user.getUsername() + "', '" + user.getpassword()
-		+ "', '" + user.getLastName() + "', '" + user.getFirstName() + "', '" + user.getMiddleName() + "', '" + user.getEmail()
-		+ "', " + user.getBillingAddressId() + ", " + user.getShippingAddressId() + ", " + user.getUserType() + ");";
-		
+
+	public void addUser(User user) {
+		String query = "INSERT INTO " + User.TABLE_NAME + " " + " (" + User.COLUMN_USERNAME + "," + User.COLUMN_PASSWORD
+				+ "," + User.COLUMN_LNAME + "," + User.COLUMN_FNAME + "," + User.COLUMN_MNAME + "," + User.COLUMN_EMAIL
+				+ "," + User.COLUMN_BILLING + "," + User.COLUMN_SHIPPING + "," + User.COLUMN_TYPE + ") " + " VALUES ('"
+				+ user.getUsername() + "', '" + user.getpassword() + "', '" + user.getLastName() + "', '"
+				+ user.getFirstName() + "', '" + user.getMiddleName() + "', '" + user.getEmail() + "', "
+				+ user.getBillingAddressId() + ", " + user.getShippingAddressId() + ", " + user.getUserType() + ");";
+
 		System.out.println("QUERY: " + query);
 		Connection connection = dbConnection.getConnection();
 		PreparedStatement pstmt = null;
@@ -123,7 +122,7 @@ public class UserDAO {
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
-		}		
+		}
 	}
-	
+
 }

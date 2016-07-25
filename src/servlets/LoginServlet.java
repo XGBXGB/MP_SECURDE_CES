@@ -74,12 +74,9 @@ public class LoginServlet extends HttpServlet {
 			String password = request.getParameter("password");
 
 			//encrypt the password to check against what's stored in DB
-			PasswordService pws = new PasswordService();
-			String encryptedPass = pws.encrypt(password);
-			
 			//create a user helper class to make database calls, and call authenticate user method
 			Controller controller = Controller.getInstance();
-			User user = controller.authenticateUser(username, encryptedPass);
+			User user = controller.authenticateUser(username, password);
 
 			//we've found a user that matches the credentials
 			if(user != null){
