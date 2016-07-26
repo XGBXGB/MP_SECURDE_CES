@@ -1,14 +1,21 @@
 package controller;
 
+import java.util.ArrayList;
+
 import db.AddressDAO;
+import db.CategoriesDAO;
+import db.ProductsDAO;
 import db.UserDAO;
 import model.Address;
+import model.Product;
 import model.User;
 
 public class Controller {
 	private static Controller instance = null;
 	private UserDAO userDao;
 	private AddressDAO addressDao;
+	private ProductsDAO productsDao;
+	private CategoriesDAO categoriesDao;
 	
 	public static Controller getInstance() {
 		if (instance == null) {
@@ -18,8 +25,23 @@ public class Controller {
 	}
 	
 	public Controller(){
+		categoriesDao = new CategoriesDAO();
+		productsDao = new ProductsDAO();
 		userDao = new UserDAO();
 		addressDao = new AddressDAO();
+	}
+	
+	public ArrayList<String> getCategories(){
+		return categoriesDao.getAllCategories();
+	}
+	
+	
+	public ArrayList<Product> getAllProducts(){
+		return productsDao.getAllProducts();
+	}
+	
+	public ArrayList<Product> getProductsviaCategory(int category){
+		return productsDao.getProductsviaCategory(category);
 	}
 	
 	public User authenticateUser(String username, String encryptedPass){

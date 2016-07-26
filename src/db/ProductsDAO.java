@@ -114,6 +114,38 @@ public class ProductsDAO {
 		return null;
 	}
 	
+	public ArrayList<Product> getAllProducts() {
+		String query = "SELECT * FROM " + Product.TABLE_NAME + " ORDER BY "+Product.COLUMN_NAME+" ASC";
+				
+		Connection connection = dbConnection.getConnection();
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = connection.prepareStatement(query);
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		ArrayList<Product> products = new ArrayList<Product>();
+		try {
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()){
+				Product p = new Product();
+				p.setId(rs.getInt(Product.COLUMN_ID));
+				p.setName(rs.getString(Product.COLUMN_NAME));
+				p.setDescription(rs.getString(Product.COLUMN_DESC));
+				p.setPrice(rs.getDouble(Product.COLUMN_PRICE));
+				p.setCategoryId(rs.getInt(Product.COLUMN_CAT));
+				products.add(p);
+			}
+			return products;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public ArrayList<Product> getProductsviaPriceRange(double minimum, double maximum) {
 		String query = "SELECT * FROM " + Product.TABLE_NAME + " WHERE " + Product.COLUMN_PRICE + " BETWEEN ? AND ? ";
 				
