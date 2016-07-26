@@ -8,30 +8,39 @@ public class Transaction {
 	public static final String COLUMN_ID = "id";
 	public static final String COLUMN_PID = "productID";
 	public static final String COLUMN_UID = "userID";
+	public static final String COLUMN_SCORE = "score";
 	public static final String COLUMN_REV = "review";
 	public static final String COLUMN_DATE = "date";
 	
 	int id;
 	int productId;
 	int userId;
+	double score;
 	String review;
 	Date date;
-	
-	
 	
 	public Transaction() {
 		super();
 	}
 
-	public Transaction(int id, int productId, int userId, String review, Date date) {
+	public Transaction(int id, int productId, int userId, double score, String review, Date date) {
 		super();
 		this.id = id;
 		this.productId = productId;
 		this.userId = userId;
 		this.review = review;
 		this.date = date;
+		this.score = score;
 	}
 	
+	public double getScore() {
+		return score;
+	}
+
+	public void setScore(double score) {
+		this.score = score;
+	}
+
 	public int getId() {
 		return id;
 	}

@@ -40,6 +40,7 @@ public class TransactionsDAO {
 				t.setId(rs.getInt(Transaction.COLUMN_ID));
 				t.setProductId(rs.getInt(Transaction.COLUMN_PID));
 				t.setUserId(rs.getInt(Transaction.COLUMN_UID));
+				t.setScore(rs.getDouble(Transaction.COLUMN_SCORE));
 				t.setReview(rs.getString(Transaction.COLUMN_REV));
 				t.setDate(rs.getDate(Transaction.COLUMN_DATE));
 				return t;
@@ -72,6 +73,7 @@ public class TransactionsDAO {
 				t.setId(rs.getInt(Transaction.COLUMN_ID));
 				t.setProductId(rs.getInt(Transaction.COLUMN_PID));
 				t.setUserId(rs.getInt(Transaction.COLUMN_UID));
+				t.setScore(rs.getDouble(Transaction.COLUMN_SCORE));
 				t.setReview(rs.getString(Transaction.COLUMN_REV));
 				t.setDate(rs.getDate(Transaction.COLUMN_DATE));
 				transactions.add(t);
@@ -105,6 +107,7 @@ public class TransactionsDAO {
 				t.setId(rs.getInt(Transaction.COLUMN_ID));
 				t.setProductId(rs.getInt(Transaction.COLUMN_PID));
 				t.setUserId(rs.getInt(Transaction.COLUMN_UID));
+				t.setScore(rs.getDouble(Transaction.COLUMN_SCORE));
 				t.setReview(rs.getString(Transaction.COLUMN_REV));
 				t.setDate(rs.getDate(Transaction.COLUMN_DATE));
 				transactions.add(t);
@@ -115,6 +118,69 @@ public class TransactionsDAO {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public ArrayList<Transaction> getTransactionsviaProductReviewed(int productID) {
+		String query = "SELECT * FROM " + Transaction.TABLE_NAME + " WHERE " + Transaction.COLUMN_PID + " = ? AND review IS NOT NULL;";
+				
+		Connection connection = dbConnection.getConnection();
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = connection.prepareStatement(query);
+			pstmt.setInt(1, productID);
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+		try {
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()){
+				Transaction t = new Transaction();
+				t.setId(rs.getInt(Transaction.COLUMN_ID));
+				t.setProductId(rs.getInt(Transaction.COLUMN_PID));
+				t.setUserId(rs.getInt(Transaction.COLUMN_UID));
+				t.setScore(rs.getDouble(Transaction.COLUMN_SCORE));
+				t.setReview(rs.getString(Transaction.COLUMN_REV));
+				t.setDate(rs.getDate(Transaction.COLUMN_DATE));
+				transactions.add(t);
+			}
+			return transactions;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public double getProductScore(int productID) {
+		String query = "SELECT * FROM " + Transaction.TABLE_NAME + " WHERE " + Transaction.COLUMN_PID + " = ? AND score IS NOT NULL;";
+				
+		Connection connection = dbConnection.getConnection();
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = connection.prepareStatement(query);
+			pstmt.setInt(1, productID);
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		double sum = 0;
+		int count = 0;
+		try {
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()){
+				sum += rs.getDouble(Transaction.COLUMN_SCORE);
+				count++;
+			}
+			return sum/count;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
 	}
 	
 	public ArrayList<Transaction> getTransactionsviaDate(Date date) {
@@ -138,6 +204,7 @@ public class TransactionsDAO {
 				t.setId(rs.getInt(Transaction.COLUMN_ID));
 				t.setProductId(rs.getInt(Transaction.COLUMN_PID));
 				t.setUserId(rs.getInt(Transaction.COLUMN_UID));
+				t.setScore(rs.getDouble(Transaction.COLUMN_SCORE));
 				t.setReview(rs.getString(Transaction.COLUMN_REV));
 				t.setDate(rs.getDate(Transaction.COLUMN_DATE));
 				transactions.add(t);
@@ -174,6 +241,7 @@ public class TransactionsDAO {
 				t.setId(rs.getInt(Transaction.COLUMN_ID));
 				t.setProductId(rs.getInt(Transaction.COLUMN_PID));
 				t.setUserId(rs.getInt(Transaction.COLUMN_UID));
+				t.setScore(rs.getDouble(Transaction.COLUMN_SCORE));
 				t.setReview(rs.getString(Transaction.COLUMN_REV));
 				t.setDate(rs.getDate(Transaction.COLUMN_DATE));
 				transactions.add(t);

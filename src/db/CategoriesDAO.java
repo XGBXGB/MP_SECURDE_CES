@@ -45,4 +45,29 @@ public class CategoriesDAO {
 		return null;
 	}
 	
+	public String getCategory(int id) {
+		String query = "SELECT * FROM categories WHERE id =?; ";
+				
+		Connection connection = dbConnection.getConnection();
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = connection.prepareStatement(query);
+			pstmt.setInt(1, id);
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		try {
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()){
+				return rs.getString("category");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 }

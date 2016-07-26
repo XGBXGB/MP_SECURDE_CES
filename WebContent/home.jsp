@@ -34,7 +34,7 @@
 
 <body>
 
-	<%User u = (User) session.getAttribute("user"); %>
+	<%User u = (User) session.getAttribute("user"); session.setAttribute("user", u);%>
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
@@ -49,7 +49,7 @@
                 <a class="navbar-brand" href="#">Start Bootstrap</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-			    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Hello <%=u.getFirstName()%>!</a></li>
+			    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Hello <!--  %=u.getFirstName()%-->!</a></li>
                 <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> (0) - View cart</a></li>
                 <li>
 	                <form action="LoginServlet" method="GET">
@@ -124,6 +124,8 @@
                     </div>
 
                 </div>
+                <form id = "productform" action="ProductServlet" method = "GET">
+                <input type = "hidden" id = "selectedProduct" name = "selectedProduct" value = "-1">
 				<%
 				Controller c = Controller.getInstance();
 				ArrayList<Product> products;
@@ -136,7 +138,7 @@
                             <img src="http://placehold.it/320x150" alt="">
                             <div class="caption">
                                 <h4 class="pull-right">$<%=products.get(i).getPrice() %></h4>
-                                <h4><a id="<%=products.get(i).getId() %>" href="#"><%=products.get(i).getName() %></a>
+                                <h4><a id="<%=products.get(i).getId() %>" href="javascript:{}" onclick="pressed(this);document.getElementById('productform').submit(); return false;"><%=products.get(i).getName() %></a>
                                 </h4>
                                 <p><%=products.get(i).getDescription() %></p>
                             </div>
@@ -146,8 +148,7 @@
                         </div>
                     </div>
                     <%} %>
-
-                    
+                    </form>
 
                    
                 </div>
@@ -218,6 +219,11 @@
     		}
     	});
     }
+    
+	function pressed(element) {
+		var pressedBtn = element.id;
+		document.getElementById("selectedProduct").value = document.getElementById(pressedBtn).id;
+	}
     
     
     

@@ -17,6 +17,42 @@ public class UserDAO {
 		dbConnection = DBConnection.getInstance();
 		// controller = Controller.getInstance();
 	}
+	
+	public User getUser(int id) {
+		String query = "SELECT * FROM " + User.TABLE_NAME + " WHERE " + User.COLUMN_ID + " = ?;";
+
+		Connection connection = DBConnection.getConnection();
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = connection.prepareStatement(query);
+			pstmt.setInt(1, id);
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
+		try {
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				User u = new User();
+				u.setId(rs.getInt(User.COLUMN_ID));
+				String userP = rs.getString(User.COLUMN_PASSWORD);
+				u.setUsername(rs.getString(User.COLUMN_USERNAME));
+				u.setFirstName(rs.getString(User.COLUMN_FNAME));
+				u.setLastName(rs.getString(User.COLUMN_LNAME));
+				u.setEmail(rs.getString(User.COLUMN_EMAIL));
+				u.setMiddleName(rs.getString(User.COLUMN_MNAME));
+				u.setBillingAddressId(rs.getInt(User.COLUMN_BILLING));
+				u.setShippingAddressId(rs.getInt(User.COLUMN_SHIPPING));
+				u.setUserType(rs.getInt(User.COLUMN_TYPE));
+				return u;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	public User authenticateUser(String username, String password) {
 		String query = "SELECT * FROM " + User.TABLE_NAME + " WHERE " + User.COLUMN_USERNAME + " = ?;";

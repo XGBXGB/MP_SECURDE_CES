@@ -1,4 +1,11 @@
-<!DOCTYPE html>
+<%@page import="model.User"%>
+<%@page import="model.Transaction"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="controller.Controller"%>
+<%@page import="model.Product"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 
 <head>
@@ -28,6 +35,7 @@
 
 <body>
 
+	<%User u = (User) session.getAttribute("user"); %>
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
@@ -41,6 +49,15 @@
                 </button>
                 <a class="navbar-brand" href="#">Start Bootstrap</a>
             </div>
+            <ul class="nav navbar-nav navbar-right">
+			    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Hello <!--  %=u.getFirstName()%-->!</a></li>
+                <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> (0) - View cart</a></li>
+                <li>
+	                <form action="LoginServlet" method="GET">
+	                	<button type="submit" name="logout" style="margin-top:14px;background-color:transparent;color:#9d9d9d;border:none"><span class="glyphicon glyphicon-log-out"></span>Logout</button>
+	                </form>
+                </li>
+		    </ul>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
@@ -62,7 +79,7 @@
 
     <!-- Page Content -->
     <div class="container">
-
+	
         <div class="row">
 
             <div class="col-md-3">
@@ -76,28 +93,60 @@
             </div>
 
             <div class="col-md-9">
-
+		<%Product p = (Product) session.getAttribute("product"); %>
                 <div class="thumbnail">
                     <img class="img-responsive" src="http://placehold.it/800x300" alt="">
                     <div class="caption-full">
-                        <h4 class="pull-right">$24.99</h4>
-                        <h4><a href="#">Product Name</a>
+                        <h4 class="pull-right"><%=p.getPrice() %></h4>
+                        <h4><a href="#"><%=p.getName() %></a>
                         </h4>
-                        <p>See more snippets like these online store reviews at <a target="_blank" href="http://bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
+                        <!--  >p>See more snippets like these online store reviews at <a target="_blank" href="http://bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
                         <p>Want to make these reviews work? Check out
                             <strong><a href="http://maxoffsky.com/code-blog/laravel-shop-tutorial-1-building-a-review-system/">this building a review system tutorial</a>
                             </strong>over at maxoffsky.com!</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p-->
+                        <%Controller con = new Controller(); %>
+                        <h6><%=con.getCategory(p.getCategoryId())%></h6>
+                        <p><%=p.getDescription() %></p>
                     </div>
                     <div class="ratings">
-                        <p class="pull-right">3 reviews</p>
+                        <p class="pull-right"><%=con.getTransactionsviaProductReviewed(p.getId()).size() %> reviews</p>
                         <p>
+                        	<%
+                        	int stars = 5;
+                        	double score = con.getProductScore(p.getId());
+                        	int total = 0;
+                        	while(score > 1)
+                        	{%>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <%
+                            score--; total++;
+                        	}
+                        	
+                        	
+                        	if(score > 0 && total < 5)
+                        	{
+                        	%>
+                       		<span class="glyphicon glyphicon-star-half"></span>
+                        	<%
+                        	total++;
+                        	}
+                        	
+                        	while(total != 5)
+                        	{
+                        	%>
+                        	<span class="glyphicon glyphicon-star-empty"></span>
+                            <%
+                            total++;
+                        	}
+                            %>
+                            
+                            
+                            <!--  span class="glyphicon glyphicon-star"></span>
                             <span class="glyphicon glyphicon-star"></span>
                             <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star-empty"></span>
-                            4.0 stars
+                            <span class="glyphicon glyphicon-star-empty"></span-->
+                            <%=con.getProductScore(p.getId()) %> stars
                         </p>
                     </div>
                 </div>
@@ -109,8 +158,53 @@
                     </div>
 
                     <hr>
+					<%
+					ArrayList<Transaction> t = con.getTransactionsviaProductReviewed(p.getId());
+					
+					for(int x = 0; x < t.size(); x++)
+					{
+					%>
+					<div class="row">
+                        <div class="col-md-12">
+                            <%
+                        	stars = 5;
+                        	score = t.get(x).getScore();
+                        	total = 0;
+                        	while(score > 1)
+                        	{%>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <%
+                            score--; total++;
+                        	}
+                        	
+                        	
+                        	if(score > 0 && total < 5)
+                        	{
+                        	%>
+                       		<span class="glyphicon glyphicon-star-half"></span>
+                        	<%
+                        	total++;
+                        	}
+                        	
+                        	while(total != 5)
+                        	{
+                        	%>
+                        	<span class="glyphicon glyphicon-star-empty"></span>
+                            <%
+                            total++;
+                        	}
+                            %>
+                         
+                            <%=con.getUser((t.get(x)).getUserId()).getFirstName()%>
+                            <span class="pull-right"><%=t.get(x).getDate() %></span>
+                            <p><%=t.get(x).getReview() %></p>
+                        </div>
+                    </div>
+					<%
+					}
+					%>
 
-                    <div class="row">
+                    <!-- >div class="row">
                         <div class="col-md-12">
                             <span class="glyphicon glyphicon-star"></span>
                             <span class="glyphicon glyphicon-star"></span>
@@ -151,7 +245,7 @@
                             <span class="pull-right">15 days ago</span>
                             <p>I've seen some better than this, but not at this price. I definitely recommend this item.</p>
                         </div>
-                    </div>
+                    </div-->
 
                 </div>
 

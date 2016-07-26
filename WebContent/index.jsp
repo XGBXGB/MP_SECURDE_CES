@@ -62,8 +62,7 @@
 						<div class="form-group">
 							<div class="col-md-12 control">
 								<div style="font-size: 85%">
-									Don't have an account! <a href="#"
-										onClick="$('#loginbox').hide(); $('#signupbox').show()">
+									Don't have an account! <a href="SignUp.jsp">
 										Sign Up Here </a>
 								</div>
 							</div>
@@ -71,17 +70,11 @@
 					</form>
 				</div>
 
-
-
-
-
-
-
 			</div>
 		</div>
 	</div>
 
-	<!-- START OF SIGN UP FORM NIGGAAHHHHHH-->
+	<!-- START OF SIGN UP FORM NIGGAAHHHHHH>
 	<div id="signupbox" style="display: none; margin-top: 50px"
 		class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
 		<div class="panel panel-info">
@@ -220,7 +213,7 @@
 					</div>
 
 					<div class="form-group">
-						<!-- Button -->
+						<!-- Button >
 						<div class="col-md-offset-5 col-md-3">
 							<a onclick="$(this).closest('form').submit()" id="btn-signup" href="#" class="btn btn-info">
 								<i class="icon-hand-right"></i> Sign Up

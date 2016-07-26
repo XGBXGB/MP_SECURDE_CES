@@ -1,13 +1,16 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Locale.Category;
 
 import db.AddressDAO;
 import db.CategoriesDAO;
 import db.ProductsDAO;
+import db.TransactionsDAO;
 import db.UserDAO;
 import model.Address;
 import model.Product;
+import model.Transaction;
 import model.User;
 
 public class Controller {
@@ -16,6 +19,7 @@ public class Controller {
 	private AddressDAO addressDao;
 	private ProductsDAO productsDao;
 	private CategoriesDAO categoriesDao;
+	private TransactionsDAO transactionsDao;
 	
 	public static Controller getInstance() {
 		if (instance == null) {
@@ -29,10 +33,15 @@ public class Controller {
 		productsDao = new ProductsDAO();
 		userDao = new UserDAO();
 		addressDao = new AddressDAO();
+		transactionsDao = new TransactionsDAO();
 	}
 	
 	public ArrayList<String> getCategories(){
 		return categoriesDao.getAllCategories();
+	}
+	
+	public String getCategory(int id){
+		return categoriesDao.getCategory(id);
 	}
 	
 	
@@ -42,6 +51,15 @@ public class Controller {
 	
 	public ArrayList<Product> getProductsviaCategory(int category){
 		return productsDao.getProductsviaCategory(category);
+	}
+	
+	public Product getProduct(int id)
+	{
+		return productsDao.getProduct(id);
+	}
+	
+	public User getUser(int id){
+		return userDao.getUser(id);
 	}
 	
 	public User authenticateUser(String username, String encryptedPass){
@@ -75,5 +93,20 @@ public class Controller {
 	public int getAddressID(Address address)
 	{
 		return addressDao.getAddressID(address);
+	}
+	
+	public ArrayList<Transaction> getTransactionsviaProduct(int productID)
+	{
+		return transactionsDao.getTransactionsviaProduct(productID);
+	}
+	
+	public ArrayList<Transaction> getTransactionsviaProductReviewed(int productID)
+	{
+		return transactionsDao.getTransactionsviaProductReviewed(productID);
+	}
+	
+	public double getProductScore(int productID)
+	{
+		return transactionsDao.getProductScore(productID);
 	}
 }
