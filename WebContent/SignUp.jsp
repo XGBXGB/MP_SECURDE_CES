@@ -67,7 +67,7 @@
 					</div>
 					<label for="email" class="col-md-3 control-label">Email</label>
 					<div class="form-group col-md-9">
-							<input pattern="^[_@A-z0-9]{1,}$" type="email" class="form-control" name="email"
+							<input type="email" class="form-control" name="email"
 								placeholder="Email Address" required>
 							<div class="help-block with-errors"></div>
 					</div>
