@@ -130,7 +130,7 @@
 				Controller c = Controller.getInstance();
 				ArrayList<Product> products;
 				if(session.getAttribute("clickedCategoryInSingleProducts")!=null){
-					products = c.getProductsviaCategory((int)session.getAttribute("clickedCategoryInSingleProducts"));
+					products = c.getProductsviaCategory((Integer)session.getAttribute("clickedCategoryInSingleProducts"));
 					session.removeAttribute("clickedCategoryInSingleProducts");
 				}else{
 					products = c.getAllProducts();
@@ -147,9 +147,9 @@
                                 </h4>
                                 <p><%=products.get(i).getDescription() %></p>
                             </div>
-                            <div class="ratings">
-                                <a>View Ratings</a>
-                            </div>
+                            <!-- div class="buying">
+                                <a id="buy<%=products.get(i).getId() %>" href="javascript:{}" onclick="pressed(this);document.getElementById('buyproductform').submit(); return false;">buy this product</a>
+                            </div> -->
                         </div>
                     </div>
                     <%} %>
@@ -206,8 +206,8 @@
             		var pElem = $("<p></p>");
             		pElem.html(value['description']);
             		pElem.appendTo(captionDiv);
-            		var ratingDiv= $("<div></div>").addClass("ratings");
-            		var aRating = $("<a></a>").html("View Ratings");
+            		var ratingDiv= $("<div></div>").addClass("buying");
+            		var aRating = $("<a></a>").html("buy product");
             		aRating.appendTo(ratingDiv);
             		
             		imgDiv.appendTo(thumbnailDiv);
@@ -229,8 +229,6 @@
 		var pressedBtn = element.id;
 		document.getElementById("selectedProduct").value = document.getElementById(pressedBtn).id;
 	}
-    
-    
     
     </script>
     

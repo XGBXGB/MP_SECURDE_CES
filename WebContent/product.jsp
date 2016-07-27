@@ -154,11 +154,77 @@
 
                 <div class="well">
 
-                    <div class="text-right">
-                        <a class="btn btn-success">Leave a Review</a>
+		<div id="confirmationModal" class="modal fade my-modal">
+            <div class="modal-dialog my-modal-dialog">
+                <div class="modal-content my-modal-content">
+                    <div class="modal-header my-modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h2 class="modal-title">Confirmation</h2>
                     </div>
+                    <div class="modal-body my-modal-body">
+                        <div class="col-xs-12">
+                            <p><h2>Are you sure you want to buy this Product?</h2></p>
+                            <p><h4>NAME: <%=p.getName() %></h4></p>
+                            <p><h4>CATEGORY: <%=con.getCategory(p.getCategoryId()) %></h4></p>
+                            <p><h4>PRICE: <%=p.getPrice() %></h4></p>
+                            <p><h4>DESCRIPTION: <%=p.getDescription() %></h4></p>
+                            <br>
+                            <p><h5>The price will be deducted from your account. You will no longer be able to refund after you submit.</h5></p>
+                        </div>
+                        <div class="form-group clearfloat"></div>
+                        <div class="floatright">
+                            <button type="button" class="btn" onclick="setConfirmation(true);">Yes</button>
+                            <button type="button" class="btn" onclick="setConfirmation(false);"data-dismiss="modal">No</button>    
+                        </div>
+                        <div class="clearfloat"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                    <hr>
+		<div id="SuccessBuyingModal" class="modal fade my-modal">
+            <div class="modal-dialog my-modal-dialog">
+                <div class="modal-content my-modal-content">
+                    <div class="modal-header my-modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h2 class="modal-title">SUCCESS!</h2>
+                    </div>
+                    <div class="modal-body my-modal-body">
+                        <div class="col-xs-12">
+                            <p><h2>You have successfully bought this product!</h2></p>
+                            <p><h4>NAME: <%=p.getName() %></h4></p>
+                            <p><h4>CATEGORY: <%=con.getCategory(p.getCategoryId()) %></h4></p>
+                            <p><h4>PRICE: <%=p.getPrice() %></h4></p>
+                            <p><h4>DESCRIPTION: <%=p.getDescription() %></h4></p>
+                            <br>
+                            
+                        <form id = "BuyWithRatingForm" action = "RatingServlet" method = "post">
+                            <p><h5>The price has been deducted from your account. Please rate this product?</h5></p>
+                            <input type="number" step="0.01" id="rateScore" name="rateScore" placeHolder="Score over five">
+                            <input type="text" id="rateReview" name="rateReview" placeHolder="Review">
+                        </div>
+                        <div class="form-group clearfloat"></div>
+                        <div class="floatright">
+                            <button type="button" class="btn" onclick="RatingModal();">Review the Product</button>
+                            <button type="button" class="btn" onclick="submitBuying();">Don't review the product</button>    
+                        </form>
+                        </div>
+                        <div class="clearfloat"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+				<form action= "ProductServlet" method = "post" id="BuyProductForm" onsubmit="return checkBuy();">
+                <div class="text-right">
+                    <input type = "submit" value ="Buy This" class="btn btn-success" href="javascript:{}">
+                </div>
+				</form>
+				
+                <hr>
+                
+                
 					<%
 					ArrayList<Transaction> t = con.getTransactionsviaProductReviewed(p.getId());
 					
@@ -284,6 +350,40 @@
 			window.location.replace(data);
 		});
 	}
+
+	function checkBuy()
+	{
+		$('#confirmationModal').modal('show');
+		return false;
+	}
+	
+	function setConfirmation(retValue)
+	{
+		this.retValue = retValue;
+		$('#confirmationModal').modal("hide");
+		if(this.retValue)
+		{	
+			//$('#successBuyModal').modal("show");
+			$('#SuccessBuyingModal').modal("show");
+            //button.style.display = 'none';
+            //button.type = 'submit';
+            //document.getElementById("BuyProductForm").appendChild(button).click();
+            //document.getElementById("BuyProductForm").removeChild(button);
+		}
+	}
+	
+	function submitBuying()
+	{
+		$('#SuccessBuyingModal').modal("hide");
+		document.getElementById("BuyProductForm").submit();
+	}
+	
+	function RatingModal()
+	{
+		$('#SuccessBuyingModal').modal("hide");
+		document.getElementById("BuyWithRatingForm").submit();
+	}
+	
 	</script>
 </body>
 

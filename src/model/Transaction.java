@@ -1,7 +1,5 @@
 package model;
 
-import java.sql.Date;
-
 public class Transaction {
 	
 	public static final String TABLE_NAME = "transactions";
@@ -17,13 +15,13 @@ public class Transaction {
 	int userId;
 	double score;
 	String review;
-	Date date;
+	String date;
 	
 	public Transaction() {
 		super();
 	}
 
-	public Transaction(int id, int productId, int userId, double score, String review, Date date) {
+	public Transaction(int id, int productId, int userId, double score, String review, String date) {
 		super();
 		this.id = id;
 		this.productId = productId;
@@ -65,10 +63,10 @@ public class Transaction {
 	public void setReview(String review) {
 		this.review = review;
 	}
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 	

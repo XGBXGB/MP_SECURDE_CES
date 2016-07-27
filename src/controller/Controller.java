@@ -109,4 +109,13 @@ public class Controller {
 	{
 		return transactionsDao.getProductScore(productID);
 	}
+	
+	public void addTransaction(Transaction t)
+	{
+		transactionsDao.addTransaction(t);
+	}
+	public void addTransactionWithReview(Transaction t)
+	{
+		transactionsDao.addTransactionWithReview(t);
+	}
 }
