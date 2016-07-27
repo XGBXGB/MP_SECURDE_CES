@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import controller.Controller;
 import model.Address;
+import model.BCrypt;
 import model.PasswordService;
 import model.User;
 
@@ -75,8 +76,7 @@ public class SignUpServlet extends HttpServlet {
 			if(controller.validateEmail(email))
 			{
 				//encrypt the password to check against what's stored in DB
-				PasswordService pws = new PasswordService();
-				String encryptedPass = pws.encrypt(password);
+				String encryptedPass = BCrypt.hashpw(password, BCrypt.gensalt());
 				
 				boolean b = controller.validateAddress( new Address(0, houseNoB, streetB, subdivisionB, cityB, postalCodeB, countryB));
 				int bid = -1;

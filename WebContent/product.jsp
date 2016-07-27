@@ -50,7 +50,7 @@
                 <a class="navbar-brand" href="#">Start Bootstrap</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-			    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Hello <!--  %=u.getFirstName()%-->!</a></li>
+			    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Hello <%=u.getFirstName()%>!</a></li>
                 <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> (0) - View cart</a></li>
                 <li>
 	                <form action="LoginServlet" method="GET">
