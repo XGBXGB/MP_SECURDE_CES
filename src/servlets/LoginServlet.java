@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import controller.Controller;
+import model.BCrypt;
 import model.PasswordService;
 import model.User;
 
@@ -20,86 +23,106 @@ import model.User;
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private HttpSession session; 
+	private HttpSession session;
 	private String url;
-	private int loginAttempts;   
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public LoginServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	private int loginAttempts;
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public LoginServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		session = request.getSession();
 
-		//check to make sure we've clicked link
-		if(request.getParameter("logout") !=null){
+		// check to make sure we've clicked link
+		if (request.getParameter("logout") != null) {
 
-			//logout and redirect to frontpage
+			// logout and redirect to frontpage
 			logout();
+			url = "index.jsp";
+		}
+
+		// forward our request along
+		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+		dispatcher.forward(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		session = request.getSession();
+		String currToken = request.getParameter("CSRFToken");
+		// get the number of logins
+		String existingToken = (String) session.getAttribute("token");
+		if (currToken.equals(existingToken.toString())) {
+			System.out.println("matching token::::");
+			System.out.println("currToken: "+currToken);
+			System.out.println("existingToken: "+existingToken);
+			if (session.getAttribute("loginAttempts") == null) {
+				loginAttempts = 0;
+			}
+
+			// exceeded logins
+			if (loginAttempts > 2) {
+				String errorMessage = "Error: Number of Login Attempts Exceeded";
+				request.setAttribute("errorMessage", errorMessage);
+				url = "index.jsp";
+			} else { // proceed
+				// pull the fields from the form
+				String username = request.getParameter("username");
+				String password = request.getParameter("password");
+
+				// encrypt the password to check against what's stored in DB
+				// create a user helper class to make database calls, and call
+				// authenticate user method
+				Controller controller = Controller.getInstance();
+				User user = controller.authenticateUser(username, password);
+
+				// we've found a user that matches the credentials
+				if (user != null) {
+					// invalidate current session, then get new session for our
+					// user (combats: session hijacking)
+					session.invalidate();
+					session = request.getSession(true);
+					SecureRandom random = new SecureRandom();
+					session.setAttribute("token", new BigInteger(130, random).toString(32));
+					session.setAttribute("user", user);
+					url = "home.jsp";
+				}
+				// user doesn't exist, redirect to previous page and show error
+				else {
+					String errorMessage = "Error: Unrecognized Username or Password<br>Login attempts remaining: "
+							+ (3 - (loginAttempts));
+					request.setAttribute("errorMessage", errorMessage);
+
+					// track login attempts (combats: brute force attacks)
+					session.setAttribute("loginAttempts", loginAttempts++);
+					url = "index.jsp";
+				}
+			}
+		}else{
+			System.out.println("not matching token");
 			url="index.jsp";
 		}
-
-		//forward our request along
+		// forward our request along
 		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 		dispatcher.forward(request, response);
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		session = request.getSession();
-
-		//get the number of logins
-		if(session.getAttribute("loginAttempts") == null){
-			loginAttempts = 0;
-		}
-		
-		//exceeded logins
-		if(loginAttempts > 2){
-			String errorMessage = "Error: Number of Login Attempts Exceeded";
-			request.setAttribute("errorMessage", errorMessage);
-			url = "index.jsp";
-		}else{	//proceed
-			//pull the fields from the form
-			String username = request.getParameter("username");
-			String password = request.getParameter("password");
-
-			//encrypt the password to check against what's stored in DB
-			//create a user helper class to make database calls, and call authenticate user method
-			Controller controller = Controller.getInstance();
-			User user = controller.authenticateUser(username, password);
-
-			//we've found a user that matches the credentials
-			if(user != null){
-				//invalidate current session, then get new session for our user (combats: session hijacking)
-				session.invalidate();
-				session=request.getSession(true);
-				session.setAttribute("user", user);
-				url="home.jsp";
-			}
-			// user doesn't exist, redirect to previous page and show error
-			else{
-				String errorMessage = "Error: Unrecognized Username or Password<br>Login attempts remaining: "+(3-(loginAttempts));
-				request.setAttribute("errorMessage", errorMessage);
-
-				//track login attempts (combats: brute force attacks)
-				session.setAttribute("loginAttempts", loginAttempts++);
-				url = "index.jsp";
-			}
-		}
-		//forward our request along
-		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-		dispatcher.forward(request, response);
-	}
+	
 	
 	public void logout() {
 		session.invalidate();

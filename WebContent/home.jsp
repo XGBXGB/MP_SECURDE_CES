@@ -129,7 +129,11 @@
 				<%
 				Controller c = Controller.getInstance();
 				ArrayList<Product> products;
-				products = c.getAllProducts();
+				if(session.getAttribute("clickedCategoryInSingleProducts")!=null){
+					products = c.getProductsviaCategory((int)session.getAttribute("clickedCategoryInSingleProducts"));
+				}else{
+					products = c.getAllProducts();
+				}
 				%>
                 <div class="row products-list">
 					<%for(int i=0; i<products.size(); i++){ %>

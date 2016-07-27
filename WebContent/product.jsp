@@ -85,10 +85,10 @@
             <div class="col-md-3">
                 <p class="lead">Shop Name</p>
                 <div class="list-group">
-                   <a href="#" class="list-group-item">Boots</a>
-                    <a href="#" class="list-group-item">Shoes</a>
-                    <a href="#" class="list-group-item">Sandals</a>
-                    <a href="#" class="list-group-item">Slippers</a>
+                   <a href="#" onclick="viewProducts(1)" class="list-group-item">Boots</a>
+                    <a href="#" onclick="viewProducts(2)" class="list-group-item">Shoes</a>
+                    <a href="#" onclick="viewProducts(3)" class="list-group-item">Sandals</a>
+                    <a href="#" onclick="viewProducts(4)" class="list-group-item">Slippers</a>
                 </div>
             </div>
 
@@ -277,7 +277,14 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-
+	<script>
+	function viewProducts(categoryId){
+		$.post('GoToHomeServlet', {clickedCategoryInSingleProducts:categoryId}, function(data){
+			alert("data: "+data);
+			window.location.replace(data);
+		});
+	}
+	</script>
 </body>
 
 </html>

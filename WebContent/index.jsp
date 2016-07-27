@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	<%@page import="java.security.SecureRandom"%>
+	<%@page import="java.math.BigInteger"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -10,6 +12,9 @@
 </head>
 
 <body>
+	<%SecureRandom random = new SecureRandom();
+	session.setAttribute("token", new BigInteger(130, random).toString(32)); %>
+	
 	<div class="container">
 		<div id="loginbox" style="margin-top: 50px;"
 			class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
@@ -31,6 +36,8 @@
 							class="alert alert-danger col-sm-12">${errorMessage}</div>
 						<%} %>
 						<div class="form-group">
+						<input type="hidden" class="form-control" name="CSRFToken" value="<%=session.getAttribute("token") %>"
+									required>
 							<div class="input-group">
 								<span class="input-group-addon"><i
 									class="glyphicon glyphicon-user"></i></span> <input id="login-username"
