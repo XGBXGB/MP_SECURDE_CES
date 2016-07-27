@@ -85,6 +85,7 @@
             <div class="col-md-3">
                 <p class="lead">Shop Name</p>
                 <div class="list-group">
+                	<a href="home.jsp" class="list-group-item">All</a>
                    <a href="#" onclick="viewProducts(1)" class="list-group-item">Boots</a>
                     <a href="#" onclick="viewProducts(2)" class="list-group-item">Shoes</a>
                     <a href="#" onclick="viewProducts(3)" class="list-group-item">Sandals</a>
@@ -280,7 +281,6 @@
 	<script>
 	function viewProducts(categoryId){
 		$.post('GoToHomeServlet', {clickedCategoryInSingleProducts:categoryId}, function(data){
-			alert("data: "+data);
 			window.location.replace(data);
 		});
 	}

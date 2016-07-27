@@ -131,6 +131,7 @@
 				ArrayList<Product> products;
 				if(session.getAttribute("clickedCategoryInSingleProducts")!=null){
 					products = c.getProductsviaCategory((int)session.getAttribute("clickedCategoryInSingleProducts"));
+					session.removeAttribute("clickedCategoryInSingleProducts");
 				}else{
 					products = c.getAllProducts();
 				}
