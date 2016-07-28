@@ -42,6 +42,7 @@ public class ProductServlet extends HttpServlet {
 		
 		//$(this).closest('form').submit()
 		Controller controller = new Controller();
+		System.out.println("ID " +Integer.parseInt(request.getParameter("selectedProduct")));
 		Product product = controller.getProduct(Integer.parseInt(request.getParameter("selectedProduct")));
 		request.getSession().setAttribute("product", product);
 		//request.getSession().setAttribute("user", request.getSession().getAttribute("user"));

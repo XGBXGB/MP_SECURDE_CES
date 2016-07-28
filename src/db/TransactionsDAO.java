@@ -259,7 +259,7 @@ public class TransactionsDAO {
 	public void addTransaction(Transaction t) {
 		String query = "INSERT INTO " + Transaction.TABLE_NAME + " "
 				+ "("+ Transaction.COLUMN_PID +"," + Transaction.COLUMN_UID + "," + Transaction.COLUMN_DATE +") "
-				+ "VALUES (" + t.getProductId() + ", " + t.getUserId() + ", " + new SimpleDateFormat("MM/dd/yyyy").format(new java.util.Date(2016,07,27)) + ");";
+				+ "VALUES (" + t.getProductId() + ", " + t.getUserId() + ", '" + t.getDate() + "');";
 		
 		Connection connection = dbConnection.getConnection();
 		PreparedStatement pstmt = null;
@@ -277,7 +277,7 @@ public class TransactionsDAO {
 		String query = "INSERT INTO " + Transaction.TABLE_NAME + " "
 				+ "("+ Transaction.COLUMN_PID +"," + Transaction.COLUMN_UID + "," + Transaction.COLUMN_DATE +
 				"," + Transaction.COLUMN_REV +"," + Transaction.COLUMN_SCORE+") "
-				+ "VALUES (" + t.getProductId() + ", " + t.getUserId() + ", " +new SimpleDateFormat("MM/dd/yyyy").format(new java.util.Date(2016,07,27)) + ", '" + t.getReview()
+				+ "VALUES (" + t.getProductId() + ", " + t.getUserId() + ", '" + t.getDate() + "', '" + t.getReview()
 				+ "', " + t.getScore() +");";
 		
 		Connection connection = dbConnection.getConnection();

@@ -34,7 +34,7 @@ CREATE TABLE `address` (
   `country` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idid_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES (1,1,'Mangachapoy','SubOne','Citytwo','0','PH'),(2,0,'Mangachapoy','SubOne','Citytwo','0','PH'),(3,1,'Mangachapoy','SubOne','Citytwo','0','PH'),(4,0,'Mangachapoy','Subtwo','Citytwo','0','PH'),(5,1,'Mangachapoy','SubOne','Citytwo','0','PH'),(6,0,'Mangachapoy','Subtwo','CityOne','0','PH');
+INSERT INTO `address` VALUES (7,1,'Mangachapoy','SubOne','Citytwo','0','PH'),(8,2,'StreetOne','SubTwo','CityOne','1234','PH');
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -114,12 +114,12 @@ CREATE TABLE `transactions` (
   `userID` int(10) unsigned NOT NULL,
   `score` double DEFAULT NULL,
   `review` varchar(200) DEFAULT NULL,
-  `date` date NOT NULL,
+  `date` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `productID_key_idx` (`productID`),
   CONSTRAINT `productID_key` FOREIGN KEY (`productID`) REFERENCES `products` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -155,7 +155,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `email_UNIQUE` (`email`),
   KEY `typeID_key_idx` (`typeID`),
   CONSTRAINT `typeID_key` FOREIGN KEY (`typeID`) REFERENCES `usertypes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -164,6 +164,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (4,'userOne','$2a$10$agtTqmNjEaRewOYujI1oueRo/YSPV2xNiSwibbBLl8Zri1HsetitG','One','user','N','user@dlsu.edu.ph',-1,8,4);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -202,4 +203,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-07-27  0:06:08
+-- Dump completed on 2016-07-28 11:05:00
