@@ -44,6 +44,9 @@ public class Controller {
 		return categoriesDao.getCategory(id);
 	}
 	
+	public ArrayList<Product> getProductsByName(String name){
+		return productsDao.getProductsByName(name);
+	}
 	
 	public ArrayList<Product> getAllProducts(){
 		return productsDao.getAllProducts();

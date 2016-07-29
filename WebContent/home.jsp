@@ -80,20 +80,24 @@
     <div class="container">
 
         <div class="row">
-
+			
             <div class="col-md-3">
                 <p class="lead">Shop Name</p>
                 <div class="list-group">
-                	<a href="#" onclick="loadProducts(-1)" class="list-group-item">All</a>
-                    <a href="#" onclick="loadProducts(1)" class="list-group-item">Boots</a>
-                    <a href="#" onclick="loadProducts(2)" class="list-group-item">Shoes</a>
-                    <a href="#" onclick="loadProducts(3)" class="list-group-item">Sandals</a>
-                    <a href="#" onclick="loadProducts(4)" class="list-group-item">Slippers</a>
+                	<a href="#" onclick="getProductsByCategory(-1)" class="list-group-item">All</a>
+                    <a href="#" onclick="getProductsByCategory(1)" class="list-group-item">Boots</a>
+                    <a href="#" onclick="getProductsByCategory(2)" class="list-group-item">Shoes</a>
+                    <a href="#" onclick="getProductsByCategory(3)" class="list-group-item">Sandals</a>
+                    <a href="#" onclick="getProductsByCategory(4)" class="list-group-item">Slippers</a>
                 </div>
             </div>
 
             <div class="col-md-9">
-
+            	
+				<form id="searchForm">
+					<input name="searchTerm" id="searchBox" class="form-control" pattern="^[ A-z]{1,}$" style="display:block;width:100%;margin-bottom:20px;" type="text" placeholder="Search by product name">
+				</form>
+				
                 <div class="row carousel-holder">
 
                     <div class="col-md-12">
@@ -183,9 +187,34 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/validator.js"></script>
     <script>
-    function loadProducts(categoryId){
+    
+    function getProductsByCategory(categoryId){
     	$.post('SelectCategoryServlet', { categoryId: categoryId }, function(responseJson){
+    		loadProducts(responseJson);
+    	});
+    }
+    
+    function searchProducts(searchTerm){
+    	$.post('SearchProductServlet', { searchTerm: searchTerm }, function(responseJson){
+    		loadProducts(responseJson);
+    	});
+    }
+    
+    document.getElementById('searchBox').onkeydown = function(e){
+       if(e.keyCode == 13){
+    	 document.forms["searchForm"].onsubmit();
+       }
+    };
+    $("#searchForm").submit(function(e) {
+    	var searchTerm = document.getElementById("searchBox").value;
+    	searchProducts(searchTerm);
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+    });
+   
+    
+    function loadProducts(responseJson){
     		var mainDiv = $('.products-list');
     		mainDiv.empty();
     		if(responseJson.length>0){
@@ -222,7 +251,7 @@
     			noResultsDiv.html("Sorry, there are no products of this category.");
     			noResultsDiv.appendTo(mainDiv);
     		}
-    	});
+    	
     }
     
 	function pressed(element) {
