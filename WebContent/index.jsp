@@ -1,247 +1,289 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-	<%@page import="java.security.SecureRandom"%>
-	<%@page import="java.math.BigInteger"%>
+	<%@page import="model.User"%>
+	<%@page import="model.Product"%>
+	<%@page import="java.util.ArrayList"%>
+	<%@page import="controller.Controller"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html lang="en">
+
 <head>
-<link href="css/bootstrap.min.css" rel="stylesheet">
-<link href="css/signup.css" rel="stylesheet">
-<link href="css/bootstrap-formhelpers.min.css" rel="stylesheet"
-	media="screen">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Shop Homepage - Start Bootstrap Template</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/shop-homepage.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
 </head>
 
 <body>
-	<%SecureRandom random = new SecureRandom();
-	session.setAttribute("token", new BigInteger(130, random).toString(32)); %>
-	
-	<div class="container">
-		<div id="loginbox" style="margin-top: 50px;"
-			class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-			<div class="panel panel-info">
-				<div class="panel-heading">
-					<div class="panel-title">Sign In</div>
-					<div
-						style="float: right; font-size: 80%; position: relative; top: -10px">
-						<a href="#">Forgot password?</a>
-					</div>
-				</div>
 
-				<div style="padding: 30px" class="panel-body">
-					
-					<form id="loginform" method="post" class="form-horizontal" action="LoginServlet"
-						data-toggle="validator" role="form">
-						<%if(request.getAttribute("errorMessage")!=null){ %>
-						<div style="" id="login-alert"
-							class="alert alert-danger col-sm-12">${errorMessage}</div>
-						<%} %>
-						<div class="form-group">
-						<input type="hidden" class="form-control" name="CSRFToken" value="<%=session.getAttribute("token") %>"
-									required>
-							<div class="input-group">
-								<span class="input-group-addon"><i
-									class="glyphicon glyphicon-user"></i></span> <input id="login-username"
-									type="text" class="form-control" name="username" value=""
-									placeholder="username or email" required>
-							</div>
-    						<div class="help-block with-errors"></div>
-						</div>
-						
-						<div class="form-group">
-							<div class="input-group">
-								<span class="input-group-addon"><i
-									class="glyphicon glyphicon-lock"></i></span> <input id="login-password"
-									type="password" class="form-control" name="password"
-									placeholder="password" required>
-							</div>
-							<div class="help-block with-errors" style="margin:0 !important; padding:0 !important"></div>
-						</div>
+	<%User u = (User) session.getAttribute("user"); session.setAttribute("user", u);
+	  if(session.getAttribute("product")!=null){
+		  session.removeAttribute("product");
+	  }%>
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Start Bootstrap</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+            <%if(u!=null) {%>
+			    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Hello <%=u.getFirstName()%>!</a></li>
+                <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> (0) - View cart</a></li>
+                <li>
+	                <form action="LoginServlet" method="GET">
+	                	<button type="submit" name="logout" style="margin-top:14px;background-color:transparent;color:#9d9d9d;border:none"><span class="glyphicon glyphicon-log-out"></span>Logout</button>
+	                </form>
+                </li>
+            <%}else{ %>
+            	<li><a href="login.jsp"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <%} %>
+		    </ul>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#">About</a>
+                    </li>
+                    <li>
+                        <a href="#">Services</a>
+                    </li>
+                    <li>
+                        <a href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
 
+    <!-- Page Content -->
+    <div class="container">
 
+        <div class="row">
+			
+            <div class="col-md-3">
+                <p class="lead">Shop Name</p>
+                <div class="list-group">
+                	<a href="#" onclick="getProductsByCategory(-1)" class="list-group-item">All</a>
+                    <a href="#" onclick="getProductsByCategory(1)" class="list-group-item">Boots</a>
+                    <a href="#" onclick="getProductsByCategory(2)" class="list-group-item">Shoes</a>
+                    <a href="#" onclick="getProductsByCategory(3)" class="list-group-item">Sandals</a>
+                    <a href="#" onclick="getProductsByCategory(4)" class="list-group-item">Slippers</a>
+                </div>
+            </div>
 
-						<div style="margin-top: 10px;padding-left:0px;margin-left:0" class="">
-							<div class="col-sm-12 controls form-group">
-								<a onclick="$(this).closest('form').submit()" id="btn-login"
-									href="#" class="btn btn-success">Login </a>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<div class="col-md-12 control">
-								<div style="font-size: 85%">
-									Don't have an account! <a href="SignUp.jsp">
-										Sign Up Here </a>
-								</div>
-							</div>
-						</div>
-					</form>
-				</div>
-
-			</div>
-		</div>
-	</div>
-
-	<!-- START OF SIGN UP FORM NIGGAAHHHHHH>
-	<div id="signupbox" style="display: none; margin-top: 50px"
-		class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-		<div class="panel panel-info">
-			<div class="panel-heading">
-				<div class="panel-title">Sign Up</div>
-				<div
-					style="float: right; font-size: 85%; position: relative; top: -10px">
-					<a id="signinlink" href="#"
-						onclick="$('#signupbox').hide(); $('#loginbox').show()">Sign
-						In</a>
-				</div>
-			</div>
-			<div class="panel-body">
-				<form action="SignUpServlet" id="signupform" method="post" class="form-horizontal" data-toggle="validator" role="form">
-					<div id="signupalert" style="display: none"
-						class="alert alert-danger">
-						<p>Error:</p>
-						<span></span>
-					</div>
-					<span class="info-category">Personal Information:</span>
-					<label class="col-md-3 control-label" for="firstname">Name</label>
-					<div class="form-group col-md-4">
-							<input pattern="^[ A-z]{1,}$" type="text" class="form-control" name="firstname"
-									placeholder="First Name" required>
-					</div>
-					<div class="form-group col-md-2">
-							<input maxlegnth="1" pattern="[A-z]" type="text" class="form-control" name="middleinitial"
-									placeholder="M.I." required>
-					</div>
-					<div class="form-group col-md-3">
-							<input pattern="^[ A-z]{1,}$" type="text" class="form-control" name="lastname"
-									placeholder="Last Name" required>
-					</div>
-					
-
-					<label for="username" class="col-md-3 control-label">Username</label>
-					<div class="form-group col-md-9">
-							<input data-minlength="6" pattern="^[_A-z0-9]{1,}$" type="text" class="form-control" name="username"
-								placeholder="Minimum of 6 characters. Composed of numbers, letters and _" required>
-						<div class="help-block with-errors"></div>
-					</div>
-					<label for="password" class="col-md-3 control-label">Password</label>
-					<div class="form-group col-md-9">
-							<input pattern="^[_A-z0-9]{1,}$" data-minlength="6" id="passwd" type="password" class="form-control" name="password"
-								placeholder="Minimum of 6 characters" required>
-							<div class="help-block with-errors"></div>
-					</div>
-					<label for="password" class="col-md-3 control-label">Confirm Pass</label>
-					<div class="form-group col-md-9">
-							<input data-match="#passwd" type="password" class="form-control" name="confirmpassword"
-								placeholder="Match input with password" required>
-							<div class="help-block with-errors" style="margin:0 !important; padding:0 !important"></div>
-					</div>
-					<label for="email" class="col-md-3 control-label">Email</label>
-					<div class="form-group col-md-9">
-							<input type="email" class="form-control" name="email"
-								placeholder="Email Address" required>
-							<div class="help-block with-errors"></div>
-					</div>
-					<hr>
-					<span class="info-category">Billing Address:</span>
-					<label class="col-md-3 control-label">House #</label>
-					<div class="form-group col-md-9">
-							<input for="housenoB" pattern="^[0-9]{1,}$" type="text" class="form-control" name="housenoB"
-								placeholder="House Number" required>
-							<div class="help-block with-errors"></div>
-					</div>
-					<label for="streetB" class="col-md-3 control-label">Street</label>
-					<div class="form-group col-md-9">
-							<input pattern="^[ A-z]{1,}$" type="text" class="form-control" name="streetB"
-								placeholder="Street" required>
-							<div class="help-block with-errors"></div>
-					</div>
-					<label for="subdivisionB" class="col-md-3 control-label">Subdivision</label>
-					<div class="form-group col-md-9">
-							<input pattern="^[ A-z]{1,}$" type="text" class="form-control" name="subdivisionB"
-								placeholder="Subdivision" required>
-							<div class="help-block with-errors"></div>
-					</div>
-					<label for="cityB" class="col-md-3 control-label">City</label>
-					<div class="form-group col-md-9">
-							<input pattern="^[ A-z]{1,}$" type="text" class="form-control" name="cityB"
-								placeholder="City" required>
-							<div class="help-block with-errors"></div>
-					</div>
-					<label for="postalcodeB" class="col-md-3 control-label">Postal Code</label>
-					<div class="form-group col-md-9">
-							<input for="housenoB" pattern="^[0-9]{1,}$" type="text" class="form-control" name="postalcodeB"
-								placeholder="Postal Code" required>
-							<div class="help-block with-errors"></div>
-					</div>
-					<label for="countryB" class="col-md-3 control-label">Country</label>
-					<div class="form-group col-md-9">
-							<select name="countryB" class="form-control bfh-countries"
-								data-country="PH"></select>
-					</div>
-
-					<hr>
-					<span class="info-category">Shipping Address:</span>
-					<label for="housenoS" class="col-md-3 control-label">House
-							#</label>
-					<div class="form-group col-md-9">
-							<input pattern="^[0-9]{1,}$" type="text" class="form-control" name="housenoS"
-								placeholder="House Number" required>
-							<div class="help-block with-errors"></div>
-					</div>
-					<label for="streetS" class="col-md-3 control-label">Street</label>
-					<div class="form-group col-md-9">
-							<input pattern="^[ A-z]{1,}$" type="text" class="form-control" name="streetS"
-								placeholder="Street" required>
-							<div class="help-block with-errors"></div>
-					</div>
-					<label for="subdivisionS" class="col-md-3 control-label">Subdivision</label>
-					<div class="form-group col-md-9">
-							<input pattern="^[ A-z]{1,}$" type="text" class="form-control" name="subdivisionS"
-								placeholder="Subdivision" required>
-							<div class="help-block with-errors"></div>
-					</div>
-					<label for="cityS" class="col-md-3 control-label">City</label>
-					<div class="form-group col-md-9">
-							<input pattern="^[ A-z]{1,}$" type="text" class="form-control" name="cityS"
-								placeholder="City" required>
-							<div class="help-block with-errors"></div>
-					</div>
-					<label for="postalcodeS" class="col-md-3 control-label">Postal
-							Code</label>
-					<div class="form-group col-md-9">
-							<input pattern="^[0-9]{1,}$" type="text" class="form-control" name="postalcodeS"
-								placeholder="Postal Code" required>
-							<div class="help-block with-errors"></div>
-					</div>
-					<label for="countryS" class="col-md-3 control-label">Country</label>
-					<div class="form-group col-md-9">
-							<select name="countryS" class="form-control bfh-countries"
-								data-country="PH"></select>
-					</div>
-
-					<div class="form-group">
-						<!-- Button >
-						<div class="col-md-offset-5 col-md-3">
-							<a onclick="$(this).closest('form').submit()" id="btn-signup" href="#" class="btn btn-info">
-								<i class="icon-hand-right"></i> Sign Up
-							</a>
-						</div>
-					</div>
-
-
+            <div class="col-md-9">
+            	
+				<form id="searchForm">
+					<input name="searchTerm" id="searchBox" class="form-control" pattern="^[ A-z]{1,}$" style="display:block;width:100%;margin-bottom:20px;" type="text" placeholder="Search by product name">
 				</form>
-			</div>
-		</div>
-	</div>
-	<!-- END OF SIGN UP FORM NIGGAAHHHHHH-->
+				
+                <div class="row carousel-holder">
 
+                    <div class="col-md-12">
+                        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                            </ol>
+                            <div class="carousel-inner">
+                                <div class="item active">
+                                    <img class="slide-image" src="http://placehold.it/800x300" alt="">
+                                </div>
+                                <div class="item">
+                                    <img class="slide-image" src="http://placehold.it/800x300" alt="">
+                                </div>
+                                <div class="item">
+                                    <img class="slide-image" src="http://placehold.it/800x300" alt="">
+                                </div>
+                            </div>
+                            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left"></span>
+                            </a>
+                            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right"></span>
+                            </a>
+                        </div>
+                    </div>
 
-	<!-- jQuery -->
-	<script src="js/jquery.js"></script>
+                </div>
+                <form id = "productform" action="ProductServlet" method = "GET">
+                <input type = "hidden" id = "selectedProduct" name = "selectedProduct" value = "-1">
+				<%
+				Controller c = Controller.getInstance();
+				ArrayList<Product> products;
+				if(session.getAttribute("clickedCategoryInSingleProducts")!=null){
+					products = c.getProductsviaCategory((Integer)session.getAttribute("clickedCategoryInSingleProducts"));
+					session.removeAttribute("clickedCategoryInSingleProducts");
+				}else{
+					products = c.getAllProducts();
+				}
+				%>
+                <div class="row products-list">
+					<%
+					if(products.size()>0){
+						for(int i=0; i<products.size(); i++){ %>
+	                    <div class="col-sm-4 col-lg-4 col-md-4">
+	                        <div class="thumbnail">
+	                            <img src="http://placehold.it/320x150" alt="">
+	                            <div class="caption">
+	                                <h4 class="pull-right">$<%=products.get(i).getPrice() %></h4>
+	                                <h4><a id="<%=products.get(i).getId() %>" href="javascript:{}" onclick="pressed(this);document.getElementById('productform').submit(); return false;"><%=products.get(i).getName() %></a>
+	                                </h4>
+	                                <p><%=products.get(i).getDescription() %></p>
+	                            </div>
+	                            <!-- div class="buying">
+	                                <a id="buy<%=products.get(i).getId() %>" href="javascript:{}" onclick="pressed(this);document.getElementById('buyproductform').submit(); return false;">buy this product</a>
+	                            </div> -->
+	                        </div>
+	                    </div>
+	                    <%
+	                    }
+					}else{
+					%>
+					<div class="no-result-div col-sm-12 col-lg-12 col-md-12">
+		    			Sorry, there are no products of this category.
+		    		</div>
+					
+					<%
+					} 
+					%>
+                    </form>
 
-	<!-- Bootstrap Core JavaScript -->
-	<script src="js/bootstrap-formhelpers.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/validator.js"></script>
+                   
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /.container -->
+
+    <div class="container">
+
+        <hr>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; Your Website 2014</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/validator.js"></script>
+    <script>
+    
+    function getProductsByCategory(categoryId){
+    	$.post('SelectCategoryServlet', { categoryId: categoryId }, function(responseJson){
+    		loadProducts(responseJson);
+    	});
+    }
+    
+    function searchProducts(searchTerm){
+    	$.post('SearchProductServlet', { searchTerm: searchTerm }, function(responseJson){
+    		loadProducts(responseJson);
+    	});
+    }
+    
+    document.getElementById('searchBox').onkeydown = function(e){
+       if(e.keyCode == 13){
+    	 document.forms["searchForm"].onsubmit();
+       }
+    };
+    $("#searchForm").submit(function(e) {
+    	var searchTerm = document.getElementById("searchBox").value;
+    	searchProducts(searchTerm);
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+    });
+   
+   
+    function loadProducts(responseJson){
+    		var mainDiv = $('.products-list');
+    		mainDiv.empty();
+    		if(responseJson.length>0){
+    			$.each(responseJson, function(key,value){
+    				var outerDiv = $("<div></div>").addClass("col-sm-4 col-lg-4 col-md-4");
+            		
+            		var thumbnailDiv = $("<div></div>").addClass("thumbnail");
+            		var imgDiv = $("<img></img>").attr("src","http://placehold.it/320x150");
+            		var captionDiv = $("<div></div>").addClass("caption");
+            		var h4PullRight = $("<h4></h4>").addClass("pull-right");
+            		h4PullRight.html("$"+value['price']);
+            		h4PullRight.appendTo(captionDiv);
+            		var h4Name = $("<h4></h4>");
+            		var aElem = $("<a></a>").attr("id", value['id']).attr("href", "javascript:{}");
+            		aElem.attr("onclick","pressed(this);document.getElementById('productform').submit(); return false;");
+            		aElem.html(value['name']);
+            		aElem.appendTo(h4Name);
+            		h4Name.appendTo(captionDiv);
+            		var pElem = $("<p></p>");
+            		pElem.html(value['description']);
+            		pElem.appendTo(captionDiv);
+            		var ratingDiv= $("<div></div>").addClass("buying");
+            		var aRating = $("<a></a>").html("buy product");
+            		aRating.appendTo(ratingDiv);
+            		
+            		imgDiv.appendTo(thumbnailDiv);
+            		captionDiv.appendTo(thumbnailDiv);
+            		ratingDiv.appendTo(thumbnailDiv);
+            		thumbnailDiv.appendTo(outerDiv);
+            		outerDiv.appendTo(mainDiv);
+            		
+    			});
+    		}else{
+    			var noResultsDiv = $("<div></div>").addClass("no-result-div col-sm-12 col-lg-12 col-md-12");
+    			noResultsDiv.html("Sorry, there are no products of this category.");
+    			noResultsDiv.appendTo(mainDiv);
+    		}
+    		
+    	
+    }
+    
+	function pressed(element) {
+		var pressedBtn = element.id;
+		document.getElementById("selectedProduct").value = document.getElementById(pressedBtn).id;
+	}
+    
+    </script>
+    
+    
+
 </body>
+
 </html>

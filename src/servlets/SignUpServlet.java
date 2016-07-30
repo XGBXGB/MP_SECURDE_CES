@@ -98,12 +98,13 @@ public class SignUpServlet extends HttpServlet {
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('You can now login using your account!');");
-				out.println("location='index.jsp';");
+				out.println("location='login.jsp';");
 				out.println("</script>");
 				
-				String url = "index.jsp";
-				RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-				dispatcher.forward(request, response);
+//				String url = "login.jsp";
+//				response.sendRedirect(url);
+//				RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+//				dispatcher.forward(request, response);
 			}
 			else
 			{

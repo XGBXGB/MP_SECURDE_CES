@@ -50,6 +50,7 @@
                 <a class="navbar-brand" href="#">Start Bootstrap</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
+			    <%if(u!=null) {%>
 			    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Hello <%=u.getFirstName()%>!</a></li>
                 <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> (0) - View cart</a></li>
                 <li>
@@ -57,6 +58,9 @@
 	                	<button type="submit" name="logout" style="margin-top:14px;background-color:transparent;color:#9d9d9d;border:none"><span class="glyphicon glyphicon-log-out"></span>Logout</button>
 	                </form>
                 </li>
+            <%}else{ %>
+            	<li><a href="login.jsp"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <%} %>
 		    </ul>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -85,7 +89,7 @@
             <div class="col-md-3">
                 <p class="lead">Shop Name</p>
                 <div class="list-group">
-                	<a href="home.jsp" class="list-group-item">All</a>
+                	<a href="index.jsp" class="list-group-item">All</a>
                    <a href="#" onclick="viewProducts(1)" class="list-group-item">Boots</a>
                     <a href="#" onclick="viewProducts(2)" class="list-group-item">Shoes</a>
                     <a href="#" onclick="viewProducts(3)" class="list-group-item">Sandals</a>

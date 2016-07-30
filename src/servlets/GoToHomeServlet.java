@@ -39,7 +39,7 @@ public class GoToHomeServlet extends HttpServlet {
 		String category = request.getParameter("clickedCategoryInSingleProducts");
 		HttpSession session = request.getSession();
 		session.setAttribute("clickedCategoryInSingleProducts", Integer.parseInt(category));
-		response.getWriter().print("home.jsp");
+		response.getWriter().print("index.jsp");
 	}
 
 }

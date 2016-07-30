@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import controller.Controller;
 import model.BCrypt;
 import model.PasswordService;
+import model.Product;
 import model.User;
 
 /**
@@ -80,7 +81,7 @@ public class LoginServlet extends HttpServlet {
 			if (loginAttempts > 2) {
 				String errorMessage = "Error: Number of Login Attempts Exceeded";
 				request.setAttribute("errorMessage", errorMessage);
-				url = "index.jsp";
+				url = "login.jsp";
 			} else { // proceed
 				// pull the fields from the form
 				String username = request.getParameter("username");
@@ -94,14 +95,22 @@ public class LoginServlet extends HttpServlet {
 
 				// we've found a user that matches the credentials
 				if (user != null) {
-					// invalidate current session, then get new session for our
-					// user (combats: session hijacking)
-					session.invalidate();
-					session = request.getSession(true);
-					SecureRandom random = new SecureRandom();
-					session.setAttribute("token", new BigInteger(130, random).toString(32));
-					session.setAttribute("user", user);
-					url = "home.jsp";
+					if(user.getUserType() == 4){
+						Product p = (Product) session.getAttribute("product");
+						// invalidate current session, then get new session for our
+						// user (combats: session hijacking)
+						session.invalidate();
+						session = request.getSession(true);
+						SecureRandom random = new SecureRandom();
+						session.setAttribute("token", new BigInteger(130, random).toString(32));
+						session.setAttribute("user", user);
+						if(p != null){
+							session.setAttribute("product", p);
+							url = "product.jsp";
+						}else{
+							url = "index.jsp";
+						}
+					}
 				}
 				// user doesn't exist, redirect to previous page and show error
 				else {
@@ -111,12 +120,12 @@ public class LoginServlet extends HttpServlet {
 
 					// track login attempts (combats: brute force attacks)
 					session.setAttribute("loginAttempts", loginAttempts++);
-					url = "index.jsp";
+					url = "login.jsp";
 				}
 			}
 		}else{
 			System.out.println("not matching token");
-			url="index.jsp";
+			url="login.jsp";
 		}
 		// forward our request along
 		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
