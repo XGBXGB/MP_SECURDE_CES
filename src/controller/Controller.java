@@ -9,6 +9,7 @@ import db.ProductsDAO;
 import db.TransactionsDAO;
 import db.UserDAO;
 import model.Address;
+import model.FinancialRecord;
 import model.Product;
 import model.Transaction;
 import model.User;
@@ -54,6 +55,18 @@ public class Controller {
 	
 	public ArrayList<Product> getProductsviaCategory(int category){
 		return productsDao.getProductsviaCategory(category);
+	}
+	
+	public double getTotalPriceAllProducts(){
+		return productsDao.getTotalPriceAllProducts();
+	}
+	
+	public ArrayList<FinancialRecord> getTotalPriceByProduct(){
+		return productsDao.getTotalPriceByProduct();
+	}
+	
+	public ArrayList<FinancialRecord> getTotalPriceByCategory(){
+		return productsDao.getTotalPriceByCategory();
 	}
 	
 	public Product getProduct(int id)

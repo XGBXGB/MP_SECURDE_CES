@@ -92,9 +92,9 @@
 							Sort Records by <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-							<li><a style="cursor:pointer" onclick="function1()">Sales per product</a></li>
-							<li><a style="cursor:pointer" href="#">Sales per product type</a></li>
-							<li><a style="cursor:pointer" href="#">Total sales</a></li>
+							<li><a style="cursor:pointer" onclick="sort('product')">Sales per product</a></li>
+							<li><a style="cursor:pointer" onclick="sort('category')">Sales per product type</a></li>
+							<li><a style="cursor:pointer" onclick="sort('all')">Total sales</a></li>
 						</ul>
 					</div>
 				</div>
@@ -144,9 +144,119 @@
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/validator.js"></script>
 	<script>
-		function function1(){
-			alert("YAY");
+		function sort(sortBy){
+			alert("wew");
+			$.post('FinancialRecordServlet', { sortBy: sortBy }, function(response){
+				var mainDiv = $('.financial-records-table');
+	    		mainDiv.empty();
+				if(sortBy == "all"){
+					var soryByDiv = $("<div></div>").addClass("sorted-by").html("Sort by: All");
+					var tableElem = $("<table></table>").addClass("table");
+					var threadElem = $("<thread></thread>");
+					var trElem = $("<tr></tr>");
+					var thElem = $("<th></th>").html("Total Sales");
+					var bodyElem = $("<tbody></tbody>");
+					var trElem2 = $("<tr></tr>");
+					var tdElem = $("<td></td>").html(response);
+					thElem.appendTo(trElem);
+					trElem.appendTo(threadElem);
+					threadElem.appendTo(tableElem);
+					tdElem.appendTo(trElem2);
+					trElem2.appendTo(bodyElem);
+					bodyElem.appendTo(tableElem);
+					soryByDiv.appendTo(mainDiv);
+					tableElem.appendTo(mainDiv);
+				}else{
+					if(response.length>0){
+						var tableElem = $("<table></table>").addClass("table");
+						var threadElem = $("<thread></thread>");
+						var trElem = $("<tr></tr>");
+						
+						if(sortBy == "product"){
+							var soryByDiv = $("<div></div>").addClass("sorted-by").html("Sort By: Per Product");
+							var thElem = $("<th></th>").html("Product Name");
+						}else{
+							var soryByDiv = $("<div></div>").addClass("sorted-by").html("Sort By: Per Category");
+							var thElem = $("<th></th>").html("Category");
+						}
+						var thElem2 = $("<th></th>").html("Total Sales");
+						thElem.appendTo(trElem);
+						thElem2.appendTo(trElem);
+						trElem.appendTo(threadElem);
+						threadElem.appendTo(tableElem);
+						
+						var bodyElem = $("<tbody></tbody>");
+						$.each(response, function(key,value){
+							var trElem2 = $("<tr></tr>");
+							var tdElem = $("<td></td>").html(value['label']);
+							var tdElem2 = $("<td></td>").html(value['price']);
+							tdElem.appendTo(trElem2);
+							tdElem2.appendTo(trElem2);
+							trElem2.appendTo(bodyElem);
+		    			});
+						bodyElem.appendTo(tableElem);
+						soryByDiv.appendTo(mainDiv);
+						tableElem.appendTo(mainDiv);
+					}
+				}
+	    	});
 		}
+// 		<div class="sorted-by">Sorted by: sales per product</div>
+// 		<table class="table">
+// 			<thead>
+// 				<tr>
+// 					<th>Product Name</th>
+// 					<th>Total Sales</th>
+// 				</tr>
+// 			</thead>
+// 			<tbody>
+// 				<tr>
+// 					<td>John</td>
+// 					<td>Doe</td>
+// 				</tr>
+// 			</tbody>
+// 		</table>
+// 		function loadProducts(responseJson){
+//     		var mainDiv = $('.products-list');
+//     		mainDiv.empty();
+//     		if(responseJson.length>0){
+//     			$.each(responseJson, function(key,value){
+//     				var outerDiv = $("<div></div>").addClass("col-sm-4 col-lg-4 col-md-4");
+            		
+//             		var thumbnailDiv = $("<div></div>").addClass("thumbnail");
+//             		var imgDiv = $("<img></img>").attr("src","http://placehold.it/320x150");
+//             		var captionDiv = $("<div></div>").addClass("caption");
+//             		var h4PullRight = $("<h4></h4>").addClass("pull-right");
+//             		h4PullRight.html("$"+value['price']);
+//             		h4PullRight.appendTo(captionDiv);
+//             		var h4Name = $("<h4></h4>");
+//             		var aElem = $("<a></a>").attr("id", value['id']).attr("href", "javascript:{}");
+//             		aElem.attr("onclick","pressed(this);document.getElementById('productform').submit(); return false;");
+//             		aElem.html(value['name']);
+//             		aElem.appendTo(h4Name);
+//             		h4Name.appendTo(captionDiv);
+//             		var pElem = $("<p></p>");
+//             		pElem.html(value['description']);
+//             		pElem.appendTo(captionDiv);
+//             		var ratingDiv= $("<div></div>").addClass("buying");
+//             		var aRating = $("<a></a>").html("buy product");
+//             		aRating.appendTo(ratingDiv);
+            		
+//             		imgDiv.appendTo(thumbnailDiv);
+//             		captionDiv.appendTo(thumbnailDiv);
+//             		ratingDiv.appendTo(thumbnailDiv);
+//             		thumbnailDiv.appendTo(outerDiv);
+//             		outerDiv.appendTo(mainDiv);
+            		
+//     			});
+//     		}else{
+//     			var noResultsDiv = $("<div></div>").addClass("no-result-div col-sm-12 col-lg-12 col-md-12");
+//     			noResultsDiv.html("Sorry, there are no products of this category.");
+//     			noResultsDiv.appendTo(mainDiv);
+//     		}
+    		
+    	
+//     	}
 	</script>
 
 

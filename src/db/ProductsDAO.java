@@ -157,7 +157,7 @@ public class ProductsDAO {
 		try {
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()){
-				records.add(new FinancialRecord(rs.getString("name"),rs.getDouble("price")));
+				records.add(new FinancialRecord(rs.getString("name"),rs.getDouble("total")));
 			}
 			return records;
 		} catch (SQLException e) {
@@ -187,7 +187,7 @@ public class ProductsDAO {
 		try {
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()){
-				records.add(new FinancialRecord(rs.getString("category"),rs.getDouble("price")));
+				records.add(new FinancialRecord(rs.getString("category"),rs.getDouble("total")));
 			}
 			return records;
 		} catch (SQLException e) {
