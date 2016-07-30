@@ -54,6 +54,32 @@ public class UserDAO {
 		return null;
 	}
 
+	public String getUserType(int id) {
+		String query = "SELECT * FROM usertypes WHERE id = ?;";
+
+		Connection connection = DBConnection.getConnection();
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = connection.prepareStatement(query);
+			pstmt.setInt(1, id);
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
+		try {
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getString("type");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	
 	public User authenticateUser(String username, String password) {
 		String query = "SELECT * FROM " + User.TABLE_NAME + " WHERE " + User.COLUMN_USERNAME + " = ?;";
 

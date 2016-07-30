@@ -134,4 +134,9 @@ public class Controller {
 	{
 		transactionsDao.addTransactionWithReview(t);
 	}
+	
+	public String getUserType(int id)
+	{
+		return userDao.getUserType(id);
+	}
 }
