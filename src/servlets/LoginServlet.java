@@ -110,6 +110,13 @@ public class LoginServlet extends HttpServlet {
 						}else{
 							url = "index.jsp";
 						}
+					}else if(user.getUserType() == 3){
+						session.invalidate();
+						session = request.getSession(true);
+						SecureRandom random = new SecureRandom();
+						session.setAttribute("token", new BigInteger(130, random).toString(32));
+						session.setAttribute("user", user);
+						url = "account-manager.jsp";
 					}
 				}
 				// user doesn't exist, redirect to previous page and show error
@@ -128,6 +135,7 @@ public class LoginServlet extends HttpServlet {
 			url="login.jsp";
 		}
 		// forward our request along
+		System.out.println("url: "+url);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 		dispatcher.forward(request, response);
 	}

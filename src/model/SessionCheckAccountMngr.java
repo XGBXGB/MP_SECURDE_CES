@@ -7,7 +7,7 @@ import javax.servlet.http.*;
 
 import controller.Controller;
 
-public class SessionCheck implements Filter
+public class SessionCheckAccountMngr implements Filter
 {
 public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2) throws IOException, ServletException
     {
@@ -23,13 +23,13 @@ public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2
             //return;
         	System.out.println("hi");
         }
-        else if(c.getUserType(((User) request.getSession().getAttribute("user")).getUserType()).equals("Accounting Manager"))
-        {           
-        	response.sendRedirect("account-manager.jsp");
-        	//return;
-        	System.out.println("hello");
-        }        	
-        //arg2.doFilter(request, response);
+//        else if(c.getUserType(((User) request.getSession().getAttribute("user")).getUserType()).equals("Accounting Manager"))
+//        {           
+//        	response.sendRedirect("account-manager.jsp");
+//        	//return;
+//        	System.out.println("hello");
+//        }        	
+        arg2.doFilter(request, response);
         
         
         //HttpServletRequest req= (HttpServletRequest) request;

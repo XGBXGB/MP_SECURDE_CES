@@ -11,12 +11,22 @@
   </welcome-file-list>
   
 	<filter>
-	   <filter-name>SessionCheck</filter-name>
-	   <filter-class>model.SessionCheck</filter-class>
+	   <filter-name>SessionCheckAccountMngr</filter-name>
+	   <filter-class>model.SessionCheckAccountMngr</filter-class>
 	</filter>
 	<filter-mapping>
-	  <filter-name>SessionCheck</filter-name>
+	  <filter-name>SessionCheckAccountMngr</filter-name>
 	  <url-pattern>/account-manager.jsp</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+	   <filter-name>SessionCheckCustomer</filter-name>
+	   <filter-class>model.SessionCheckCustomer</filter-class>
+	</filter>
+	<filter-mapping>
+	  <filter-name>SessionCheckCustomer</filter-name>
+	  <url-pattern>/index.jsp</url-pattern>
+	  <url-pattern>/product.jsp</url-pattern>
 	</filter-mapping>
   
 </web-app>
