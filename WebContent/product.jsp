@@ -222,7 +222,11 @@
 
 				<form action= "ProductServlet" method = "post" id="BuyProductForm" onsubmit="return checkBuy();">
                 <div class="text-right">
+                	<%if(u != null){ %>
                     <input type = "submit" value ="Buy This" class="btn btn-success" href="javascript:{}">
+                    <%}else{ %>
+                    <a id="btn-login" href="login.jsp" class="btn btn-success">Buy This </a>
+                    <%} %>
                 </div>
 				</form>
 				
