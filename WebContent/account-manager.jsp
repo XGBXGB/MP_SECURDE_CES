@@ -145,14 +145,13 @@
 	<script src="js/validator.js"></script>
 	<script>
 		function sort(sortBy){
-			alert("wew");
 			$.post('FinancialRecordServlet', { sortBy: sortBy }, function(response){
 				var mainDiv = $('.financial-records-table');
 	    		mainDiv.empty();
 				if(sortBy == "all"){
 					var soryByDiv = $("<div></div>").addClass("sorted-by").html("Sort by: All");
 					var tableElem = $("<table></table>").addClass("table");
-					var threadElem = $("<thread></thread>");
+					var threadElem = $("<thead></thead>");
 					var trElem = $("<tr></tr>");
 					var thElem = $("<th></th>").html("Total Sales");
 					var bodyElem = $("<tbody></tbody>");
@@ -169,7 +168,7 @@
 				}else{
 					if(response.length>0){
 						var tableElem = $("<table></table>").addClass("table");
-						var threadElem = $("<thread></thread>");
+						var threadElem = $("<thead></thead>");
 						var trElem = $("<tr></tr>");
 						
 						if(sortBy == "product"){
