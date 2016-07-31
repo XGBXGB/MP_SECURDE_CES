@@ -119,7 +119,7 @@ CREATE TABLE `transactions` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `productID_key_idx` (`productID`),
   CONSTRAINT `productID_key` FOREIGN KEY (`productID`) REFERENCES `products` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,6 +128,7 @@ CREATE TABLE `transactions` (
 
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
+INSERT INTO `transactions` VALUES (8,2,4,1,'ugly af','2016-07-27'),(9,2,4,5,'It is pretty kaya','2016-07-27'),(10,2,4,4,'lurv et!','2016-07-27');
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -149,6 +150,7 @@ CREATE TABLE `users` (
   `billingAddressID` int(11) DEFAULT NULL,
   `shippingAddressID` int(11) DEFAULT NULL,
   `typeID` int(11) NOT NULL,
+  `expiry` datetime DEFAULT NULL,
   PRIMARY KEY (`id`,`username`,`email`),
   UNIQUE KEY `d_UNIQUE` (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`),
@@ -164,7 +166,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (4,'userOne','$2a$10$agtTqmNjEaRewOYujI1oueRo/YSPV2xNiSwibbBLl8Zri1HsetitG','One','user','N','user@dlsu.edu.ph',-1,8,4);
+INSERT INTO `users` VALUES (1,'userTwo','$2a$10$agtTqmNjEaRewOYujI1oueRo/YSPV2xNiSwibbBLl8Zri1HsetitG','Two','ACTMAN','W','acctman@dlsu.edu.ph',-1,-1,3,NULL),(4,'userOne','$2a$10$agtTqmNjEaRewOYujI1oueRo/YSPV2xNiSwibbBLl8Zri1HsetitG','One','user','N','user@dlsu.edu.ph',-1,8,4,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -203,4 +205,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-07-28 11:05:00
+-- Dump completed on 2016-07-31 21:06:34
