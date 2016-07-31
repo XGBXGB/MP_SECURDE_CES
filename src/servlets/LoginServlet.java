@@ -124,6 +124,13 @@ public class LoginServlet extends HttpServlet {
 						session.setAttribute("token", new BigInteger(130, random).toString(32));
 						session.setAttribute("user", user);
 						url = "home_product_manager.jsp";
+					} else if(user.getUserType() == 1) {
+						session.invalidate();
+						session = request.getSession(true);
+						SecureRandom random = new SecureRandom();
+						session.setAttribute("token", new BigInteger(130, random).toString(32));
+						session.setAttribute("user", user);
+						url = "admin.jsp";
 					}
 				}
 				// user doesn't exist, redirect to previous page and show error

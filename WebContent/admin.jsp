@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@page import="model.User"%>
-<%@page import="model.Product"%>
-<%@page import="model.FinancialRecord"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="controller.Controller"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -35,12 +33,7 @@
 
 <body>
 
-	<%--
-		User u = (User) session.getAttribute("user");
-		session.setAttribute("user", u);
-		Controller c  = Controller.getInstance();
-		ArrayList<FinancialRecord> records = c.getTotalPriceByProduct();
-	--%>
+
 	<!-- Navigation -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	<div class="container">
@@ -56,8 +49,7 @@
 		</div>
 		<ul class="nav navbar-nav navbar-right">
 			<li><a href="#"><span class="glyphicon glyphicon-user"></span>
-					Hello Admin <%--=u.getFirstName()--%>!</a>
-			</li>
+					Hello Admin!</a></li>
 			<li>
 				<form action="LoginServlet" method="GET">
 					<button type="submit" name="logout"
@@ -87,50 +79,56 @@
 
 			<div class="col-md-3">
 				<p class="lead">User Records</p>
-				<div class="col-md-12" style="">
-					<div class="dropdown">
-						<button class="btn btn-default dropdown-toggle" type="button"
-							id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
-							aria-expanded="true">
-							Manage Users by<span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-							<li><a style="cursor:pointer" onclick="sort('view')">View all users</a></li>
-							<li><a style="cursor:pointer" onclick="sort('add')">Add a user</a></li>
-							<li><a style="cursor:pointer" onclick="sort('assign')">Assign a new password</a></li>
-						</ul>
-					</div>
+				<div class="list-group">
+					<a href="#" class="list-group-item active">View Users</a> <a
+						href="admincreate.jsp" class="list-group-item">Add User</a>
 				</div>
 			</div>
-
+			<% Controller c = Controller.getInstance();
+			   ArrayList<User> users = c.getAllUsersForTable();%>
 			<div class="col-md-9 user-records-table">
-				<div class="sorted-by">View all users</div>
 				<table class="table">
 					<thead>
 						<tr>
-							<th>Username </th>
+							<th>Username</th>
 							<th>Last Name</th>
 							<th>First Name</th>
 							<th>Middle Name</th>
-							<th>Email</th>
 							<th>Role</th>
 							<th>Password Expiration</th>
 						</tr>
 					</thead>
 					<tbody>
-					<%--for(int i=0; i<records.size(); i++){ --%>
+					<%for(int i=0; i<users.size(); i++){ %>
 						<tr>
-							<td><%--=records.get(i).getLabel() --%></td>
-							<td><%--=records.get(i).getPrice() --%></td>
+							<td><%=users.get(i).getUsername() %></td>
+							<td><%=users.get(i).getLastName() %></td>
+							<td><%=users.get(i).getFirstName() %></td>
+							<td><%=users.get(i).getMiddleName() %></td>
+							<td>
+							<%if(users.get(i).getUserType() == 1){
+								out.print("Administrator");
+							  }else if(users.get(i).getUserType() == 2){
+								  out.print("Product Manager");
+							  }else if(users.get(i).getUserType() == 3){
+								  out.print("Accounting Manager");
+							  }else{
+								  out.print("Customer");
+							  }%>
+							</td>
+							<td>
+							<%if(users.get(i).getExpiry() != null){
+								out.print(users.get(i).getExpiry());
+							  }else{
+								  out.print("N/A");
+							  }%>
+							</td>
 						</tr>
-					<%--} --%>
+					<%} %>
 					</tbody>
 				</table>
-
 			</div>
-
 		</div>
-
 	</div>
 	<!-- /.container -->
 
@@ -154,99 +152,7 @@
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/validator.js"></script>
 	<script>
-		function sort(sortBy){
-			$.post('UserRecordServlet', { sortBy: sortBy }, function(response){
-				var mainDiv = $('.user-records-table');
-	    		mainDiv.empty();
-				if(sortBy == "view"){
-					var soryByDiv = $("<div></div>").addClass("sorted-by").html("View all users");
-					var tableElem = $("<table></table>").addClass("table");
-					var threadElem = $("<thead></thead>");
-					var trElem = $("<tr></tr>");
-					var thElem = $("<th></th>").html("Username");
-					var thElem2 = $("<th></th>").html("Last Name");
-					var thElem3 = $("<th></th>").html("First Name");
-					var thElem4 = $("<th></th>").html("Middle Name");
-					var thElem5 = $("<th></th>").html("Email");
-					var thElem6 = $("<th></th>").html("Role");
-					var thElem7 = $("<th></th>").html("Expiry");
-					var bodyElem = $("<tbody></tbody>");
-					var trElem2 = $("<tr></tr>");
-					var tdElem = $("<td></td>").html(response);
-					thElem.appendTo(trElem);
-					thElem2.appendTo(trElem);
-					thElem3appendTo(trElem);
-					thElem4appendTo(trElem);
-					thElem5appendTo(trElem);
-					thElem6appendTo(trElem);
-					thElem7.appendTo(trElem);
-					trElem.appendTo(threadElem);
-					threadElem.appendTo(tableElem);
-					tdElem.appendTo(trElem2);
-					trElem2.appendTo(bodyElem);
-					bodyElem.appendTo(tableElem);
-					soryByDiv.appendTo(mainDiv);
-					tableElem.appendTo(mainDiv);
-				}
-			});
-		}
 		
-// 		<div class="sorted-by">Sorted by: sales per product</div>
-// 		<table class="table">
-// 			<thead>
-// 				<tr>
-// 					<th>Product Name</th>
-// 					<th>Total Sales</th>
-// 				</tr>
-// 			</thead>
-// 			<tbody>
-// 				<tr>
-// 					<td>John</td>
-// 					<td>Doe</td>
-// 				</tr>
-// 			</tbody>
-// 		</table>
-// 		function loadProducts(responseJson){
-//     		var mainDiv = $('.products-list');
-//     		mainDiv.empty();
-//     		if(responseJson.length>0){
-//     			$.each(responseJson, function(key,value){
-//     				var outerDiv = $("<div></div>").addClass("col-sm-4 col-lg-4 col-md-4");
-            		
-//             		var thumbnailDiv = $("<div></div>").addClass("thumbnail");
-//             		var imgDiv = $("<img></img>").attr("src","http://placehold.it/320x150");
-//             		var captionDiv = $("<div></div>").addClass("caption");
-//             		var h4PullRight = $("<h4></h4>").addClass("pull-right");
-//             		h4PullRight.html("$"+value['price']);
-//             		h4PullRight.appendTo(captionDiv);
-//             		var h4Name = $("<h4></h4>");
-//             		var aElem = $("<a></a>").attr("id", value['id']).attr("href", "javascript:{}");
-//             		aElem.attr("onclick","pressed(this);document.getElementById('productform').submit(); return false;");
-//             		aElem.html(value['name']);
-//             		aElem.appendTo(h4Name);
-//             		h4Name.appendTo(captionDiv);
-//             		var pElem = $("<p></p>");
-//             		pElem.html(value['description']);
-//             		pElem.appendTo(captionDiv);
-//             		var ratingDiv= $("<div></div>").addClass("buying");
-//             		var aRating = $("<a></a>").html("buy product");
-//             		aRating.appendTo(ratingDiv);
-            		
-//             		imgDiv.appendTo(thumbnailDiv);
-//             		captionDiv.appendTo(thumbnailDiv);
-//             		ratingDiv.appendTo(thumbnailDiv);
-//             		thumbnailDiv.appendTo(outerDiv);
-//             		outerDiv.appendTo(mainDiv);
-            		
-//     			});
-//     		}else{
-//     			var noResultsDiv = $("<div></div>").addClass("no-result-div col-sm-12 col-lg-12 col-md-12");
-//     			noResultsDiv.html("Sorry, there are no products of this category.");
-//     			noResultsDiv.appendTo(mainDiv);
-//     		}
-    		
-    	
-//     	}
 	</script>
 
 

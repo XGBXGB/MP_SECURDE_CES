@@ -1,5 +1,7 @@
 package model;
 
+import java.sql.Date;
+
 public class User {
 	public static String TABLE_NAME = "users";
 	public static String COLUMN_ID = "id";
@@ -12,6 +14,7 @@ public class User {
 	public static String COLUMN_BILLING = "billingAddressID";
 	public static String COLUMN_SHIPPING = "shippingAddressID";
 	public static String COLUMN_TYPE = "typeID";
+	public static String COLUMN_EXPIRY = "expiry";
 	
 	private int id;
 	private String username;
@@ -23,6 +26,7 @@ public class User {
 	private int billingAddressId;
 	private int shippingAddressId;
 	private int userType;
+	private Date expiry;
 	
 	
 	
@@ -46,7 +50,13 @@ public class User {
 		this.userType = userType;
 	}
 
+	public Date getExpiry() {
+		return expiry;
+	}
 
+	public void setExpiry(Date expiry) {
+		this.expiry = expiry;
+	}
 
 	public int getId() {
 		return id;

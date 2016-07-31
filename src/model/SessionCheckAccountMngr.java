@@ -20,8 +20,10 @@ public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2
         if(c.getUserType(((User) request.getSession().getAttribute("user")).getUserType()).equals("Customer"))
         {
             response.sendRedirect("index.jsp");
-            //return;
-        	System.out.println("hi");
+        }else if(c.getUserType(((User) request.getSession().getAttribute("user")).getUserType()).equals("Product Manager")){
+        	response.sendRedirect("home_product_manager.jsp");
+        }else if(c.getUserType(((User) request.getSession().getAttribute("user")).getUserType()).equals("Administrator")){
+        	response.sendRedirect("admin.jsp");
         }
 //        else if(c.getUserType(((User) request.getSession().getAttribute("user")).getUserType()).equals("Accounting Manager"))
 //        {           

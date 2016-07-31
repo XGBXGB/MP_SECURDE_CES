@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import controller.Controller;
 import db.DBConnection;
 import model.BCrypt;
+import model.Product;
 import model.User;
 
 public class UserDAO {
@@ -165,6 +167,43 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 		return true;
+	}
+	
+	public ArrayList<User> getAllUsersForTable(){
+		String query = "SELECT u."+User.COLUMN_USERNAME+", u."+User.COLUMN_LNAME+", u."+User.COLUMN_FNAME+", "
+				+"u."+User.COLUMN_MNAME+", u."+User.COLUMN_TYPE+", u.expiry "
+				+ "FROM " + User.TABLE_NAME + " u "
+				+ "ORDER BY "+User.COLUMN_USERNAME+" ASC ";
+		System.out.println("query: "+query);
+		Connection connection = dbConnection.getConnection();
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = connection.prepareStatement(query);
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		ArrayList<User> users = new ArrayList<User>();
+		try {
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()){
+				
+				User u = new User();
+				u.setUsername(rs.getString(User.COLUMN_USERNAME));
+				u.setLastName(rs.getString(User.COLUMN_LNAME));
+				u.setFirstName(rs.getString(User.COLUMN_FNAME));
+				u.setMiddleName(rs.getString(User.COLUMN_MNAME));
+				u.setUserType(rs.getInt(User.COLUMN_TYPE));
+				u.setExpiry(rs.getDate(User.COLUMN_EXPIRY));
+				users.add(u);
+			}
+			return users;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public void addUser(User user) {

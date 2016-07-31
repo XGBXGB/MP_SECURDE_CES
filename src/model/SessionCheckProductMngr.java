@@ -7,7 +7,7 @@ import javax.servlet.http.*;
 
 import controller.Controller;
 
-public class SessionCheck implements Filter
+public class SessionCheckProductMngr implements Filter
 {
 public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2) throws IOException, ServletException
     {
@@ -20,16 +20,18 @@ public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2
         if(c.getUserType(((User) request.getSession().getAttribute("user")).getUserType()).equals("Customer"))
         {
             response.sendRedirect("index.jsp");
-            //return;
-        	System.out.println("hi");
-        }
-        else if(c.getUserType(((User) request.getSession().getAttribute("user")).getUserType()).equals("Accounting Manager"))
-        {           
+        }else if(c.getUserType(((User) request.getSession().getAttribute("user")).getUserType()).equals("Accounting Manager")){
         	response.sendRedirect("account-manager.jsp");
-        	//return;
-        	System.out.println("hello");
-        }        	
-        //arg2.doFilter(request, response);
+        }else if(c.getUserType(((User) request.getSession().getAttribute("user")).getUserType()).equals("Administrator")){
+        	response.sendRedirect("admin.jsp");
+        }
+//        else if(c.getUserType(((User) request.getSession().getAttribute("user")).getUserType()).equals("Accounting Manager"))
+//        {           
+//        	response.sendRedirect("account-manager.jsp");
+//        	//return;
+//        	System.out.println("hello");
+//        }        	
+        arg2.doFilter(request, response);
         
         
         //HttpServletRequest req= (HttpServletRequest) request;

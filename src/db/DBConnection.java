@@ -19,7 +19,7 @@ public class DBConnection {
         url = "jdbc:mysql://localhost:3306/";
         database = "mp_securde";
         username = "root";
-        password = "nbuser";//tempo
+        password = "xgbawesome";//tempo
     }
      
 

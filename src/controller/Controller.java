@@ -37,6 +37,10 @@ public class Controller {
 		transactionsDao = new TransactionsDAO();
 	}
 	
+	public ArrayList<User> getAllUsersForTable(){
+		return userDao.getAllUsersForTable();
+	}
+
 	public ArrayList<String> getCategories(){
 		return categoriesDao.getAllCategories();
 	}

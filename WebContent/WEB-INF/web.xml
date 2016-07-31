@@ -28,5 +28,24 @@
 	  <url-pattern>/index.jsp</url-pattern>
 	  <url-pattern>/product.jsp</url-pattern>
 	</filter-mapping>
+	
+	<filter>
+	   <filter-name>SessionCheckAdmin</filter-name>
+	   <filter-class>model.SessionCheckAdmin</filter-class>
+	</filter>
+	<filter-mapping>
+	  <filter-name>SessionCheckAdmin</filter-name>
+	  <url-pattern>/admin.jsp</url-pattern>
+	  <url-pattern>/admincreate.jsp</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+	   <filter-name>SessionCheckProductMngr</filter-name>
+	   <filter-class>model.SessionCheckProductMngr</filter-class>
+	</filter>
+	<filter-mapping>
+	  <filter-name>SessionCheckProductMngr</filter-name>
+	  <url-pattern>/home_product_manager.jsp</url-pattern>
+	</filter-mapping>
   
 </web-app>
