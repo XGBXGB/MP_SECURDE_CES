@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@page import="model.User"%>
 <%@page import="model.Product"%>
+<%@page import="model.FinancialRecord"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="controller.Controller"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -37,6 +38,8 @@
 	<%
 		User u = (User) session.getAttribute("user");
 		session.setAttribute("user", u);
+		Controller c  = Controller.getInstance();
+		ArrayList<FinancialRecord> records = c.getTotalPriceByProduct();
 	%>
 	<!-- Navigation -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -101,7 +104,7 @@
 			</div>
 
 			<div class="col-md-9 financial-records-table">
-				<div class="sorted-by">Sorted by: sales per product</div>
+				<div class="sorted-by">Sorted by: Per Product</div>
 				<table class="table">
 					<thead>
 						<tr>
@@ -110,10 +113,12 @@
 						</tr>
 					</thead>
 					<tbody>
+					<%for(int i=0; i<records.size(); i++){ %>
 						<tr>
-							<td>John</td>
-							<td>Doe</td>
+							<td><%=records.get(i).getLabel() %></td>
+							<td><%=records.get(i).getPrice() %></td>
 						</tr>
+					<%} %>
 					</tbody>
 				</table>
 
@@ -149,7 +154,7 @@
 				var mainDiv = $('.financial-records-table');
 	    		mainDiv.empty();
 				if(sortBy == "all"){
-					var soryByDiv = $("<div></div>").addClass("sorted-by").html("Sort by: All");
+					var soryByDiv = $("<div></div>").addClass("sorted-by").html("Sorted by: All");
 					var tableElem = $("<table></table>").addClass("table");
 					var threadElem = $("<thead></thead>");
 					var trElem = $("<tr></tr>");
@@ -172,10 +177,10 @@
 						var trElem = $("<tr></tr>");
 						
 						if(sortBy == "product"){
-							var soryByDiv = $("<div></div>").addClass("sorted-by").html("Sort By: Per Product");
+							var sortByDiv = $("<div></div>").addClass("sorted-by").html("Sorted by: Per Product");
 							var thElem = $("<th></th>").html("Product Name");
 						}else{
-							var soryByDiv = $("<div></div>").addClass("sorted-by").html("Sort By: Per Category");
+							var sortByDiv = $("<div></div>").addClass("sorted-by").html("Sorted by: Per Category");
 							var thElem = $("<th></th>").html("Category");
 						}
 						var thElem2 = $("<th></th>").html("Total Sales");
@@ -194,7 +199,7 @@
 							trElem2.appendTo(bodyElem);
 		    			});
 						bodyElem.appendTo(tableElem);
-						soryByDiv.appendTo(mainDiv);
+						sortByDiv.appendTo(mainDiv);
 						tableElem.appendTo(mainDiv);
 					}
 				}
