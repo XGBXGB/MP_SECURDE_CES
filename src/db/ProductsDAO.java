@@ -19,6 +19,77 @@ public class ProductsDAO {
 		dbConnection = DBConnection.getInstance();
 		//controller = Controller.getInstance();
 	}
+	public void addProduct(Product p) {
+		// TODO Auto-generated method stub
+		System.out.println("Added " + p.getName());
+		String query = "INSERT INTO " + Product.TABLE_NAME + " " + " (" 
+				+ Product.COLUMN_NAME+ ","
+				+ Product.COLUMN_PRICE+ ","
+				+ Product.COLUMN_CAT+ ","
+				+ Product.COLUMN_DESC + ") " + " VALUES (?, ?, ?, ?);";
+
+		System.out.println("QUERY: " + query);
+		Connection connection = dbConnection.getConnection();
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = connection.prepareStatement(query);
+			pstmt.setString(1, p.getName());
+			pstmt.setDouble(2, p.getPrice());
+			pstmt.setInt(3, p.getCategoryId());
+			pstmt.setString(4, p.getDescription());
+			pstmt.executeUpdate();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+	}
+
+	public void deleteProduct(String productId) {
+		// TODO Auto-generated method stub
+		System.out.println("Deleted " + productId);
+		String query = "DELETE FROM " + Product.TABLE_NAME + " WHERE " + Product.COLUMN_ID +  " = ?";
+
+		System.out.println("QUERY: " + query);
+		Connection connection = dbConnection.getConnection();
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = connection.prepareStatement(query);
+			pstmt.setString(1, productId);
+			pstmt.executeUpdate();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+	}
+
+	public void editProduct(Product p) {
+		String query = "UPDATE " + Product.TABLE_NAME
+				+ " SET "
+					+ Product.COLUMN_NAME +  " = ?, "
+					+ Product.COLUMN_CAT + " = ?, " 
+					+ Product.COLUMN_PRICE + " = ?, "
+					+ Product.COLUMN_DESC + " = ? "
+				+ "WHERE " + Product.COLUMN_ID + " = ?";
+
+		System.out.println("QUERY: " + query);
+		Connection connection = dbConnection.getConnection();
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = connection.prepareStatement(query);
+			pstmt.setString(1, p.getName());
+			pstmt.setInt(2, p.getCategoryId());
+			pstmt.setDouble(3, p.getPrice());
+			pstmt.setString(4, p.getDescription());
+			pstmt.setInt(5, p.getId());
+			pstmt.executeUpdate();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+	}
+	
 	
 	public Product getProduct(int id) {
 		String query = "SELECT * FROM " + Product.TABLE_NAME + " WHERE " + Product.COLUMN_ID + " = ? ";

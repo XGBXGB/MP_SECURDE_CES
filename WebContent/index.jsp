@@ -34,10 +34,13 @@
 
 <body>
 
-	<%User u = (User) session.getAttribute("user"); session.setAttribute("user", u);
-	  if(session.getAttribute("product")!=null){
-		  session.removeAttribute("product");
-	  }%>
+	<%	
+	User u = (User) session.getAttribute("user"); 
+	session.setAttribute("user", u);
+ 	if(session.getAttribute("product")!=null){
+	  session.removeAttribute("product");
+  	}
+  	%>
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">

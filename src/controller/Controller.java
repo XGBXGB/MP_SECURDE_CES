@@ -139,4 +139,22 @@ public class Controller {
 	{
 		return userDao.getUserType(id);
 	}
+	
+	public void addProduct(Product p) {
+		// TODO Auto-generated method stub
+		productsDao.addProduct(p);
+		
+	}
+
+	public void deleteProduct(String productId) {
+		// TODO Auto-generated method stub
+		productsDao.deleteProduct(productId);
+		
+	}
+
+	public void editProduct(Product p) {
+		// TODO Auto-generated method stub
+		productsDao.editProduct(p);
+		
+	}
 }
