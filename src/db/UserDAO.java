@@ -195,7 +195,7 @@ public class UserDAO {
 				u.setFirstName(rs.getString(User.COLUMN_FNAME));
 				u.setMiddleName(rs.getString(User.COLUMN_MNAME));
 				u.setUserType(rs.getInt(User.COLUMN_TYPE));
-				u.setExpiry(rs.getDate(User.COLUMN_EXPIRY));
+				u.setExpiry(rs.getTimestamp(User.COLUMN_EXPIRY));
 				users.add(u);
 			}
 			return users;
@@ -207,13 +207,44 @@ public class UserDAO {
 	}
 
 	public void addUser(User user) {
-		String query = "INSERT INTO " + User.TABLE_NAME + " " + " (" + User.COLUMN_USERNAME + "," + User.COLUMN_PASSWORD
-				+ "," + User.COLUMN_LNAME + "," + User.COLUMN_FNAME + "," + User.COLUMN_MNAME + "," + User.COLUMN_EMAIL
-				+ "," + User.COLUMN_BILLING + "," + User.COLUMN_SHIPPING + "," + User.COLUMN_TYPE + ") " + " VALUES ('"
-				+ user.getUsername() + "', '" + user.getpassword() + "', '" + user.getLastName() + "', '"
-				+ user.getFirstName() + "', '" + user.getMiddleName() + "', '" + user.getEmail() + "', "
-				+ user.getBillingAddressId() + ", " + user.getShippingAddressId() + ", " + user.getUserType() + ");";
+		
+		String query = "";
+		if(user.getUserType() == 4)
+		{
+			query = "INSERT INTO " + User.TABLE_NAME + " " + " (" + User.COLUMN_USERNAME + "," + User.COLUMN_PASSWORD
+					+ "," + User.COLUMN_LNAME + "," + User.COLUMN_FNAME + "," + User.COLUMN_MNAME + "," + User.COLUMN_EMAIL
+					+ "," + User.COLUMN_BILLING + "," + User.COLUMN_SHIPPING + "," + User.COLUMN_TYPE + ") " + " VALUES ('"
+					+ user.getUsername() + "', '" + user.getpassword() + "', '" + user.getLastName() + "', '"
+					+ user.getFirstName() + "', '" + user.getMiddleName() + "', '" + user.getEmail() + "', "
+					+ user.getBillingAddressId() + ", " + user.getShippingAddressId() + ", " + user.getUserType() + ");";
+		}
+		else
+		{
+			query = "INSERT INTO " + User.TABLE_NAME + " " + " (" + User.COLUMN_USERNAME + "," + User.COLUMN_PASSWORD
+					+ "," + User.COLUMN_LNAME + "," + User.COLUMN_FNAME + "," + User.COLUMN_MNAME + "," + User.COLUMN_EMAIL
+					+ "," + User.COLUMN_BILLING + "," + User.COLUMN_SHIPPING + "," + User.COLUMN_TYPE + "," + User.COLUMN_EXPIRY+") " + " VALUES ('"
+					+ user.getUsername() + "', '" + user.getpassword() + "', '" + user.getLastName() + "', '"
+					+ user.getFirstName() + "', '" + user.getMiddleName() + "', '" + user.getEmail() + "', "
+					+ user.getBillingAddressId() + ", " + user.getShippingAddressId() + ", " + user.getUserType() + ", NOW() + INTERVAL 1 DAY);";
 
+		}
+		
+		System.out.println("QUERY: " + query);
+		Connection connection = dbConnection.getConnection();
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = connection.prepareStatement(query);
+			pstmt.executeUpdate();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+	}
+	
+	public void checkExpired()
+	{
+		String query = "DELETE FROM " + User.TABLE_NAME + " WHERE Now() > expiry";
+		
 		System.out.println("QUERY: " + query);
 		Connection connection = dbConnection.getConnection();
 		PreparedStatement pstmt = null;

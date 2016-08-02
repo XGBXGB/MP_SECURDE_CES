@@ -1,3 +1,4 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@page import="model.User"%>
@@ -118,7 +119,10 @@
 							</td>
 							<td>
 							<%if(users.get(i).getExpiry() != null){
-								out.print(users.get(i).getExpiry());
+								 	//SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
+								    //String strDate = sdfDate.format(users.get(i).getExpiry());						
+								//out.print(strDate);
+								out.print(users.get(i).getExpiry().toString());
 							  }else{
 								  out.print("N/A");
 							  }%>

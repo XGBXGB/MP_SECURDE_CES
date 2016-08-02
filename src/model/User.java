@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class User {
 	public static String TABLE_NAME = "users";
@@ -26,7 +27,7 @@ public class User {
 	private int billingAddressId;
 	private int shippingAddressId;
 	private int userType;
-	private Date expiry;
+	private Timestamp expiry;
 	
 	
 	
@@ -50,11 +51,11 @@ public class User {
 		this.userType = userType;
 	}
 
-	public Date getExpiry() {
+	public Timestamp getExpiry() {
 		return expiry;
 	}
 
-	public void setExpiry(Date expiry) {
+	public void setExpiry(Timestamp expiry) {
 		this.expiry = expiry;
 	}
 

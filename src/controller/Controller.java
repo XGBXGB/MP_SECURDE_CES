@@ -161,4 +161,9 @@ public class Controller {
 		productsDao.editProduct(p);
 		
 	}
+	
+	public void checkExpired()
+	{
+		userDao.checkExpired();
+	}
 }
