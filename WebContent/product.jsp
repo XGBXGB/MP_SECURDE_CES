@@ -173,7 +173,15 @@
                             <p><h4>PRICE: <%=p.getPrice() %></h4></p>
                             <p><h4>DESCRIPTION: <%=p.getDescription() %></h4></p>
                             <br>
-                            <p><h5>The price will be deducted from your account. You will no longer be able to refund after you submit.</h5></p>
+                            <p><h5>Please fill up the info below. The price will be deducted from your account. You will no longer be able to refund after you submit.</h5></p>
+                        	<input type = "text" placeholder = "Credit card number" required></input>
+                        	<br>
+                        	<input type = "date" placeholder = "Expiry" required></input>
+							<br>
+                        	<input type = "text" placeholder = "CVS Pin" data-maxlength="6" required></input>
+							<br>                        
+                        	<input type = "number" placeholder = "Zipcode" data-maxlength="4" required></input>
+                        	<br><br>
                         </div>
                         <div class="form-group clearfloat"></div>
                         <div class="floatright">
