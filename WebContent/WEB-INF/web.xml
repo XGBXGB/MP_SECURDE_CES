@@ -14,18 +14,11 @@
   </welcome-file-list>
   
   <session-config>
-	<tracking-mode>COOKIE</tracking-mode>
-  </session-config>
-  
-  <session-config>
-  	<cookie-config>
+	<cookie-config>
   		<http-only>true</http-only>
 		<secure>true</secure>
   	</cookie-config>
-  </session-config>
-  
-  <session-config>
-  	<session-timeout>20</session-timeout>
+  	<tracking-mode>COOKIE</tracking-mode>
   </session-config>
   
   
