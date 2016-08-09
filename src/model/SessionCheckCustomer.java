@@ -11,6 +11,7 @@ public class SessionCheckCustomer implements Filter
 {
 public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2) throws IOException, ServletException
     {
+	System.out.println("begin customer");
         HttpServletRequest request = (HttpServletRequest) arg0;
         HttpServletResponse response = (HttpServletResponse) arg1;
         Controller c = new Controller();
@@ -32,6 +33,7 @@ public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2
 //        	//return;
 //        	System.out.println("hello");
 //        }        	
+        System.out.println("end customer");
         arg2.doFilter(request, response);
         
         

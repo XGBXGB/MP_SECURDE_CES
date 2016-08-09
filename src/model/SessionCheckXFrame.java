@@ -14,8 +14,10 @@ public class SessionCheckXFrame implements Filter
 public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2) throws IOException, ServletException
     {
         //HttpServletResponse response = (HttpServletResponse) arg1;
+		System.out.println("begin xframe");
 		HttpServletResponse response = new javax.servlet.http.HttpServletResponseWrapper((HttpServletResponse)arg1);
 		response.addHeader("X-FRAME-OPTIONS", "SAMEORIGIN");
+		System.out.println("end xframe");
 		arg2.doFilter(arg0,response);
     }
 

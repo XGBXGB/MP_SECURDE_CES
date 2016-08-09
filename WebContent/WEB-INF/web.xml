@@ -32,6 +32,19 @@
     </user-data-constraint>
   </security-constraint>
   
+  	<filter>
+	    <filter-name>SessionFilterATimeout</filter-name>
+	    <filter-class>model.SessionFilterATimeout</filter-class>
+	    <init-param>
+	        <param-name>max-period</param-name>
+	        <param-value>60000</param-value>
+	    </init-param>
+	</filter>
+	<filter-mapping>
+	    <filter-name>SessionFilterATimeout</filter-name>
+	    <url-pattern>/*</url-pattern>
+	</filter-mapping>
+  
 	<filter>
 	   <filter-name>SessionCheckAccountMngr</filter-name>
 	   <filter-class>model.SessionCheckAccountMngr</filter-class>
