@@ -2,6 +2,8 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -45,28 +47,53 @@ public class SignUpServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//Personal Information:
-		String fName  = request.getParameter("firstname");
-		String mInitial = request.getParameter("middleinitial");
-		String lName = request.getParameter("lastname");;
-		String userName = request.getParameter("username");
-		String password = request.getParameter("confirmpassword");
+		
+		
+		
+		String fName  = request.getParameter("firstname");//name
+		String mInitial = request.getParameter("middleinitial");//singleLetyrt
+		String lName = request.getParameter("lastname");//name
+		String userName = request.getParameter("username");//letters_numbers
+		String password = request.getParameter("confirmpassword");//letters_numbers
 		String email = request.getParameter("email");
 		
 		//Billing Address:
-		int houseNoB = Integer.parseInt(request.getParameter("housenoB"));
-		String streetB = request.getParameter("streetB");
-		String subdivisionB = request.getParameter("subdivisionB");
-		String cityB = request.getParameter("cityB");
-		String postalCodeB = request.getParameter("postalcodeB");
-		String countryB = request.getParameter("countryB");
+		int houseNoB = Integer.parseInt(request.getParameter("housenoB"));//numbers
+		String streetB = request.getParameter("streetB");//name
+		String subdivisionB = request.getParameter("subdivisionB");//name
+		String cityB = request.getParameter("cityB");//name
+		String postalCodeB = request.getParameter("postalcodeB");//numbers
+		String countryB = request.getParameter("countryB");//na
 		
 		//Shipping Address:
-		int houseNoS = Integer.parseInt(request.getParameter("housenoS"));
-		String streetS = request.getParameter("streetS");
-		String subdivisionS = request.getParameter("subdivisionS");
-		String cityS = request.getParameter("cityS");
-		String postalCodeS = request.getParameter("postalcodeS");
-		String countryS = request.getParameter("countryS");
+		int houseNoS = Integer.parseInt(request.getParameter("housenoS"));//numbers
+		String streetS = request.getParameter("streetS");//name
+		String subdivisionS = request.getParameter("subdivisionS");//name
+		String cityS = request.getParameter("cityS");//name
+		String postalCodeS = request.getParameter("postalcodeS");//numbers
+		String countryS = request.getParameter("countryS");//na
+		
+		Pattern name = Pattern.compile("^[ A-z]{1,}$");
+		Pattern singleLetter = Pattern.compile("[A-z]");
+		Pattern letters_numbers = Pattern.compile("^[_A-z0-9]{1,}$");
+		Pattern numbers = Pattern.compile("^[0-9]{1,}$");
+		
+		if(!(name.matcher(fName).matches() && name.matcher(lName).matches() && name.matcher(streetB).matches()
+		   && name.matcher(subdivisionB).matches() && name.matcher(cityB).matches() && name.matcher(streetS).matches()
+		   && name.matcher(subdivisionS).matches() && name.matcher(cityS).matches() 
+		   && numbers.matcher(""+houseNoB).matches() && numbers.matcher(postalCodeB).matches()
+		   && numbers.matcher(""+houseNoS).matches() && numbers.matcher(postalCodeS).matches()
+		   && singleLetter.matcher(mInitial).matches() && letters_numbers.matcher(userName).matches()
+		   && letters_numbers.matcher(password).matches())){
+			
+			PrintWriter out = response.getWriter();
+			out.println("<script type=\"text/javascript\">");
+			out.println("alert('Double check format of input fields');");
+			out.println("</script>");
+			
+		}
+		
+		
 		
 		
 		//SIGNUP FUCNTION

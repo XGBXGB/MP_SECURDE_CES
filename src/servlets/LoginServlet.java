@@ -132,6 +132,7 @@ public class LoginServlet extends HttpServlet {
 						session.setAttribute("user", user);
 						url = "admin.jsp";
 					}
+					session.setAttribute( "activation-time", System.currentTimeMillis() );
 				}
 				// user doesn't exist, redirect to previous page and show error
 				else {

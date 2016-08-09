@@ -14,13 +14,16 @@ public class SessionFilterATimeout implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) arg0;
         HttpSession session = request.getSession( false );
-        if ( session != null ) {
-            long activated = (long) session.getAttribute( "activation-time" );
-            if ( System.currentTimeMillis() > ( activated + maxPeriod ) ) {
-                 session.invalidate();
-            }
+        if( session != null ){
+	        if (session.getAttribute("user")!=null) {
+	            long activated = (long) session.getAttribute( "activation-time" );
+	            if ( System.currentTimeMillis() > ( activated + maxPeriod ) ) {
+	                 session.invalidate();
+	            }
+	        }
         }
         arg2.doFilter(arg0, arg1);
+        
 	}
 
 	@Override

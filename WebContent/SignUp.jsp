@@ -61,7 +61,7 @@
 					</div>
 					<label for="password" class="col-md-3 control-label">Confirm Pass</label>
 					<div class="form-group col-md-9">
-							<input data-match="#passwd" type="password" class="form-control" name="confirmpassword"
+							<input pattern="^[_A-z0-9]{1,}$" data-match="#passwd" type="password" class="form-control" name="confirmpassword"
 								placeholder="Match input with password" required>
 							<div class="help-block with-errors" style="margin:0 !important; padding:0 !important"></div>
 					</div>
