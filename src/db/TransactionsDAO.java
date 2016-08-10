@@ -259,7 +259,7 @@ public class TransactionsDAO {
 	public void addTransaction(Transaction t) {
 		String query = "INSERT INTO " + Transaction.TABLE_NAME + " "
 				+ "("+ Transaction.COLUMN_PID +"," + Transaction.COLUMN_UID + "," + Transaction.COLUMN_DATE +") "
-				+ "VALUES (" + t.getProductId() + ", " + t.getUserId() + ", '" + t.getDate() + "');";
+				+ "VALUES (" + t.getProductId() + ", " + t.getUserId() + ", NOW() );";
 		
 		Connection connection = dbConnection.getConnection();
 		PreparedStatement pstmt = null;

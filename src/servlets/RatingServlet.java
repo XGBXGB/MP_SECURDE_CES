@@ -47,9 +47,20 @@ public class RatingServlet extends HttpServlet {
 		//System.out.println("I HAVE RATED F YEAH");
 		
 		Controller con = new Controller();
-		Transaction t = new Transaction(0, ((Product)request.getSession().getAttribute("product")).getId(), ((User)request.getSession().getAttribute("user")).getId(), Double.parseDouble(request.getParameter("rateScore")), request.getParameter("rateReview"), "2016-07-27");
+		
+		String retVal = request.getParameter("retVal");
+		Transaction t = null;
+		if(retVal.equals("false"))
+		{
+			t = new Transaction(0, ((Product)request.getSession().getAttribute("product")).getId(), ((User)request.getSession().getAttribute("user")).getId(), 5.0, "", "2016-07-27");
+		}
+		else
+		{
+			t = new Transaction(0, ((Product)request.getSession().getAttribute("product")).getId(), ((User)request.getSession().getAttribute("user")).getId(), Double.parseDouble(request.getParameter("rateScore")), request.getParameter("rateReview"), "2016-07-27");
+		}
 		con.addTransactionWithReview(t);
-		response.sendRedirect("product.jsp");
+		response.getWriter().print(true);
+		//response.sendRedirect("product.jsp");
 	}
 
 }

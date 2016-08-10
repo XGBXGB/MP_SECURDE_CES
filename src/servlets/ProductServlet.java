@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import controller.Controller;
 import model.Product;
@@ -55,17 +56,44 @@ public class ProductServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		//System.out.println("SUP HEY");
 		Controller con = new Controller();
+		System.out.println("Password in Prod " + request.getParameter("password"));
+		if(con.authenticateUser(((User)request.getSession().getAttribute("user")).getUsername(), request.getParameter("password"))!= null)
+		{
+			System.out.println("correct password when buying");
+			response.getWriter().print("true");
+			//response.sendRedirect("product.jsp");
+			//doGet(request, response);
+		}
+		else
+		{
+			System.out.println("Wrong password when buying");
+			response.getWriter().print("false");
+			//request.setAttribute("bought", "wrong pw");
+			//response.sendRedirect("product.jsp");
+		}
 		
-		Transaction t = new Transaction(0, ((Product)request.getSession().getAttribute("product")).getId(), ((User)request.getSession().getAttribute("user")).getId(), 5.0, "", "2016-07-27");
-		con.addTransaction(t);
+		//System.out.println("SUP HEY");
+		/*Controller con = new Controller();
 		
-		request.setAttribute("product",request.getSession().getAttribute("product"));
-		request.setAttribute("user",request.getSession().getAttribute("user"));		
-		//response.getOutputStream().println("<script type='text/javascript'>$('#SuccessBuyingModal').modal(\"show\");</script>");	
-		response.sendRedirect("product.jsp");
-		//doGet(request, response);
+		if(con.authenticateUser(((User)request.getSession().getAttribute("user")).getUsername(), request.getParameter("password"))!= null)
+		{
+			Transaction t = new Transaction(0, ((Product)request.getSession().getAttribute("product")).getId(), ((User)request.getSession().getAttribute("user")).getId(), 5.0, "", "2016-07-27");
+			con.addTransaction(t);
+			request.setAttribute("product",request.getSession().getAttribute("product"));
+			request.setAttribute("user",request.getSession().getAttribute("user"));		
+			//response.getOutputStream().println("<script type='text/javascript'>$('#SuccessBuyingModal').modal(\"show\");</script>");	
+			//request.setAttribute("bought", "bought");
+			System.out.println("correct password when buying");
+			//response.sendRedirect("product.jsp");
+			//doGet(request, response);
+		}
+		else
+		{
+			System.out.println("Wrong password when buying");
+			//request.setAttribute("bought", "wrong pw");
+			//response.sendRedirect("product.jsp");
+		}*/
 	}
 
 }
