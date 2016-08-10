@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -46,48 +47,64 @@ public class CreateAccountServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		if (request.getSession().getAttribute("user") == null){
+		if (request.getSession().getAttribute("user") == null) {
 			PrintWriter out = response.getWriter();
 			out.println("<script type=\"text/javascript\">");
 			out.println("alert('Session Expired! Please try logging in again.');");
 			out.println("location='index.jsp';");
 			out.println("</script>");
-		}else {
+		} else {
 			String fName = request.getParameter("firstname");
 			String mInitial = request.getParameter("middleinitial");
 			String lName = request.getParameter("lastname");
-			;
+
 			String userName = request.getParameter("username");
 			String password = request.getParameter("confirmpassword");
 			String userType = request.getParameter("userType");
 
-			// SIGNUP FUCNTION
-			Controller controller = new Controller();
-			if (controller.validateUsername(userName)) {
-				String encryptedPass = BCrypt.hashpw(password, BCrypt.gensalt());
-				User u = new User();
-				u.setUsername(userName);
-				u.setpassword(encryptedPass);
-				u.setLastName(lName);
-				u.setFirstName(fName);
-				u.setMiddleName(mInitial);
-				if (userType.equals("Accounting Manager")) {
-					u.setUserType(3);
-				} else {
-					u.setUserType(2);
-				}
-				controller.addUser(u);
+			Pattern name = Pattern.compile("^[ A-z]{1,}$");
+			Pattern singleLetter = Pattern.compile("[A-z]");
+			Pattern letters_numbers = Pattern.compile("^[_A-z0-9]{1,}$");
+
+			if (!(name.matcher(fName).matches() && name.matcher(lName).matches()
+					&& singleLetter.matcher(mInitial).matches()) && letters_numbers.matcher(userName).matches()
+					&& letters_numbers.matcher(password).matches()) {
+
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
-				out.println("alert('Account Created!');");
+				out.println("alert('Double check format of input fields');");
 				out.println("location='admincreate.jsp';");
 				out.println("</script>");
 			} else {
-				PrintWriter out = response.getWriter();
-				out.println("<script type=\"text/javascript\">");
-				out.println("alert('That username already exists! Choose a different one.');");
-				out.println("location='admincreate.jsp';");
-				out.println("</script>");
+
+				// SIGNUP FUCNTION
+				Controller controller = new Controller();
+				if (controller.validateUsername(userName)) {
+					String encryptedPass = BCrypt.hashpw(password, BCrypt.gensalt());
+					User u = new User();
+					u.setUsername(userName);
+					u.setpassword(encryptedPass);
+					u.setLastName(lName);
+					u.setFirstName(fName);
+					u.setMiddleName(mInitial);
+					if (userType.equals("Accounting Manager")) {
+						u.setUserType(3);
+					} else {
+						u.setUserType(2);
+					}
+					controller.addUser(u);
+					PrintWriter out = response.getWriter();
+					out.println("<script type=\"text/javascript\">");
+					out.println("alert('Account Created!');");
+					out.println("location='admincreate.jsp';");
+					out.println("</script>");
+				} else {
+					PrintWriter out = response.getWriter();
+					out.println("<script type=\"text/javascript\">");
+					out.println("alert('That username already exists! Choose a different one.');");
+					out.println("location='admincreate.jsp';");
+					out.println("</script>");
+				}
 			}
 		}
 	}
