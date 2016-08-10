@@ -26,48 +26,57 @@ import model.Product;
 @WebServlet("/FinancialRecordServlet")
 public class FinancialRecordServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public FinancialRecordServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public FinancialRecordServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		Controller controller = Controller.getInstance();
-		String sortBy = request.getParameter("sortBy");
-		System.out.println("sortBy: "+sortBy);
-		if(sortBy.equals("all")){
-			double total = controller.getTotalPriceAllProducts();
-			response.getWriter().print(total);
-		}else{ 
-			Gson gson = new Gson();
-			JsonElement element;
-			JsonArray jsonArray;
-			ArrayList<FinancialRecord> records = null;
-			if(sortBy.equals("product")){
-				records = controller.getTotalPriceByProduct();
-			}else if(sortBy.equals("category")){
-				records = controller.getTotalPriceByCategory();
+		if (request.getSession().getAttribute("user") == null) {
+			response.getWriter().print("timeout");
+		} else {
+			Controller controller = Controller.getInstance();
+			String sortBy = request.getParameter("sortBy");
+			System.out.println("sortBy: " + sortBy);
+			if (sortBy.equals("all")) {
+				double total = controller.getTotalPriceAllProducts();
+				response.getWriter().print(total);
+			} else {
+				Gson gson = new Gson();
+				JsonElement element;
+				JsonArray jsonArray;
+				ArrayList<FinancialRecord> records = null;
+				if (sortBy.equals("product")) {
+					records = controller.getTotalPriceByProduct();
+				} else if (sortBy.equals("category")) {
+					records = controller.getTotalPriceByCategory();
+				}
+				element = gson.toJsonTree(records, new TypeToken<List<FinancialRecord>>() {
+				}.getType());
+				jsonArray = element.getAsJsonArray();
+				response.setContentType("application/json");
+				response.getWriter().print(jsonArray);
 			}
-			element = gson.toJsonTree(records, new TypeToken<List<FinancialRecord>>(){}.getType());
-			jsonArray = element.getAsJsonArray();
-			response.setContentType("application/json");
-			response.getWriter().print(jsonArray);
 		}
 	}
 

@@ -151,56 +151,61 @@
 	<script>
 		function sort(sortBy){
 			$.post('FinancialRecordServlet', { sortBy: sortBy }, function(response){
-				var mainDiv = $('.financial-records-table');
-	    		mainDiv.empty();
-				if(sortBy == "all"){
-					var soryByDiv = $("<div></div>").addClass("sorted-by").html("Sorted by: All");
-					var tableElem = $("<table></table>").addClass("table");
-					var threadElem = $("<thead></thead>");
-					var trElem = $("<tr></tr>");
-					var thElem = $("<th></th>").html("Total Sales");
-					var bodyElem = $("<tbody></tbody>");
-					var trElem2 = $("<tr></tr>");
-					var tdElem = $("<td></td>").html(response);
-					thElem.appendTo(trElem);
-					trElem.appendTo(threadElem);
-					threadElem.appendTo(tableElem);
-					tdElem.appendTo(trElem2);
-					trElem2.appendTo(bodyElem);
-					bodyElem.appendTo(tableElem);
-					soryByDiv.appendTo(mainDiv);
-					tableElem.appendTo(mainDiv);
+				if(response == "timeout"){
+					alert('Session Expired! Please try logging in again.');
+					window.location.replace("index.jsp");
 				}else{
-					if(response.length>0){
+					var mainDiv = $('.financial-records-table');
+		    		mainDiv.empty();
+					if(sortBy == "all"){
+						var soryByDiv = $("<div></div>").addClass("sorted-by").html("Sorted by: All");
 						var tableElem = $("<table></table>").addClass("table");
 						var threadElem = $("<thead></thead>");
 						var trElem = $("<tr></tr>");
-						
-						if(sortBy == "product"){
-							var sortByDiv = $("<div></div>").addClass("sorted-by").html("Sorted by: Per Product");
-							var thElem = $("<th></th>").html("Product Name");
-						}else{
-							var sortByDiv = $("<div></div>").addClass("sorted-by").html("Sorted by: Per Category");
-							var thElem = $("<th></th>").html("Category");
-						}
-						var thElem2 = $("<th></th>").html("Total Sales");
+						var thElem = $("<th></th>").html("Total Sales");
+						var bodyElem = $("<tbody></tbody>");
+						var trElem2 = $("<tr></tr>");
+						var tdElem = $("<td></td>").html(response);
 						thElem.appendTo(trElem);
-						thElem2.appendTo(trElem);
 						trElem.appendTo(threadElem);
 						threadElem.appendTo(tableElem);
-						
-						var bodyElem = $("<tbody></tbody>");
-						$.each(response, function(key,value){
-							var trElem2 = $("<tr></tr>");
-							var tdElem = $("<td></td>").html(value['label']);
-							var tdElem2 = $("<td></td>").html(value['price']);
-							tdElem.appendTo(trElem2);
-							tdElem2.appendTo(trElem2);
-							trElem2.appendTo(bodyElem);
-		    			});
+						tdElem.appendTo(trElem2);
+						trElem2.appendTo(bodyElem);
 						bodyElem.appendTo(tableElem);
-						sortByDiv.appendTo(mainDiv);
+						soryByDiv.appendTo(mainDiv);
 						tableElem.appendTo(mainDiv);
+					}else{
+						if(response.length>0){
+							var tableElem = $("<table></table>").addClass("table");
+							var threadElem = $("<thead></thead>");
+							var trElem = $("<tr></tr>");
+							
+							if(sortBy == "product"){
+								var sortByDiv = $("<div></div>").addClass("sorted-by").html("Sorted by: Per Product");
+								var thElem = $("<th></th>").html("Product Name");
+							}else{
+								var sortByDiv = $("<div></div>").addClass("sorted-by").html("Sorted by: Per Category");
+								var thElem = $("<th></th>").html("Category");
+							}
+							var thElem2 = $("<th></th>").html("Total Sales");
+							thElem.appendTo(trElem);
+							thElem2.appendTo(trElem);
+							trElem.appendTo(threadElem);
+							threadElem.appendTo(tableElem);
+							
+							var bodyElem = $("<tbody></tbody>");
+							$.each(response, function(key,value){
+								var trElem2 = $("<tr></tr>");
+								var tdElem = $("<td></td>").html(value['label']);
+								var tdElem2 = $("<td></td>").html(value['price']);
+								tdElem.appendTo(trElem2);
+								tdElem2.appendTo(trElem2);
+								trElem2.appendTo(bodyElem);
+			    			});
+							bodyElem.appendTo(tableElem);
+							sortByDiv.appendTo(mainDiv);
+							tableElem.appendTo(mainDiv);
+						}
 					}
 				}
 	    	});
