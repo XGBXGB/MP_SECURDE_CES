@@ -1,6 +1,8 @@
 package model;
 
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -18,7 +20,9 @@ public class SessionFilterATimeout implements Filter {
 	        if (session.getAttribute("user")!=null) {
 	            long activated = (long) session.getAttribute( "activation-time" );
 	            if ( System.currentTimeMillis() > ( activated + maxPeriod ) ) {
+	            	System.out.println("WENT HEREEE TIMEOUTTTT NIGGAAAAAAAAAAHHHH!!!!!!!");
 	                 session.invalidate();
+	                 request.getSession().setAttribute("token", new BigInteger(130, new SecureRandom()).toString(32)); 
 	            }
 	        }
         }
