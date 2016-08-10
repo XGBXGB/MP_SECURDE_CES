@@ -70,9 +70,20 @@ public class LoginServlet extends HttpServlet {
 		// get the number of logins
 		String existingToken = (String) session.getAttribute("token");
 		if (currToken.equals(existingToken.toString())) {
+			if(session.getAttribute("loginLockout")!=null){
+				long lockoutTime = (long) session.getAttribute("loginLockout");
+				long timeCheck = System.currentTimeMillis()-lockoutTime;
+				System.out.println("present: "+System.currentTimeMillis());
+				System.out.println("before: "+lockoutTime);
+				if(timeCheck>=10000){
+					System.out.println("time check: "+timeCheck);
+					session.removeAttribute("loginAttempts");
+					session.removeAttribute("loginLockout");
+				}
+			}
 			System.out.println("matching token::::");
-			System.out.println("currToken: " + currToken);
-			System.out.println("existingToken: " + existingToken);
+			System.out.println("currToken: "+currToken);
+			System.out.println("existingToken: "+existingToken);
 			if (session.getAttribute("loginAttempts") == null) {
 				loginAttempts = 0;
 			}
@@ -94,41 +105,37 @@ public class LoginServlet extends HttpServlet {
 				User user = controller.authenticateUser(username, password);
 
 				// we've found a user that matches the credentials
-				System.out.println("User adsfadsf");
 				if (user != null) {
-					System.out.println("User is not null " + user.getUserType());
-					if (user.getUserType() == 4) {
+					if(user.getUserType() == 4){
 						Product p = (Product) session.getAttribute("product");
-						// invalidate current session, then get new session for
-						// our
+						// invalidate current session, then get new session for our
 						// user (combats: session hijacking)
 						session.invalidate();
 						session = request.getSession(true);
 						SecureRandom random = new SecureRandom();
 						session.setAttribute("token", new BigInteger(130, random).toString(32));
 						session.setAttribute("user", user);
-						if (p != null) {
+						if(p != null){
 							session.setAttribute("product", p);
 							url = "product.jsp";
-						} else {
+						}else{
 							url = "index.jsp";
 						}
-					} else if (user.getUserType() == 3) {
+					}else if(user.getUserType() == 3){
 						session.invalidate();
 						session = request.getSession(true);
 						SecureRandom random = new SecureRandom();
 						session.setAttribute("token", new BigInteger(130, random).toString(32));
 						session.setAttribute("user", user);
 						url = "account-manager.jsp";
-					} else if (user.getUserType() == 2) {
+					} else if(user.getUserType() == 2) {
 						session.invalidate();
 						session = request.getSession(true);
 						SecureRandom random = new SecureRandom();
 						session.setAttribute("token", new BigInteger(130, random).toString(32));
 						session.setAttribute("user", user);
 						url = "home_product_manager.jsp";
-					} else if (user.getUserType() == 1) {
-						System.out.println("Usertype = 1");
+					} else if(user.getUserType() == 1) {
 						session.invalidate();
 						session = request.getSession(true);
 						SecureRandom random = new SecureRandom();
@@ -136,28 +143,33 @@ public class LoginServlet extends HttpServlet {
 						session.setAttribute("user", user);
 						url = "admin.jsp";
 					}
-					session.setAttribute("activation-time", System.currentTimeMillis());
-				} else if(user == null){
-					System.out.println("USER IS NULL");
+					session.setAttribute( "activation-time", System.currentTimeMillis() );
+				}
+				// user doesn't exist, redirect to previous page and show error
+				else {
+					System.out.println("LOGOUT ATTEMPTS:"+loginAttempts);
 					String errorMessage = "Error: Unrecognized Username or Password<br>Login attempts remaining: "
 							+ (3 - (loginAttempts));
 					request.setAttribute("errorMessage", errorMessage);
-
+					if(loginAttempts==2){
+						session.setAttribute("loginLockout", System.currentTimeMillis());
+					}
 					// track login attempts (combats: brute force attacks)
 					session.setAttribute("loginAttempts", loginAttempts++);
 					url = "login.jsp";
 				}
 			}
-		} else {
+		}else{
 			System.out.println("not matching token");
-			url = "login.jsp";
+			url="login.jsp";
 		}
 		// forward our request along
-		System.out.println("url: " + url);
+		System.out.println("url: "+url);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 		dispatcher.forward(request, response);
 	}
-
+	
+	
 	public void logout() {
 		session.invalidate();
 	}
