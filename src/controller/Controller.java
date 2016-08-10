@@ -54,10 +54,12 @@ public class Controller {
 	}
 	
 	public ArrayList<Product> getAllProducts(){
+		System.out.println("inside get all products");
 		return productsDao.getAllProducts();
 	}
 	
 	public ArrayList<Product> getProductsviaCategory(int category){
+		System.out.println("inside get products via category");
 		return productsDao.getProductsviaCategory(category);
 	}
 	

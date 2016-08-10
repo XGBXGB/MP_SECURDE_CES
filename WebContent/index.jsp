@@ -144,7 +144,7 @@
                 <input type = "hidden" id = "selectedProduct" name = "selectedProduct" value = "-1">
 				<%
 				Controller c = Controller.getInstance();
-				ArrayList<Product> products;
+				ArrayList<Product> products = new ArrayList<Product>();
 				if(session.getAttribute("clickedCategoryInSingleProducts")!=null){
 					products = c.getProductsviaCategory((Integer)session.getAttribute("clickedCategoryInSingleProducts"));
 					session.removeAttribute("clickedCategoryInSingleProducts");

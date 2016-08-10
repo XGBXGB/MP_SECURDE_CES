@@ -19,7 +19,7 @@ public class UserDAO {
 		dbConnection = DBConnection.getInstance();
 		// controller = Controller.getInstance();
 	}
-	
+
 	public User getUser(int id) {
 		String query = "SELECT * FROM " + User.TABLE_NAME + " WHERE " + User.COLUMN_ID + " = ?;";
 
@@ -81,7 +81,6 @@ public class UserDAO {
 		return null;
 	}
 
-	
 	public User authenticateUser(String username, String password) {
 		String query = "SELECT * FROM " + User.TABLE_NAME + " WHERE " + User.COLUMN_USERNAME + " = ?;";
 
@@ -168,13 +167,12 @@ public class UserDAO {
 		}
 		return true;
 	}
-	
-	public ArrayList<User> getAllUsersForTable(){
-		String query = "SELECT u."+User.COLUMN_USERNAME+", u."+User.COLUMN_LNAME+", u."+User.COLUMN_FNAME+", "
-				+"u."+User.COLUMN_MNAME+", u."+User.COLUMN_TYPE+", u.expiry "
-				+ "FROM " + User.TABLE_NAME + " u "
-				+ "ORDER BY "+User.COLUMN_USERNAME+" ASC ";
-		System.out.println("query: "+query);
+
+	public ArrayList<User> getAllUsersForTable() {
+		String query = "SELECT u." + User.COLUMN_USERNAME + ", u." + User.COLUMN_LNAME + ", u." + User.COLUMN_FNAME
+				+ ", " + "u." + User.COLUMN_MNAME + ", u." + User.COLUMN_TYPE + ", u.expiry " + "FROM "
+				+ User.TABLE_NAME + " u " + "ORDER BY " + User.COLUMN_USERNAME + " ASC ";
+		System.out.println("query: " + query);
 		Connection connection = dbConnection.getConnection();
 		PreparedStatement pstmt = null;
 		try {
@@ -183,12 +181,12 @@ public class UserDAO {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+
 		ArrayList<User> users = new ArrayList<User>();
 		try {
 			ResultSet rs = pstmt.executeQuery();
-			while(rs.next()){
-				
+			while (rs.next()) {
+
 				User u = new User();
 				u.setUsername(rs.getString(User.COLUMN_USERNAME));
 				u.setLastName(rs.getString(User.COLUMN_LNAME));
@@ -207,28 +205,27 @@ public class UserDAO {
 	}
 
 	public void addUser(User user) {
-		
+
 		String query = "";
-		if(user.getUserType() == 4)
-		{
+		if (user.getUserType() == 4) {
 			query = "INSERT INTO " + User.TABLE_NAME + " " + " (" + User.COLUMN_USERNAME + "," + User.COLUMN_PASSWORD
-					+ "," + User.COLUMN_LNAME + "," + User.COLUMN_FNAME + "," + User.COLUMN_MNAME + "," + User.COLUMN_EMAIL
-					+ "," + User.COLUMN_BILLING + "," + User.COLUMN_SHIPPING + "," + User.COLUMN_TYPE + ") " + " VALUES ('"
-					+ user.getUsername() + "', '" + user.getpassword() + "', '" + user.getLastName() + "', '"
-					+ user.getFirstName() + "', '" + user.getMiddleName() + "', '" + user.getEmail() + "', "
-					+ user.getBillingAddressId() + ", " + user.getShippingAddressId() + ", " + user.getUserType() + ");";
-		}
-		else
-		{
+					+ "," + User.COLUMN_LNAME + "," + User.COLUMN_FNAME + "," + User.COLUMN_MNAME + ","
+					+ User.COLUMN_EMAIL + "," + User.COLUMN_BILLING + "," + User.COLUMN_SHIPPING + ","
+					+ User.COLUMN_TYPE + ") " + " VALUES ('" + user.getUsername() + "', '" + user.getpassword() + "', '"
+					+ user.getLastName() + "', '" + user.getFirstName() + "', '" + user.getMiddleName() + "', '"
+					+ user.getEmail() + "', " + user.getBillingAddressId() + ", " + user.getShippingAddressId() + ", "
+					+ user.getUserType() + ");";
+		} else {
 			query = "INSERT INTO " + User.TABLE_NAME + " " + " (" + User.COLUMN_USERNAME + "," + User.COLUMN_PASSWORD
-					+ "," + User.COLUMN_LNAME + "," + User.COLUMN_FNAME + "," + User.COLUMN_MNAME + "," + User.COLUMN_EMAIL
-					+ "," + User.COLUMN_BILLING + "," + User.COLUMN_SHIPPING + "," + User.COLUMN_TYPE + "," + User.COLUMN_EXPIRY+") " + " VALUES ('"
-					+ user.getUsername() + "', '" + user.getpassword() + "', '" + user.getLastName() + "', '"
-					+ user.getFirstName() + "', '" + user.getMiddleName() + "', '" + user.getEmail() + "', "
-					+ user.getBillingAddressId() + ", " + user.getShippingAddressId() + ", " + user.getUserType() + ", NOW() + INTERVAL 1 DAY);";
+					+ "," + User.COLUMN_LNAME + "," + User.COLUMN_FNAME + "," + User.COLUMN_MNAME + ","
+					+ User.COLUMN_EMAIL + "," + User.COLUMN_BILLING + "," + User.COLUMN_SHIPPING + ","
+					+ User.COLUMN_TYPE + "," + User.COLUMN_EXPIRY + ") " + " VALUES ('" + user.getUsername() + "', '"
+					+ user.getpassword() + "', '" + user.getLastName() + "', '" + user.getFirstName() + "', '"
+					+ user.getMiddleName() + "', '" + user.getEmail() + "', " + user.getBillingAddressId() + ", "
+					+ user.getShippingAddressId() + ", " + user.getUserType() + ", NOW() + INTERVAL 1 DAY);";
 
 		}
-		
+
 		System.out.println("QUERY: " + query);
 		Connection connection = dbConnection.getConnection();
 		PreparedStatement pstmt = null;
@@ -240,11 +237,10 @@ public class UserDAO {
 			e2.printStackTrace();
 		}
 	}
-	
-	public void checkExpired()
-	{
+
+	public void checkExpired() {
 		String query = "DELETE FROM " + User.TABLE_NAME + " WHERE Now() > expiry";
-		
+
 		System.out.println("QUERY: " + query);
 		Connection connection = dbConnection.getConnection();
 		PreparedStatement pstmt = null;

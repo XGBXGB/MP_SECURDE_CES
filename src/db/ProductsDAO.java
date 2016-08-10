@@ -48,7 +48,10 @@ public class ProductsDAO {
 	public void deleteProduct(String productId) {
 		// TODO Auto-generated method stub
 		System.out.println("Deleted " + productId);
-		String query = "DELETE FROM " + Product.TABLE_NAME + " WHERE " + Product.COLUMN_ID +  " = ?";
+		String query = "UPDATE " + Product.TABLE_NAME
+				+ " SET "
+					+ Product.COLUMN_STATUS +  " = 0 "
+				+ "WHERE " + Product.COLUMN_ID + " = ?";
 
 		System.out.println("QUERY: " + query);
 		Connection connection = dbConnection.getConnection();
@@ -113,6 +116,7 @@ public class ProductsDAO {
 				p.setDescription(rs.getString(Product.COLUMN_DESC));
 				p.setPrice(rs.getDouble(Product.COLUMN_PRICE));
 				p.setCategoryId(rs.getInt(Product.COLUMN_CAT));
+				p.setStatus(rs.getBoolean(Product.COLUMN_STATUS));
 				return p;
 			}
 		} catch (SQLException e) {
@@ -144,6 +148,7 @@ public class ProductsDAO {
 				p.setDescription(rs.getString(Product.COLUMN_DESC));
 				p.setPrice(rs.getDouble(Product.COLUMN_PRICE));
 				p.setCategoryId(rs.getInt(Product.COLUMN_CAT));
+				p.setStatus(rs.getBoolean(Product.COLUMN_STATUS));
 				return p;
 			}
 		} catch (SQLException e) {
@@ -154,7 +159,7 @@ public class ProductsDAO {
 	}
 	
 	public ArrayList<Product> getProductsviaCategory(int category) {
-		String query = "SELECT * FROM " + Product.TABLE_NAME + " WHERE " + Product.COLUMN_CAT + " = ? ";
+		String query = "SELECT * FROM " + Product.TABLE_NAME + " WHERE " + Product.COLUMN_CAT + " = ? AND " + Product.COLUMN_STATUS + " = 1";
 				
 		Connection connection = dbConnection.getConnection();
 		PreparedStatement pstmt = null;
@@ -269,7 +274,7 @@ public class ProductsDAO {
 	}
 	
 	public ArrayList<Product> getProductsByName(String name) {
-		String query = "SELECT * FROM " + Product.TABLE_NAME + " WHERE " + Product.COLUMN_NAME + " LIKE ? ";
+		String query = "SELECT * FROM " + Product.TABLE_NAME + " WHERE " + Product.COLUMN_NAME + " LIKE ?  AND " + Product.COLUMN_STATUS + " = 1";
 		System.out.println("PRODNAME: "+name);
 		Connection connection = dbConnection.getConnection();
 		PreparedStatement pstmt = null;
@@ -304,7 +309,7 @@ public class ProductsDAO {
 	}
 	
 	public ArrayList<Product> getAllProducts() {
-		String query = "SELECT * FROM " + Product.TABLE_NAME + " ORDER BY "+Product.COLUMN_NAME+" ASC";
+		String query = "SELECT * FROM " + Product.TABLE_NAME + " WHERE " + Product.COLUMN_STATUS + " = 1 ORDER BY "+Product.COLUMN_NAME+" ASC";
 				
 		Connection connection = dbConnection.getConnection();
 		PreparedStatement pstmt = null;
@@ -325,6 +330,7 @@ public class ProductsDAO {
 				p.setDescription(rs.getString(Product.COLUMN_DESC));
 				p.setPrice(rs.getDouble(Product.COLUMN_PRICE));
 				p.setCategoryId(rs.getInt(Product.COLUMN_CAT));
+				p.setStatus(rs.getBoolean(Product.COLUMN_STATUS));
 				products.add(p);
 			}
 			return products;
@@ -332,7 +338,7 @@ public class ProductsDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		return products;
 	}
 	
 	public ArrayList<Product> getProductsviaPriceRange(double minimum, double maximum) {

@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-		 xmlns="http://java.sun.com/xml/ns/javaee"
-		 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" 
-		 version="3.0">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
   <display-name>SECURDE_MP</display-name>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
@@ -12,16 +9,13 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  
   <session-config>
-	<cookie-config>
-  		<http-only>true</http-only>
-		<secure>true</secure>
-  	</cookie-config>
-  	<tracking-mode>COOKIE</tracking-mode>
+    <cookie-config>
+      <http-only>true</http-only>
+      <secure>true</secure>
+    </cookie-config>
+    <tracking-mode>COOKIE</tracking-mode>
   </session-config>
-  
-  
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>Restricted URLs</web-resource-name>
@@ -31,67 +25,58 @@
       <transport-guarantee>CONFIDENTIAL</transport-guarantee>
     </user-data-constraint>
   </security-constraint>
-  
-  	<filter>
-	    <filter-name>SessionFilterATimeout</filter-name>
-	    <filter-class>model.SessionFilterATimeout</filter-class>
-	    <init-param>
-	        <param-name>max-period</param-name>
-	        <param-value>60000</param-value>
-	    </init-param>
-	</filter>
-	<filter-mapping>
-	    <filter-name>SessionFilterATimeout</filter-name>
-	    <url-pattern>/*</url-pattern>
-	</filter-mapping>
-  
-	<filter>
-	   <filter-name>SessionCheckAccountMngr</filter-name>
-	   <filter-class>model.SessionCheckAccountMngr</filter-class>
-	</filter>
-	<filter-mapping>
-	  <filter-name>SessionCheckAccountMngr</filter-name>
-	  <url-pattern>/account-manager.jsp</url-pattern>
-	</filter-mapping>
-	
-	<filter>
-	   <filter-name>SessionCheckCustomer</filter-name>
-	   <filter-class>model.SessionCheckCustomer</filter-class>
-	</filter>
-	<filter-mapping>
-	  <filter-name>SessionCheckCustomer</filter-name>
-	  <url-pattern>/index.jsp</url-pattern>
-	  <url-pattern>/product.jsp</url-pattern>
-	</filter-mapping>
-	
-	<filter>
-	   <filter-name>SessionCheckAdmin</filter-name>
-	   <filter-class>model.SessionCheckAdmin</filter-class>
-	</filter>
-	<filter-mapping>
-	  <filter-name>SessionCheckAdmin</filter-name>
-	  <url-pattern>/admin.jsp</url-pattern>
-	  <url-pattern>/admincreate.jsp</url-pattern>
-	</filter-mapping>
-	
-	<filter>
-	   <filter-name>SessionCheckProductMngr</filter-name>
-	   <filter-class>model.SessionCheckProductMngr</filter-class>
-	</filter>
-	<filter-mapping>
-	  <filter-name>SessionCheckProductMngr</filter-name>
-	  <url-pattern>/home_product_manager.jsp</url-pattern>
-	</filter-mapping>
-  
-  	<filter>
-	   <filter-name>SessionCheckXFrame</filter-name>
-	   <filter-class>model.SessionCheckXFrame</filter-class>
-	</filter>
-	<filter-mapping>
-	  <filter-name>SessionCheckXFrame</filter-name>
-	  <url-pattern>/*</url-pattern>
-	</filter-mapping>
-	
-  
-  
+  <filter>
+    <filter-name>SessionFilterATimeout</filter-name>
+    <filter-class>model.SessionFilterATimeout</filter-class>
+    <init-param>
+      <param-name>max-period</param-name>
+      <param-value>60000</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>SessionFilterATimeout</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>SessionCheckAccountMngr</filter-name>
+    <filter-class>model.SessionCheckAccountMngr</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>SessionCheckAccountMngr</filter-name>
+    <url-pattern>/account-manager.jsp</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>SessionCheckCustomer</filter-name>
+    <filter-class>model.SessionCheckCustomer</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>SessionCheckCustomer</filter-name>
+    <url-pattern>/index.jsp</url-pattern>
+    <url-pattern>/product.jsp</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>SessionCheckAdmin</filter-name>
+    <filter-class>model.SessionCheckAdmin</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>SessionCheckAdmin</filter-name>
+    <url-pattern>/admin.jsp</url-pattern>
+    <url-pattern>/admincreate.jsp</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>SessionCheckProductMngr</filter-name>
+    <filter-class>model.SessionCheckProductMngr</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>SessionCheckProductMngr</filter-name>
+    <url-pattern>/home_product_manager.jsp</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>SessionCheckXFrame</filter-name>
+    <filter-class>model.SessionCheckXFrame</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>SessionCheckXFrame</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 </web-app>
