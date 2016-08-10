@@ -12,8 +12,6 @@
 </head>
 
 <body>
-	<%SecureRandom random = new SecureRandom();
-	session.setAttribute("token", new BigInteger(130, random).toString(32)); %>
 	
 	<div class="container">
 		<div id="loginbox" style="margin-top: 50px;"
