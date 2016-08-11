@@ -56,7 +56,7 @@
 		</div>
 		<ul class="nav navbar-nav navbar-right">
 			<li><a href="#"><span class="glyphicon glyphicon-user"></span>
-					Hello Account Manager <%=u.getFirstName()%>!</a>
+					Hello <%=u.getFirstName()%>!</a>
 			</li>
 			<li>
 				<form action="LoginServlet" method="GET">
@@ -72,8 +72,7 @@
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
 				<li><a href="#">About</a></li>
-				<li><a href="#">Services</a></li>
-				<li><a href="#">Contact</a></li>
+				<li><a href="changepass.jsp">Change Password</a></li>
 			</ul>
 		</div>
 		<!-- /.navbar-collapse -->

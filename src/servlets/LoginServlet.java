@@ -50,6 +50,7 @@ public class LoginServlet extends HttpServlet {
 
 			// logout and redirect to frontpage
 			logout();
+			request.getSession().setAttribute("token", new BigInteger(130, new SecureRandom()).toString(32));
 			url = "index.jsp";
 		}
 

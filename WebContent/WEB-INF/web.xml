@@ -63,6 +63,17 @@
     <url-pattern>/admin.jsp</url-pattern>
     <url-pattern>/admincreate.jsp</url-pattern>
   </filter-mapping>
+  
+  
+  <filter>
+    <filter-name>SessionCheckPassword</filter-name>
+    <filter-class>model.SessionCheckPassword</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>SessionCheckPassword</filter-name>
+    <url-pattern>/changepass.jsp</url-pattern>
+  </filter-mapping>
+  
   <filter>
     <filter-name>SessionCheckProductMngr</filter-name>
     <filter-class>model.SessionCheckProductMngr</filter-class>

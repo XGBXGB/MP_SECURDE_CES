@@ -215,13 +215,20 @@
                 <a class="navbar-brand" href="home_product_manager.jsp">Start Bootstrap</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-user"></span> Hello !</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-user"></span> Hello <%=u.getFirstName()%>!</a></li>
 			    <li>
 	                <form action="LoginServlet" method="GET">
 	                	<button type="submit" name="logout" style="margin-top:14px;background-color:transparent;color:#9d9d9d;border:none"><span class="glyphicon glyphicon-log-out"></span>Logout</button>
 	                </form>
                 </li>
 		    </ul>
+		    <div class="collapse navbar-collapse"
+			id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li><a href="#">About</a></li>
+					<li><a href="changepass.jsp">Change Password</a></li>
+				</ul>
+			</div>
         </div>
         <!-- /.container -->
     </nav>
