@@ -69,45 +69,35 @@
 	            </div>
 	            
 	                
-	            <form class="form-horizontal">
+	            <form id="addProdForm" class="form-horizontal" data-toggle="validator" role="form">
 	            <!-- Modal Body -->
 		            <div class="modal-body">
-	                	<div class="form-group">
-	                    	<label  class="col-sm-2 control-label"
+		            <label  class="col-sm-2 control-label"
 	                              for="addProductName">Product Name</label>
-	                    	<div class="col-sm-10">
-	                        	<input type="text" class="form-control" id="addProductName" placeholder="Name"/>
-	                    	</div>
+	                	<div class="form-group col-sm-10">
+	                        	<input type="text" pattern="^[ A-z]{1,}$" class="form-control" id="addProductName" placeholder="Name" required/>
 	                  	</div>
-	                  	<div class="form-group">
-	                    	<label class="col-sm-2 control-label" for="addCategory" >Category</label>
-	                    	<div class="col-sm-10">
+	                  	<label class="col-sm-2 control-label" for="addCategory" >Category</label>
+	                  	<div class="form-group col-sm-10">
 	                        	<select id="addCategory" class="form-control">
 	                        		<option value="1">Boots</option>
 	                        		<option value="2">Shoes</option>
 	                        		<option value="3">Sandals</option>
 	                        		<option value="4">Slippers</option>
 	                        	</select>
-	                    	</div>
 	                  	</div>
-	                	<div class="form-group">
-	                    	<label  class="col-sm-2 control-label"
+	                  	<label  class="col-sm-2 control-label"
 	                              for="addPrice">Price</label>
-	                    	<div class="col-sm-10">
-	                        	<input type="number" class="form-control" id="addPrice"/>
-	                    	</div>
+	                	<div class="form-group col-sm-10">	                    	
+	                        	<input type="text" pattern="[0-9]+(.[0-9]+)?" class="form-control" id="addPrice" required/>
 	                  	</div>
-	                  	
-	                  	<div class="form-group">
-  							<label for="addDescription" class="col-sm-2 control-label" >Description:</label>
-	                    	<div class="col-sm-10">
-  								<textarea class="form-control" rows="5" id="addDescription"></textarea>
-  							</div>
+	                  	<label for="addDescription" class="col-sm-2 control-label" >Description:</label>
+	                  	<div class="form-group col-sm-10">
+  							<input style="height:100px !important" type="text" pattern="^[,.!; A-z]{1,}$" class="form-control" rows="5" id="addDescription" required/>
 						</div>
-	                  	<div class="form-group">
-		                  	<label class="col-sm-2 control-label"
+						<label class="col-sm-2 control-label"
 		                              for="addImage">Image</label>
-		                              <div class="col-sm-10">
+	                  	<div class="form-group col-sm-10">
 		                  	<div id="addImage" class="input-group image-preview">
 				                <input id="addImagePath" type="text" class="form-control image-preview-filename" disabled="disabled"> <!-- don't give a name === doesn't send on POST/GET -->
 				                <span class="input-group-btn">
@@ -123,13 +113,13 @@
 				                    </div>
 				                </span>
 	            			</div>
-	            			</div>
 	           			</div>
 		            </div>
 		            <!-- Modal Footer -->
-		            <div class="modal-footer">
-		                <button type="button" class="btn btn-default" data-dismiss="modal"> Cancel </button>
-		                <button id="addButton" type="submit" class="btn btn-success" data-dismiss="modal"> Add </button>
+		            <button type="button" class="btn btn-default" data-dismiss="modal"> Cancel </button>
+		            <div class="form-group">
+		                
+		                <button id="addButton" type="submit" class="btn btn-success"> Add </button>
 		            </div>
 	            
 	            </form>
@@ -154,66 +144,55 @@
 	            </div>
 	            
 	                
-	            <form class="form-horizontal" role="form">
+	            <form id="editProdForm" class="form-horizontal" data-toggle="validator" role="form">
 	            <!-- Modal Body -->
 		            <div class="modal-body">
-	                	<div class="form-group">
-	                    	<label  class="col-sm-2 control-label"
-	                              for="editProductName">Product Name</label>
-	                    	<div class="col-sm-10">
-	                        	<input type="text" class="form-control" id="editProductName" placeholder="Name"/>
-	                    	</div>
-	                  	</div>
-	                  	<div class="form-group">
-	                    	<label class="col-sm-2 control-label" for="editCategory" >Category</label>
-	                    	<div class="col-sm-10">
-	                        	<select id="editCategory" class="form-control">
-	                        		<option value="1">Boots</option>
-	                        		<option value="2">Shoes</option>
-	                        		<option value="3">Sandals</option>
-	                        		<option value="4">Slippers</option>
-	                        	</select>
-	                    	</div>
-	                  	</div>
-	                	<div class="form-group">
-	                    	<label  class="col-sm-2 control-label"
-	                              for="editPrice">Price</label>
-	                    	<div class="col-sm-10">
-	                        	<input type="number" class="form-control" id="editPrice"/>
-	                    	</div>
-	                  	</div>
-	                  	<div class="form-group">
-  							<label for="editDescription" class="col-sm-2 control-label" >Description:</label>
-	                    	<div class="col-sm-10">
-  								<textarea class="form-control" rows="5" id="editDescription"></textarea>
-  							</div>
-						</div>
-	                  	<div class="form-group">
-		                  	<label class="col-sm-2 control-label"
-		                              for="editImage">Image</label>
-		                              <div class="col-sm-10">
-		                  	<div id="editImage" class="input-group image-preview">
-				                <input id="editImagePath" type="text" class="form-control image-preview-filename" disabled="disabled"> <!-- don't give a name === doesn't send on POST/GET -->
-				                <span class="input-group-btn">
-				                    <!-- image-preview-clear button -->
-				                    <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
-				                        <span class="glyphicon glyphicon-remove"></span> Clear
-				                    </button>
-				                    <!-- image-preview-input -->
-				                    <div class="btn btn-default image-preview-input">
-				                        <span class="glyphicon glyphicon-folder-open"></span>
-				                        <span class="image-preview-input-title">Browse</span>
-				                        <input type="file" accept="image/png, image/jpeg, image/gif" name="input-file-preview"/> <!-- rename it -->
-				                    </div>
-				                </span>
-	            			</div>
-	            			</div>
-	           			</div>
+		            <label class="col-sm-2 control-label" for="editProductName">Product Name</label>
+                	<div class="form-group col-sm-10">
+                        <input pattern="^[ A-z]{1,}$" type="text" class="form-control" id="editProductName" placeholder="Name" required/>
+                  	</div>
+                  	<label class="col-sm-2 control-label" for="editCategory" >Category</label>
+                  	<div class="form-group col-sm-10">
+                        	<select id="editCategory" class="form-control">
+                        		<option value="1">Boots</option>
+                        		<option value="2">Shoes</option>
+                        		<option value="3">Sandals</option>
+                        		<option value="4">Slippers</option>
+                        	</select>
+                  	</div>
+                  	<label  class="col-sm-2 control-label"
+                              for="editPrice">Price</label>
+                	<div class="form-group col-sm-10">
+                        	<input type="text" pattern="[0-9]+(.[0-9]+)?" class="form-control" id="editPrice" required/>
+                  	</div>
+                  	<label for="editDescription" class="col-sm-2 control-label" >Description:</label>
+                  	<div class="form-group col-sm-10">
+						<input style="height:100px !important" type="text" pattern="^[,.!; A-z]{1,}$" class="form-control" rows="5" id="editDescription" required/>
+					</div>
+					<label class="col-sm-2 control-label" for="editImage">Image</label>
+                  	<div class="form-group col-sm-10">
+	                  	<div id="editImage" class="input-group image-preview">
+			                <input id="editImagePath" type="text" class="form-control image-preview-filename" disabled="disabled"> <!-- don't give a name === doesn't send on POST/GET -->
+			                <span class="input-group-btn">
+			                    <!-- image-preview-clear button -->
+			                    <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
+			                        <span class="glyphicon glyphicon-remove"></span> Clear
+			                    </button>
+			                    <!-- image-preview-input -->
+			                    <div class="btn btn-default image-preview-input">
+			                        <span class="glyphicon glyphicon-folder-open"></span>
+			                        <span class="image-preview-input-title">Browse</span>
+			                        <input type="file" accept="image/png, image/jpeg, image/gif" name="input-file-preview"/> <!-- rename it -->
+			                    </div>
+			                </span>
+            			</div>
+           			</div>
 		            </div>
 		            <!-- Modal Footer -->
-		            <div class="modal-footer">
-		                <button type="button" class="btn btn-default" data-dismiss="modal"> Cancel </button>
-		                <button id="editButton" class="btn btn-primary" data-dismiss="modal"> Save Changes </button>
+		            <button type="button" class="btn btn-default" data-dismiss="modal"> Cancel </button>
+		            <div class="form-group">
+		                
+		                <button id="editButton" class="btn btn-primary"> Save Changes </button>
 		            </div>
 	            
 	            </form>
@@ -233,10 +212,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Start Bootstrap</a>
+                <a class="navbar-brand" href="home_product_manager.jsp">Start Bootstrap</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-user"></span> Hello <%=u.getFirstName()%>!</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-user"></span> Hello !</a></li>
 			    <li>
 	                <form action="LoginServlet" method="GET">
 	                	<button type="submit" name="logout" style="margin-top:14px;background-color:transparent;color:#9d9d9d;border:none"><span class="glyphicon glyphicon-log-out"></span>Logout</button>
@@ -293,36 +272,68 @@
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
-
+	<script src="js/validator.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
     <a href="" data-toggle="modal" data-target="#addModal" class="float">+</a>
     
     <script>
-    $(document).on('click', "#addButton", function(){
-    	var name = $("#addProductName").val();
-    	var categoryId = $("#addCategory").val();
-    	var price = $("#addPrice").val();
-    	var description = $("#addDescription").val();
-    	var imagePath = $("#addImagePath").val();
-    	
-    	$.post('AddProductServlet', { name: name, categoryId: categoryId, price: price, description: description, imagePath: imagePath}, function() {
-    		loadProducts(-1);
+    $('#addProdForm').validator().on('submit', function (e) {
+    	  if (e.isDefaultPrevented()) {
+    		  alert("prevented");
+    	    // handle the invalid form...
+    	  } else {
+    		  var name = $("#addProductName").val();
+    	    	var categoryId = $("#addCategory").val();
+    	    	var price = $("#addPrice").val();
+    	    	var description = $("#addDescription").val();
+    	    	var imagePath = $("#addImagePath").val();
+    	    	
+    	    	$.post('AddProductServlet', { name: name, categoryId: categoryId, price: price, description: description, imagePath: imagePath}, function(response) {
+    	    		if(response == "ok"){
+    	    			loadProducts(-1);
+    	    			$('#addModal').modal('hide');
+    	    		}else if(response == "syntax error"){
+    	    			alert('Double check input format in fields!');
+    	    		}else{
+    	    			alert('Session Expired! Please try logging in again.');
+    	    			$(location).attr('href',"index.jsp");
+    	    		}
+    	    			
+    	    	});
+    	  }
+    	  e.preventDefault();
     	});
-    });
     
-    $(document).on('click', "#editButton", function(){
-    	var id = $("#editId").val();
-    	var name = $("#editProductName").val();
-    	var categoryId = $("#editCategory").val();
-    	var price = $("#editPrice").val();
-    	var description = $("#editDescription").val();
-    	var imagePath = $("#editImagePath").val();
-    	
-    	$.post('EditProductServlet', { id: id, name: name, categoryId: categoryId, price: price, description: description, imagePath: imagePath}, function() {
-    		loadProducts(-1);
+    $('#editProdForm').validator().on('submit', function (e) {
+    	  if (e.isDefaultPrevented()) {
+    	    // handle the invalid form...
+    	    alert("prevented");
+    	  } else {
+    		  var id = $("#editId").val();
+    	    	var name = $("#editProductName").val();
+    	    	var categoryId = $("#editCategory").val();
+    	    	var price = $("#editPrice").val();
+    	    	var description = $("#editDescription").val();
+    	    	var imagePath = $("#editImagePath").val();
+    	    	
+    	    	$.post('EditProductServlet', { id: id, name: name, categoryId: categoryId, price: price, description: description, imagePath: imagePath}, function(response) {
+    	    		if(response == "ok"){
+    	    			loadProducts(-1);
+    	    			$('#editModal').modal('hide');
+    	    		}else if(response == "syntax error"){
+    	    			alert('Double check input format in fields!');
+    	    		}else{
+    	    			alert('Session Expired! Please try logging in again.');
+    	    			$(location).attr('href',"index.jsp");
+    	    		}
+    	    	});
+    	  }
+    	  e.preventDefault();
     	});
-    });
+    
+    
+    
     
     $(document).on('click', '#close-preview', function(){ 
         $('.image-preview').popover('hide');

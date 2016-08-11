@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,23 +40,36 @@ public class EditProductServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		Controller c = Controller.getInstance();
-		
-		String productId = request.getParameter("id");
-		String name = request.getParameter("name");
-		String categoryId = request.getParameter("categoryId");
-		String price = request.getParameter("price");
-		String description = request.getParameter("description");
-		String imagePath = request.getParameter("imagePath");
-		
-		Product p = new Product();
-		p.setId(Integer.parseInt(productId));
-		p.setName(name);
-		p.setCategoryId(Integer.parseInt(categoryId));
-		p.setDescription(description);
-		p.setPrice(Double.parseDouble(price));
-		
-		c.editProduct(p);
+		if(request.getSession().getAttribute("user")==null){
+			response.getWriter().print("timeout");
+		}else{
+			Controller c = Controller.getInstance();
+			
+			String productId = request.getParameter("id");
+			String name = request.getParameter("name");
+			String categoryId = request.getParameter("categoryId");
+			String price = request.getParameter("price");
+			String description = request.getParameter("description");
+			String imagePath = request.getParameter("imagePath");
+			
+			Pattern nameP = Pattern.compile("^[ A-z]{1,}$");
+			Pattern priceP = Pattern.compile("[0-9]+(.[0-9]+)?");
+			Pattern descP = Pattern.compile("^[,.!; A-z]{1,}$");
+			if (!(nameP.matcher(name).matches() && priceP.matcher(price).matches()
+					&& descP.matcher(description).matches())) {
+				response.getWriter().print("syntax error");
+			}else{
+				Product p = new Product();
+				p.setId(Integer.parseInt(productId));
+				p.setName(name);
+				p.setCategoryId(Integer.parseInt(categoryId));
+				p.setDescription(description);
+				p.setPrice(Double.parseDouble(price));
+				
+				c.editProduct(p);
+				response.getWriter().print("ok");
+			}
+		}
 	}
 
 }
