@@ -73,6 +73,82 @@
 	<!-- Page Content -->
 	<div class="container">
 
+		<div id="confirmationModal" class="modal fade my-modal">
+            <div class="modal-dialog my-modal-dialog">
+                <div class="modal-content my-modal-content">
+                    <div class="modal-header my-modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h2 class="modal-title">Confirmation</h2>
+                    </div>
+                    <div class="modal-body my-modal-body">
+                    	<!--form id="BuyProductForm" class="form-horizontal" data-toggle="validator" role="form" action="ProductServlet" method="post"-->
+                    	<input type = "hidden" name = "wasbought" id = "wasbought" value = "false">
+                        <div class="col-xs-12">
+                            <p><h2>Are you sure you want to add this User?</h2></p>
+                            <p><h5>Please place your password below to confirm.</h5></p>
+                            <div class="form-group">
+							<input pattern="^[_A-z0-9]{1,}$" id="passwd" type="password" class="form-control" name="password"
+								placeholder="Enter password" required>
+							<div class="help-block with-errors"></div>
+							</div>
+                            <br>
+                       </div>
+                        <div class="form-group clearfloat"></div>
+                        <div class="floatright">
+                            <button type="button" class="btn" onclick="setConfirmation(true);">Yes</button>
+                            <button type="button" class="btn" onclick="setConfirmation(false);"data-dismiss="modal">No</button>    
+                        </div>
+                        <div class="clearfloat"></div>
+                        <!-- /form-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		<div id="SuccessCreatingModal" class="modal fade my-modal">
+            <div class="modal-dialog my-modal-dialog">
+                <div class="modal-content my-modal-content">
+                    <div class="modal-header my-modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h2 class="modal-title">SUCCESS!</h2>
+                    </div>
+                    <div class="modal-body my-modal-body">
+                        <div class="col-xs-12">
+                            <p><h2>You have successfully created the user!</h2></p>
+                            <p><h5>Please remind the user to change his/her password within 24 hours.</h5></p>
+                        </div>
+                        <div class="clearfloat"></div>
+                        <div class="clearfloat"></div>
+                        <div class="floatright">
+                            <button type="button" class="btn" onclick = "Yehey();" data-dismiss="modal">Okay</button>    
+                        </div>
+                        <div class="clearfloat"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+		<div id="FailCreatingModal" class="modal fade my-modal">
+            <div class="modal-dialog my-modal-dialog">
+                <div class="modal-content my-modal-content">
+                    <div class="modal-header my-modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h2 class="modal-title">FAIL! YOU ENTERED THE WRONG PASSWORD!</h2>
+                    </div>
+                    <div class="modal-body my-modal-body">
+                        <div class="form-group clearfloat"></div>
+                        <div class="floatright">
+                            <button type="button" class="btn" onclick="Retry();">Try Again</button>
+                            <button type="button" class="btn" data-dismiss="modal">Cancel</button>    
+                        </div>
+						<div class="clearfloat"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
 		<div class="row">
 
 			<div class="col-md-3">
@@ -87,9 +163,9 @@
 
 				<!-- -->
 				<div class="panel-body">
-					<form id="signupform" class="form-horizontal"
+					<!-- form id="signupform" class="form-horizontal"
 						data-toggle="validator" role="form" action="CreateAccountServlet"
-						method="post">
+						method="post"-->
 						<label class="col-md-3 control-label" for="sel1">Account
 							Type</label>
 						<div class="form-group col-md-9">
@@ -102,55 +178,57 @@
 						<label class="col-md-3 control-label" for="firstname">Name</label>
 						<div class="form-group col-md-4">
 							<input pattern="^[ A-z]{1,}$" type="text" class="form-control"
-								name="firstname" placeholder="First Name" required>
+								name="firstname" id="firstname" placeholder="First Name" required>
 						</div>
 						<div class="form-group col-md-2">
 							<input maxlegnth="1" pattern="[A-z]" type="text"
-								class="form-control" name="middleinitial" placeholder="M.I."
+								class="form-control" name="middleinitial" id="middleinitial" placeholder="M.I."
 								required>
 						</div>
 						<div class="form-group col-md-3">
 							<input pattern="^[ A-z]{1,}$" type="text" class="form-control"
-								name="lastname" placeholder="Last Name" required>
+								name="lastname" id="lastname" placeholder="Last Name" required>
 						</div>
 
 
 						<label for="username" class="col-md-3 control-label">Username</label>
 						<div class="form-group col-md-9">
 							<input data-minlength="6" pattern="^[_A-z0-9]{1,}$" type="text"
-								class="form-control" name="username"
+								class="form-control" name="username" id= "username"
 								placeholder="Minimum of 6 characters. Composed of numbers, letters and _"
 								required>
 							<div class="help-block with-errors"></div>
 						</div>
 						<label for="password" class="col-md-3 control-label">Password</label>
 						<div class="form-group col-md-9">
-							<input pattern="^[_A-z0-9]{1,}$" data-minlength="6" id="passwd"
-								type="password" class="form-control" name="password"
+							<input pattern="^[_A-z0-9]{1,}$" data-minlength="6" id="pw"
+								type="password" class="form-control" name="pw"
 								placeholder="Minimum of 6 characters" required>
 							<div class="help-block with-errors"></div>
 						</div>
 						<label for="password" class="col-md-3 control-label">Confirm
 							Pass</label>
 						<div class="form-group col-md-9">
-							<input data-match="#passwd" type="password" class="form-control"
-								name="confirmpassword" placeholder="Match input with password"
+							<input type="password" class="form-control"
+								name="confirmpassword" id = "confirmpassword" placeholder="Match input with password"
 								required>
 							<div class="help-block with-errors"
 								style="margin: 0 !important; padding: 0 !important"></div>
 						</div>
 						<div class="form-group">
 							<div class="col-md-offset-5 col-md-3">
-								<a onclick="$(this).closest('form').submit()" id="btn-signup"
+								<!-- a onclick="$(this).closest('form').submit()" id="btn-signup"
+									href="#" class="btn btn-info"> <i class="icon-hand-right"></i>
+									Create User
+								</a-->
+								<a onclick="checkAdd();" id="btn-signup"
 									href="#" class="btn btn-info"> <i class="icon-hand-right"></i>
 									Create User
 								</a>
 							</div>
 						</div>
 
-
-
-					</form>
+					<!--/form-->
 				</div>
 			</div>
 
@@ -218,6 +296,49 @@
 				}
 			});
 		}
+		
+		function checkAdd()
+		{
+			$('#confirmationModal').modal('show');
+			return false;
+		}
+		
+		function setConfirmation(retValue)
+		{
+			$('#confirmationModal').modal("hide");
+			if(retValue)
+			{	
+				$.post('CreateAccountServlet', {password:document.getElementById("passwd").value,
+					firstname:document.getElementById("firstname").value,
+					middleinitial: document.getElementById("middleinitial").value,
+					lastname: document.getElementById("lastname").value,
+					username: document.getElementById("username").value,
+					pw:document.getElementById("pw").value,
+					userType: document.getElementById("sel1").value}, function(data){
+					if(data == "true")
+					{
+						$('#SuccessCreatingModal').modal("show");
+					}
+					else
+					{
+						$('#FailCreatingModal').modal("show");
+					}
+				});
+			}
+			
+		}
+		function Retry()
+		{
+			$('#FailCreatingModal').modal("hide");
+			$('#confirmationModal').modal("show");
+		}
+		
+		function Yehey()
+		{
+			window.location.replace("admincreate.jsp");
+		}
+		
+		
 	</script>
 
 

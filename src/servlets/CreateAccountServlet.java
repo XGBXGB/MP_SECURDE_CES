@@ -47,6 +47,9 @@ public class CreateAccountServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		System.out.println("IN POST CREATE ACCOUNT");
+		
 		if (request.getSession().getAttribute("user") == null) {
 			PrintWriter out = response.getWriter();
 			out.println("<script type=\"text/javascript\">");
@@ -54,58 +57,74 @@ public class CreateAccountServlet extends HttpServlet {
 			out.println("location='index.jsp';");
 			out.println("</script>");
 		} else {
-			String fName = request.getParameter("firstname");
-			String mInitial = request.getParameter("middleinitial");
-			String lName = request.getParameter("lastname");
+			
+			Controller con = new Controller();
+			if(con.authenticateUser(((User)request.getSession().getAttribute("user")).getUsername(), request.getParameter("password"))!= null)
+			{	
+				String fName = request.getParameter("firstname");
+				String mInitial = request.getParameter("middleinitial");
+				String lName = request.getParameter("lastname");
 
-			String userName = request.getParameter("username");
-			String password = request.getParameter("confirmpassword");
-			String userType = request.getParameter("userType");
+				String userName = request.getParameter("username");
+				String password = request.getParameter("pw");
+				String userType = request.getParameter("userType");
 
-			Pattern name = Pattern.compile("^[ A-z]{1,}$");
-			Pattern singleLetter = Pattern.compile("[A-z]");
-			Pattern letters_numbers = Pattern.compile("^[_A-z0-9]{1,}$");
+				Pattern name = Pattern.compile("^[ A-z]{1,}$");
+				Pattern singleLetter = Pattern.compile("[A-z]");
+				Pattern letters_numbers = Pattern.compile("^[_A-z0-9]{1,}$");
 
-			if (!(name.matcher(fName).matches() && name.matcher(lName).matches()
-					&& singleLetter.matcher(mInitial).matches()) && letters_numbers.matcher(userName).matches()
-					&& letters_numbers.matcher(password).matches()) {
+				if (!(name.matcher(fName).matches() && name.matcher(lName).matches()
+						&& singleLetter.matcher(mInitial).matches()) && letters_numbers.matcher(userName).matches()
+						&& letters_numbers.matcher(password).matches()) {
 
-				PrintWriter out = response.getWriter();
-				out.println("<script type=\"text/javascript\">");
-				out.println("alert('Double check format of input fields');");
-				out.println("location='admincreate.jsp';");
-				out.println("</script>");
-			} else {
-
-				// SIGNUP FUCNTION
-				Controller controller = new Controller();
-				if (controller.validateUsername(userName)) {
-					String encryptedPass = BCrypt.hashpw(password, BCrypt.gensalt());
-					User u = new User();
-					u.setUsername(userName);
-					u.setpassword(encryptedPass);
-					u.setLastName(lName);
-					u.setFirstName(fName);
-					u.setMiddleName(mInitial);
-					if (userType.equals("Accounting Manager")) {
-						u.setUserType(3);
-					} else {
-						u.setUserType(2);
-					}
-					controller.addUser(u);
 					PrintWriter out = response.getWriter();
 					out.println("<script type=\"text/javascript\">");
-					out.println("alert('Account Created!');");
+					out.println("alert('Double check format of input fields');");
 					out.println("location='admincreate.jsp';");
 					out.println("</script>");
 				} else {
-					PrintWriter out = response.getWriter();
-					out.println("<script type=\"text/javascript\">");
-					out.println("alert('That username already exists! Choose a different one.');");
-					out.println("location='admincreate.jsp';");
-					out.println("</script>");
+
+					// SIGNUP FUCNTION
+					Controller controller = new Controller();
+					if (controller.validateUsername(userName)) {
+						String encryptedPass = BCrypt.hashpw(password, BCrypt.gensalt());
+						User u = new User();
+						u.setUsername(userName);
+						u.setpassword(encryptedPass);
+						u.setLastName(lName);
+						u.setFirstName(fName);
+						u.setMiddleName(mInitial);
+						if (userType.equals("Accounting Manager")) {
+							u.setUserType(3);
+						} else {
+							u.setUserType(2);
+						}
+						controller.addUser(u);
+						//PrintWriter out = response.getWriter();
+						//out.println("<script type=\"text/javascript\">");
+						//out.println("alert('Account Created!');");
+						//out.println("location='admincreate.jsp';");
+						//out.println("</script>");
+					} else {
+						//PrintWriter out = response.getWriter();
+						//out.println("<script type=\"text/javascript\">");
+						//out.println("alert('That username already exists! Choose a different one.');");
+						//out.println("location='admincreate.jsp';");
+						//out.println("</script>");
+					}
 				}
+
+				System.out.println("correct password when creating");
+				response.getWriter().print("true");
 			}
+			else
+			{
+				System.out.println("Wrong password when creating");
+				response.getWriter().print("false");
+				//request.setAttribute("bought", "wrong pw");
+				//response.sendRedirect("product.jsp");
+			}
+			
 		}
 	}
 }
