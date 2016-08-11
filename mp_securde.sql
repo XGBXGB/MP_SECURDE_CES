@@ -34,7 +34,7 @@ CREATE TABLE `address` (
   `country` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idid_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES (7,1,'Mangachapoy','SubOne','Citytwo','0','PH'),(8,2,'StreetOne','SubTwo','CityOne','1234','PH');
+INSERT INTO `address` VALUES (7,1,'Mangachapoy','SubOne','Citytwo','0','PH'),(8,2,'StreetOne','SubTwo','CityOne','1234','PH'),(9,1,'street','subdivision','city','1','PH'),(10,1,'strreet','subdivision','city','1','PH');
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -86,6 +86,7 @@ CREATE TABLE `products` (
   `description` varchar(200) NOT NULL,
   `categoryID` int(10) unsigned NOT NULL,
   `price` double unsigned NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
@@ -97,7 +98,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Oxford Shoes','Highly Stylish',2,999.75),(2,'Havaianas Slippers','For the beach',4,499.5);
+INSERT INTO `products` VALUES (1,'Oxford Shoes','Highly Stylish',2,999.75,1),(2,'Havaianas Slippers','For the beach',4,499.5,1);
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -114,12 +115,12 @@ CREATE TABLE `transactions` (
   `userID` int(10) unsigned NOT NULL,
   `score` double DEFAULT NULL,
   `review` varchar(200) DEFAULT NULL,
-  `date` varchar(45) NOT NULL,
+  `date` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `productID_key_idx` (`productID`),
   CONSTRAINT `productID_key` FOREIGN KEY (`productID`) REFERENCES `products` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,7 +129,7 @@ CREATE TABLE `transactions` (
 
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-INSERT INTO `transactions` VALUES (8,2,4,1,'ugly af','2016-07-27'),(9,2,4,5,'It is pretty kaya','2016-07-27'),(10,2,4,4,'lurv et!','2016-07-27');
+INSERT INTO `transactions` VALUES (16,1,4,2,'panget tlga aug 11','2016-08-11 10:55:53');
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -157,7 +158,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `email_UNIQUE` (`email`),
   KEY `typeID_key_idx` (`typeID`),
   CONSTRAINT `typeID_key` FOREIGN KEY (`typeID`) REFERENCES `usertypes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -166,7 +167,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'userTwo','$2a$10$agtTqmNjEaRewOYujI1oueRo/YSPV2xNiSwibbBLl8Zri1HsetitG','Two','ACTMAN','W','acctman@dlsu.edu.ph',-1,-1,3,NULL),(4,'userOne','$2a$10$agtTqmNjEaRewOYujI1oueRo/YSPV2xNiSwibbBLl8Zri1HsetitG','One','user','N','user@dlsu.edu.ph',-1,8,4,NULL);
+INSERT INTO `users` VALUES (1,'userTwo','$2a$10$agtTqmNjEaRewOYujI1oueRo/YSPV2xNiSwibbBLl8Zri1HsetitG','Two','ACTMAN','W','acctman@dlsu.edu.ph',-1,-1,3,NULL),(4,'userOne','$2a$10$agtTqmNjEaRewOYujI1oueRo/YSPV2xNiSwibbBLl8Zri1HsetitG','One','user','N','user@dlsu.edu.ph',-1,8,4,NULL),(5,'daebak','$2a$10$qTPqtBMciVEC8WDLDL8L7etGiMODIInpuidFsXnmznYuyP35cn4qq','daebak','daebak','d','email@email.com',9,-1,1,NULL),(9,'daebak2','$2a$10$RGDvgi/hlp/ObCWzTnbybuHvVee6IfLLd9nIWoXmU0DHAfS8RhNRy','daebak','daebak','d','email2@email.com',-1,-1,2,NULL),(10,'daebak3','$2a$10$XQFjIYCqVeYtIyKB8WnqOOK5Z9ZzeYeZ5GPeZwYoENWMgV/DCAebe','daebak','daebak','d','email3@email.com',-1,-1,3,NULL),(11,'daebak4','$2a$10$dkUGt/H10WsXzljqetftI.pMCSVkTClHJSgygHQHSSnwvjl.xZTxm','daebak','daebak','d','email4@email.com',-1,10,4,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -205,4 +206,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-07-31 21:06:34
+-- Dump completed on 2016-08-11 20:36:40

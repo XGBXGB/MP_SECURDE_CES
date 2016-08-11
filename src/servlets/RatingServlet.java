@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -48,18 +49,25 @@ public class RatingServlet extends HttpServlet {
 		
 		Controller con = new Controller();
 		
-		String retVal = request.getParameter("retVal");
+		Boolean retVal = Boolean.parseBoolean(request.getParameter("retVal"));
+		System.out.println("RET VAL _" + retVal + "_");
 		Transaction t = null;
-		if(retVal.equals("false"))
+		//if(retVal.equals("false"))
+		if(retVal)
 		{
-			t = new Transaction(0, ((Product)request.getSession().getAttribute("product")).getId(), ((User)request.getSession().getAttribute("user")).getId(), 5.0, "", "2016-07-27");
+			System.out.println("Score for prod " + request.getParameter("rateScore"));
+			t = new Transaction(0, ((Product)request.getSession().getAttribute("product")).getId(), ((User)request.getSession().getAttribute("user")).getId(), Double.parseDouble(request.getParameter("rateScore")), request.getParameter("rateReview"), new Timestamp(1));
+			con.addTransactionWithReview(t);
+			response.getWriter().print("true");
+
 		}
 		else
 		{
-			t = new Transaction(0, ((Product)request.getSession().getAttribute("product")).getId(), ((User)request.getSession().getAttribute("user")).getId(), Double.parseDouble(request.getParameter("rateScore")), request.getParameter("rateReview"), "2016-07-27");
+			t = new Transaction(0, ((Product)request.getSession().getAttribute("product")).getId(), ((User)request.getSession().getAttribute("user")).getId(), 5.0, "", new Timestamp(1));
+			con.addTransaction(t);
+			response.getWriter().print("false");
+
 		}
-		con.addTransactionWithReview(t);
-		response.getWriter().print(true);
 		//response.sendRedirect("product.jsp");
 	}
 

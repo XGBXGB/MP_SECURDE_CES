@@ -290,7 +290,7 @@
                         </div>
                         <div class="clearfloat"></div>
                         <div class="floatright">
-                            <button type="button" class="btn" data-dismiss="modal">YEHEY!</button>    
+                            <button type="button" class="btn" onclick = "Yehey();" data-dismiss="modal">YEHEY!</button>    
                         </div>
                         <div class="clearfloat"></div>
  
@@ -470,9 +470,9 @@
 		{	
 			$.post('ProductServlet', {password:document.getElementById("passwd").value}, function(data){
 				
-				alert("data " + data);
+				//alert("data _" + data + "_");
 				//if(data.equals("true"))
-				if(data)
+				if(data == "true")
 				{
 					$('#SuccessBuyingModal').modal("show");
 				}
@@ -504,16 +504,18 @@
 	
 	function Retry()
 	{
+		$('#FailBuyingModal').modal("show");
 		$('#confirmationModal').modal("show");
 	}
 	
 	function RatingModal(retValue)
 	{
 		$('#SuccessBuyingModal').modal("hide");
-		if(this.retValue)
+		alert("RATING " + retValue);
+		if(retValue == true)
 		{	
-			$.post('RatingServlet', {retVal:retValue}, function(data){
-				if(data)
+			$.post('RatingServlet', {retVal:retValue, rateScore:document.getElementById("rateScore").value, rateReview: document.getElementById("rateReview").value}, function(data){
+				if(data == "true")
 				{
 					$('#SuccessRatingModal').modal("show");
 				}
@@ -521,6 +523,11 @@
 		}
 		//$('#SuccessBuyingModal').modal("hide");
 		//document.getElementById("BuyWithRatingForm").submit();
+	}
+	
+	function Yehey()
+	{
+		window.location.replace("product.jsp");
 	}
 	
 	</script>

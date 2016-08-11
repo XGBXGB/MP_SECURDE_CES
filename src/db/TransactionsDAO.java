@@ -44,7 +44,7 @@ public class TransactionsDAO {
 				t.setUserId(rs.getInt(Transaction.COLUMN_UID));
 				t.setScore(rs.getDouble(Transaction.COLUMN_SCORE));
 				t.setReview(rs.getString(Transaction.COLUMN_REV));
-				t.setDate(rs.getString(Transaction.COLUMN_DATE));
+				t.setDate(rs.getTimestamp(Transaction.COLUMN_DATE));
 				return t;
 			}
 		} catch (SQLException e) {
@@ -77,7 +77,7 @@ public class TransactionsDAO {
 				t.setUserId(rs.getInt(Transaction.COLUMN_UID));
 				t.setScore(rs.getDouble(Transaction.COLUMN_SCORE));
 				t.setReview(rs.getString(Transaction.COLUMN_REV));
-				t.setDate(rs.getString(Transaction.COLUMN_DATE));
+				t.setDate(rs.getTimestamp(Transaction.COLUMN_DATE));
 				transactions.add(t);
 			}
 			return transactions;
@@ -111,7 +111,7 @@ public class TransactionsDAO {
 				t.setUserId(rs.getInt(Transaction.COLUMN_UID));
 				t.setScore(rs.getDouble(Transaction.COLUMN_SCORE));
 				t.setReview(rs.getString(Transaction.COLUMN_REV));
-				t.setDate(rs.getString(Transaction.COLUMN_DATE));
+				t.setDate(rs.getTimestamp(Transaction.COLUMN_DATE));
 				transactions.add(t);
 			}
 			return transactions;
@@ -145,7 +145,7 @@ public class TransactionsDAO {
 				t.setUserId(rs.getInt(Transaction.COLUMN_UID));
 				t.setScore(rs.getDouble(Transaction.COLUMN_SCORE));
 				t.setReview(rs.getString(Transaction.COLUMN_REV));
-				t.setDate(rs.getString(Transaction.COLUMN_DATE));
+				t.setDate(rs.getTimestamp(Transaction.COLUMN_DATE));
 				transactions.add(t);
 			}
 			return transactions;
@@ -208,7 +208,7 @@ public class TransactionsDAO {
 				t.setUserId(rs.getInt(Transaction.COLUMN_UID));
 				t.setScore(rs.getDouble(Transaction.COLUMN_SCORE));
 				t.setReview(rs.getString(Transaction.COLUMN_REV));
-				t.setDate(rs.getString(Transaction.COLUMN_DATE));
+				t.setDate(rs.getTimestamp(Transaction.COLUMN_DATE));
 				transactions.add(t);
 			}
 			return transactions;
@@ -245,7 +245,7 @@ public class TransactionsDAO {
 				t.setUserId(rs.getInt(Transaction.COLUMN_UID));
 				t.setScore(rs.getDouble(Transaction.COLUMN_SCORE));
 				t.setReview(rs.getString(Transaction.COLUMN_REV));
-				t.setDate(rs.getString(Transaction.COLUMN_DATE));
+				t.setDate(rs.getTimestamp(Transaction.COLUMN_DATE));
 				transactions.add(t);
 			}
 			return transactions;
@@ -277,7 +277,7 @@ public class TransactionsDAO {
 		String query = "INSERT INTO " + Transaction.TABLE_NAME + " "
 				+ "("+ Transaction.COLUMN_PID +"," + Transaction.COLUMN_UID + "," + Transaction.COLUMN_DATE +
 				"," + Transaction.COLUMN_REV +"," + Transaction.COLUMN_SCORE+") "
-				+ "VALUES (" + t.getProductId() + ", " + t.getUserId() + ", '" + t.getDate() + "', '" + t.getReview()
+				+ "VALUES (" + t.getProductId() + ", " + t.getUserId() + ", NOW() , '" + t.getReview()
 				+ "', " + t.getScore() +");";
 		
 		Connection connection = dbConnection.getConnection();

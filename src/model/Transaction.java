@@ -1,5 +1,7 @@
 package model;
 
+import java.sql.Timestamp;
+
 public class Transaction {
 	
 	public static final String TABLE_NAME = "transactions";
@@ -15,13 +17,13 @@ public class Transaction {
 	int userId;
 	double score;
 	String review;
-	String date;
+	Timestamp date;
 	
 	public Transaction() {
 		super();
 	}
 
-	public Transaction(int id, int productId, int userId, double score, String review, String date) {
+	public Transaction(int id, int productId, int userId, double score, String review, Timestamp date) {
 		super();
 		this.id = id;
 		this.productId = productId;
@@ -63,10 +65,10 @@ public class Transaction {
 	public void setReview(String review) {
 		this.review = review;
 	}
-	public String getDate() {
+	public Timestamp getDate() {
 		return date;
 	}
-	public void setDate(String date) {
+	public void setDate(Timestamp date) {
 		this.date = date;
 	}
 	
