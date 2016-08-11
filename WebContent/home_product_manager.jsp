@@ -420,8 +420,13 @@
    	});
     
     function deleteProduct(productId) {
-    	$.post('DeleteProductServlet', { id: productId}, function() {
-    		loadProducts(-1);
+    	$.post('DeleteProductServlet', { id: productId}, function(response) {
+    		if(response == "ok"){
+    			loadProducts(-1);
+    		}else{
+    			alert('Session Expired! Please try logging in again.');
+    			$(location).attr('href',"index.jsp");
+    		}
     	});
     	$('#deleteButton').attr("onclick", "");
     }
