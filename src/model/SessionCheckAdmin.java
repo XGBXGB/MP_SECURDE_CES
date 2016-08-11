@@ -1,6 +1,7 @@
 package model;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -13,7 +14,11 @@ public class SessionCheckAdmin implements Filter {
 		HttpServletRequest request = (HttpServletRequest) arg0;
 		HttpServletResponse response = (HttpServletResponse) arg1;
 		if (request.getSession().getAttribute("user") == null){
-			response.sendRedirect("index.jsp");
+			PrintWriter out = response.getWriter();
+			out.println("<script type=\"text/javascript\">");
+			out.println("alert('Please login first.');");
+			out.println("location='login.jsp';");
+			out.println("</script>");
 		}else {
 
 			Controller c = new Controller();
@@ -28,6 +33,8 @@ public class SessionCheckAdmin implements Filter {
 			} else if (c.getUserType(((User) request.getSession().getAttribute("user")).getUserType())
 					.equals("Product Manager")) {
 				response.sendRedirect("home_product_manager.jsp");
+			}else{
+				arg2.doFilter(request, response);
 			}
 			// else if(c.getUserType(((User)
 			// request.getSession().getAttribute("user")).getUserType()).equals("Accounting
@@ -38,7 +45,7 @@ public class SessionCheckAdmin implements Filter {
 			// System.out.println("hello");
 			// }
 		}
-		arg2.doFilter(request, response);
+		
 
 		// HttpServletRequest req= (HttpServletRequest) request;
 		// req.getRequestDispather("error.jsp).forward(request,response);

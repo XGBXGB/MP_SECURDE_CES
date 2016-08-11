@@ -1,6 +1,7 @@
 package model;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -12,9 +13,13 @@ public class SessionCheckAccountMngr implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) arg0;
 		HttpServletResponse response = (HttpServletResponse) arg1;
-		if (request.getSession().getAttribute("user") == null)
-			response.sendRedirect("index.jsp");
-		else {
+		if (request.getSession().getAttribute("user") == null){
+			PrintWriter out = response.getWriter();
+			out.println("<script type=\"text/javascript\">");
+			out.println("alert('Please login first.');");
+			out.println("location='login.jsp';");
+			out.println("</script>");
+		}else {
 			Controller c = new Controller();
 
 			System.out.println("Ehem");
@@ -27,6 +32,8 @@ public class SessionCheckAccountMngr implements Filter {
 			} else if (c.getUserType(((User) request.getSession().getAttribute("user")).getUserType())
 					.equals("Administrator")) {
 				response.sendRedirect("admin.jsp");
+			}else{
+				arg2.doFilter(request, response);
 			}
 			// else if(c.getUserType(((User)
 			// request.getSession().getAttribute("user")).getUserType()).equals("Accounting
@@ -36,8 +43,9 @@ public class SessionCheckAccountMngr implements Filter {
 			// //return;
 			// System.out.println("hello");
 			// }
+			
 		}
-		arg2.doFilter(request, response);
+		
 
 		// HttpServletRequest req= (HttpServletRequest) request;
 		// req.getRequestDispather("error.jsp).forward(request,response);
