@@ -209,7 +209,7 @@
 						<label for="password" class="col-md-3 control-label">Confirm
 							Pass</label>
 						<div class="form-group col-md-9">
-							<input type="password" class="form-control"
+							<input pattern="^[_A-z0-9]{1,}$" data-minlength="6" type="password" class="form-control"
 								name="confirmpassword" id = "confirmpassword" placeholder="Match input with password"
 								required>
 							<div class="help-block with-errors"
