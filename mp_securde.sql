@@ -232,6 +232,7 @@ DROP TABLE IF EXISTS `usertypes`;
 CREATE TABLE `usertypes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(45) NOT NULL,
+  `defaultpage` varchar(200) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `type_UNIQUE` (`type`),
   UNIQUE KEY `id_UNIQUE` (`id`)
@@ -244,7 +245,7 @@ CREATE TABLE `usertypes` (
 
 LOCK TABLES `usertypes` WRITE;
 /*!40000 ALTER TABLE `usertypes` DISABLE KEYS */;
-INSERT INTO `usertypes` VALUES (3,'Accounting Manager'),(1,'Administrator'),(4,'Customer'),(2,'Product Manager');
+INSERT INTO `usertypes` VALUES (1,'Administrator','admin.jsp'),(2,'Product Manager','home_product_manager.jsp'),(3,'Accounting Manager','account-manager.jsp'),(4,'Customer','index.jsp');
 /*!40000 ALTER TABLE `usertypes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -257,4 +258,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-12 12:03:01
+-- Dump completed on 2016-08-13  0:29:06
