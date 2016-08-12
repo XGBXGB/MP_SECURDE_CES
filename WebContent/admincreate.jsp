@@ -31,6 +31,7 @@
 
 <body>
 
+
 	<!-- Navigation -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	<div class="container">
@@ -139,6 +140,43 @@
             </div>
         </div>
 
+		<div id="DupeModal" class="modal fade my-modal">
+            <div class="modal-dialog my-modal-dialog">
+                <div class="modal-content my-modal-content">
+                    <div class="modal-header my-modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h2 class="modal-title">FAIL! USERNAME ALREADY EXISTS!</h2>
+                    </div>
+                    <div class="modal-body my-modal-body">
+                        <div class="form-group clearfloat"></div>
+                        <div class="floatright">
+                            <button type="button" class="btn" data-dismiss="modal">Okay</button>    
+                        </div>
+						<div class="clearfloat"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		<div id="PWMismatchModal" class="modal fade my-modal">
+            <div class="modal-dialog my-modal-dialog">
+                <div class="modal-content my-modal-content">
+                    <div class="modal-header my-modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h2 class="modal-title">FAIL! ACCOUNT CREATION PASSWORD MISMATCH!</h2>
+                    </div>
+                    <div class="modal-body my-modal-body">
+                        <div class="form-group clearfloat"></div>
+                        <div class="floatright">
+                            <button type="button" class="btn" data-dismiss="modal">Okay</button>    
+                        </div>
+						<div class="clearfloat"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
 
 		<div class="row">
 
@@ -166,9 +204,6 @@
 								<option>Product Manager</option>
 							</select>
 						</div>
-						
-						<input type="hidden" class="form-control" id="CSRFToken" name="CSRFToken" value="<%=session.getAttribute("token") %>"
-									required>
 						<label class="col-md-3 control-label" for="firstname">Name</label>
 						<div class="form-group col-md-4">
 							<input pattern="^[ A-z]{1,}$" type="text" class="form-control"
@@ -308,11 +343,22 @@
 					lastname: document.getElementById("lastname").value,
 					username: document.getElementById("username").value,
 					pw:document.getElementById("pw").value,
-					userType: document.getElementById("sel1").value, 
-					token: document.getElementById("CSRFToken").value}, function(data){
-					if(data == "true")
+					confirmpassword: document.getElementById("confirmpassword").value,
+					userType: document.getElementById("sel1").value}, function(data){
+					var data1=data[0], data2=data[1], data3 = data[2]; 
+					
+					if(data3 == "true")
+					{
+						$('#DupeModal').modal("show");
+					}
+					else if(data2 == "false")
+					{
+						$('#PWMismatchModal').modal("show");						
+					}
+					else if(data1 == "true")
 					{
 						$('#SuccessCreatingModal').modal("show");
+						
 					}
 					else
 					{
