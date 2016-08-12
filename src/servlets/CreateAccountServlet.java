@@ -53,14 +53,10 @@ public class CreateAccountServlet extends HttpServlet {
 
 		String createAccountToken = request.getParameter("token");
 		String createAccountTokenFromSession = (String) request.getSession().getAttribute("token");
-		
+
 		System.out.println("CREATE ACCOUNT TOKEN FROM SESSION: " + createAccountTokenFromSession);
 		if (request.getSession().getAttribute("user") == null) {
-			PrintWriter out = response.getWriter();
-			out.println("<script type=\"text/javascript\">");
-			out.println("alert('Session Expired! Please try logging in again.');");
-			out.println("location='index.jsp';");
-			out.println("</script>");
+			response.getWriter().print("timeout");
 			String logString = System.currentTimeMillis() + " " + "CreateAccount " + "-" + " " + request.getRemoteAddr()
 					+ " timeout";
 			controller.log(logString);
@@ -75,6 +71,7 @@ public class CreateAccountServlet extends HttpServlet {
 
 				String userName = request.getParameter("username");
 				String password = request.getParameter("pw");
+				String confPassword = request.getParameter("confirmpassword");
 				String userType = request.getParameter("userType");
 
 				System.out.println(createAccountToken + " " + createAccountTokenFromSession);
@@ -84,13 +81,10 @@ public class CreateAccountServlet extends HttpServlet {
 				if (createAccountToken.equals(createAccountTokenFromSession.toString())) {
 					if (!(name.matcher(fName).matches() && name.matcher(lName).matches()
 							&& singleLetter.matcher(mInitial).matches()) && letters_numbers.matcher(userName).matches()
-							&& letters_numbers.matcher(password).matches()) {
+							&& letters_numbers.matcher(password).matches()
+							&& letters_numbers.matcher(confPassword).matches()) {
+						response.getWriter().print("syntax error");
 
-						PrintWriter out = response.getWriter();
-						out.println("<script type=\"text/javascript\">");
-						out.println("alert('Double check format of input fields');");
-						out.println("location='admincreate.jsp';");
-						out.println("</script>");
 						String logString = System.currentTimeMillis() + " " + "CreateAccount " + user.getId() + " "
 								+ request.getRemoteAddr() + " wrongFormat";
 						controller.log(logString);
@@ -99,28 +93,35 @@ public class CreateAccountServlet extends HttpServlet {
 
 						// SIGNUP FUCNTION
 						if (controller.validateUsername(userName)) {
-							String encryptedPass = BCrypt.hashpw(password, BCrypt.gensalt());
-							User u = new User();
-							u.setUsername(userName);
-							u.setpassword(encryptedPass);
-							u.setLastName(lName);
-							u.setFirstName(fName);
-							u.setMiddleName(mInitial);
-							if (userType.equals("Accounting Manager")) {
-								u.setUserType(3);
-							} else {
-								u.setUserType(2);
+							if (password.equals(confPassword)) {
+								String encryptedPass = BCrypt.hashpw(password, BCrypt.gensalt());
+								User u = new User();
+								u.setUsername(userName);
+								u.setpassword(encryptedPass);
+								u.setLastName(lName);
+								u.setFirstName(fName);
+								u.setMiddleName(mInitial);
+								if (userType.equals("Accounting Manager")) {
+									u.setUserType(3);
+								} else {
+									u.setUserType(2);
+								}
+								controller.addUser(u);
+								System.out.println("correct password when creating");
+								response.getWriter().print("true");
+								String logString = System.currentTimeMillis() + " " + "CreateAccount " + user.getId()
+										+ " " + request.getRemoteAddr() + " successful";
+								controller.log(logString);
+								System.out.println(logString);
+								// PrintWriter out = response.getWriter();
+								// out.println("<script
+								// type=\"text/javascript\">");
+								// out.println("alert('Account Created!');");
+								// out.println("location='admincreate.jsp';");
+								// out.println("</script>");
+							}else{
+								response.getWriter().print("password not matching");
 							}
-							controller.addUser(u);
-							String logString = System.currentTimeMillis() + " " + "CreateAccount " + user.getId() + " "
-									+ request.getRemoteAddr() + " successful";
-							controller.log(logString);
-							System.out.println(logString);
-							// PrintWriter out = response.getWriter();
-							// out.println("<script type=\"text/javascript\">");
-							// out.println("alert('Account Created!');");
-							// out.println("location='admincreate.jsp';");
-							// out.println("</script>");
 						} else {
 							// PrintWriter out = response.getWriter();
 							// out.println("<script type=\"text/javascript\">");
@@ -128,20 +129,16 @@ public class CreateAccountServlet extends HttpServlet {
 							// Choose a different one.');");
 							// out.println("location='admincreate.jsp';");
 							// out.println("</script>");
-
+							response.getWriter().print("username taken");
 						}
 					}
 				} else {
-					String logString = System.currentTimeMillis() + " " 
-							+ "CreateAccount " 
-							+ "-" + " " 
-							+ request.getRemoteAddr() + " "
-							+ "wrongCSRFToken";
+					String logString = System.currentTimeMillis() + " " + "CreateAccount " + "-" + " "
+							+ request.getRemoteAddr() + " " + "wrongCSRFToken";
 					controller.log(logString);
 				}
 
-				System.out.println("correct password when creating");
-				response.getWriter().print("true");
+				
 			} else {
 				System.out.println("Wrong password when creating");
 				response.getWriter().print("false");

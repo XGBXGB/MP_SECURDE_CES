@@ -24,10 +24,6 @@ public class SessionFilterATimeout implements Filter {
 					System.out.println("WENT HEREEE TIMEOUTTTT NIGGAAAAAAAAAAHHHH!!!!!!!");
 					session.invalidate();
 					request.getSession().setAttribute("token", new BigInteger(130, new SecureRandom()).toString(32));
-					PrintWriter out = arg1.getWriter();
-					out.println("<script type=\"text/javascript\">");
-					out.println("alert('Session Expired!');");
-					out.println("</script>");
 				}
 			}
 		}

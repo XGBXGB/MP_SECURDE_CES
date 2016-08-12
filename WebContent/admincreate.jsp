@@ -314,6 +314,23 @@
 					{
 						$('#SuccessCreatingModal').modal("show");
 					}
+					else if(data == "syntax error")
+					{
+						alert("Please double check input field format!");
+					}
+					else if(data == "username taken")
+					{
+						alert("Username already taken!");
+					}
+					else if(data == "password not matching")
+					{
+						alert("Passwords don't match!");
+					}
+					else if(data == "timeout")
+					{
+						alert('Session Expired! Please try logging in again.');
+						window.location.replace("index.jsp");
+					}
 					else
 					{
 						$('#FailCreatingModal').modal("show");
