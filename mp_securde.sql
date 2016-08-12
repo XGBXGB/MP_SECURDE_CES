@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `mp_securde` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `mp_securde`;
--- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: mp_securde
+-- Host: localhost    Database: mp_securde
 -- ------------------------------------------------------
--- Server version	5.6.23-log
+-- Server version	5.7.11-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -40,7 +40,7 @@ CREATE TABLE `acl` (
 
 LOCK TABLES `acl` WRITE;
 /*!40000 ALTER TABLE `acl` DISABLE KEYS */;
-INSERT INTO `acl` VALUES (1,1),(1,2),(1,6),(1,7),(2,1),(2,2),(2,8),(3,1),(3,2),(3,5),(4,1),(4,2),(4,3),(4,4);
+INSERT INTO `acl` VALUES (1,6),(1,7),(2,8),(3,5),(4,1),(4,4);
 /*!40000 ALTER TABLE `acl` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,7 +120,7 @@ CREATE TABLE `pages` (
 
 LOCK TABLES `pages` WRITE;
 /*!40000 ALTER TABLE `pages` DISABLE KEYS */;
-INSERT INTO `pages` VALUES (1,'index.jsp'),(2,'login.jsp'),(3,'signup.jsp'),(4,'product.jsp'),(5,'account-manager.jsp'),(6,'admin.jsp'),(7,'admincreate.jsp'),(8,'home_product_manager.jsp');
+INSERT INTO `pages` VALUES (1,'/MP_SECURDE/index.jsp'),(4,'/MP_SECURDE/product.jsp'),(5,'/MP_SECURDE/account-manager.jsp'),(6,'/MP_SECURDE/admin.jsp'),(7,'/MP_SECURDE/admincreate.jsp'),(8,'/MP_SECURDE/home_product_manager.jsp');
 /*!40000 ALTER TABLE `pages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -218,7 +218,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'userTwo','$2a$10$agtTqmNjEaRewOYujI1oueRo/YSPV2xNiSwibbBLl8Zri1HsetitG','Two','ACTMAN','W','acctman@dlsu.edu.ph',-1,-1,1,NULL),(4,'userOne','$2a$10$agtTqmNjEaRewOYujI1oueRo/YSPV2xNiSwibbBLl8Zri1HsetitG','One','user','N','user@dlsu.edu.ph',-1,8,4,NULL),(5,'daebak','$2a$10$qTPqtBMciVEC8WDLDL8L7etGiMODIInpuidFsXnmznYuyP35cn4qq','daebak','daebak','d','email@email.com',9,-1,1,NULL),(9,'daebak2','$2a$10$RGDvgi/hlp/ObCWzTnbybuHvVee6IfLLd9nIWoXmU0DHAfS8RhNRy','daebak','daebak','d','email2@email.com',-1,-1,2,NULL),(10,'daebak3','$2a$10$XQFjIYCqVeYtIyKB8WnqOOK5Z9ZzeYeZ5GPeZwYoENWMgV/DCAebe','daebak','daebak','d','email3@email.com',-1,-1,3,NULL),(11,'daebak4','$2a$10$dkUGt/H10WsXzljqetftI.pMCSVkTClHJSgygHQHSSnwvjl.xZTxm','daebak','daebak','d','email4@email.com',-1,10,4,NULL),(12,'DummyAMan1','$2a$10$xpTZS2N354qN5Kfs2olQ.eHaPRq2s/FiI0Er.S7S6wQBZ/HXbAmxG','Man','Dummy','A','null',0,0,3,'2016-08-13 01:36:32');
+INSERT INTO `users` VALUES (1,'userTwo','$2a$10$agtTqmNjEaRewOYujI1oueRo/YSPV2xNiSwibbBLl8Zri1HsetitG','Two','ACTMAN','W','acctman@dlsu.edu.ph',-1,-1,1,NULL),(4,'userOne','$2a$10$agtTqmNjEaRewOYujI1oueRo/YSPV2xNiSwibbBLl8Zri1HsetitG','One','user','N','user@dlsu.edu.ph',-1,8,4,NULL),(5,'daebak','$2a$10$qTPqtBMciVEC8WDLDL8L7etGiMODIInpuidFsXnmznYuyP35cn4qq','daebak','daebak','d','email@email.com',9,-1,1,NULL),(9,'daebak2','$2a$10$RGDvgi/hlp/ObCWzTnbybuHvVee6IfLLd9nIWoXmU0DHAfS8RhNRy','daebak','daebak','d','email2@email.com',-1,-1,2,NULL),(10,'daebak3','$2a$10$XQFjIYCqVeYtIyKB8WnqOOK5Z9ZzeYeZ5GPeZwYoENWMgV/DCAebe','daebak','daebak','d','email3@email.com',-1,-1,3,NULL),(11,'daebak4','$2a$10$dkUGt/H10WsXzljqetftI.pMCSVkTClHJSgygHQHSSnwvjl.xZTxm','daebak','daebak','d','email4@email.com',-1,10,4,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -232,6 +232,7 @@ DROP TABLE IF EXISTS `usertypes`;
 CREATE TABLE `usertypes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(45) NOT NULL,
+  `defaultpage` varchar(200) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `type_UNIQUE` (`type`),
   UNIQUE KEY `id_UNIQUE` (`id`)
@@ -244,7 +245,7 @@ CREATE TABLE `usertypes` (
 
 LOCK TABLES `usertypes` WRITE;
 /*!40000 ALTER TABLE `usertypes` DISABLE KEYS */;
-INSERT INTO `usertypes` VALUES (3,'Accounting Manager'),(1,'Administrator'),(4,'Customer'),(2,'Product Manager');
+INSERT INTO `usertypes` VALUES (1,'Administrator','admin.jsp'),(2,'Product Manager','home_product_manager.jsp'),(3,'Accounting Manager','account-manager.jsp'),(4,'Customer','index.jsp');
 /*!40000 ALTER TABLE `usertypes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -257,4 +258,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-12 12:03:01
+-- Dump completed on 2016-08-13  1:41:03
