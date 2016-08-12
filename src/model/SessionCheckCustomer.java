@@ -16,7 +16,34 @@ public class SessionCheckCustomer implements Filter {
 		Controller c = new Controller();
 
 		System.out.println("Ehem");
-		if (request.getSession().getAttribute("user") != null) {
+		if (request.getSession().getAttribute("user") != null)
+		{
+			String url = "";
+			String queryString = "";
+			if (request instanceof HttpServletRequest) {
+				 url = ((HttpServletRequest)request).getRequestURI().toString();
+				 queryString = ((HttpServletRequest)request).getQueryString();
+			}
+			
+			if(queryString == null)
+				queryString = "index.jsp";
+			
+			System.out.println("QUERY STRING FROM REQUEST ~" + queryString + "~");
+			if(!c.hasAccess(((User) request.getSession().getAttribute("user")).getUserType(), url))
+			{
+				response.sendRedirect(c.getDefaultRedirect(((User) request.getSession().getAttribute("user")).getUserType()));
+			}
+			else
+			{
+				arg2.doFilter(request, response);				
+			}
+		}
+		else
+		{
+			arg2.doFilter(request, response);
+		}
+		
+		/*if (request.getSession().getAttribute("user") != null) {
 			if (c.getUserType(((User) request.getSession().getAttribute("user")).getUserType())
 					.equals("Accounting Manager")) {
 				response.sendRedirect("account-manager.jsp");
@@ -40,7 +67,7 @@ public class SessionCheckCustomer implements Filter {
 			// }
 			System.out.println("end customer");
 			arg2.doFilter(request, response);
-		}
+		}*/
 
 		// HttpServletRequest req= (HttpServletRequest) request;
 		// req.getRequestDispather("error.jsp).forward(request,response);

@@ -3,6 +3,7 @@ package controller;
 import java.util.ArrayList;
 import java.util.Locale.Category;
 
+import db.ACLDAO;
 import db.AddressDAO;
 import db.CategoriesDAO;
 import db.ProductsDAO;
@@ -22,6 +23,7 @@ public class Controller {
 	private ProductsDAO productsDao;
 	private CategoriesDAO categoriesDao;
 	private TransactionsDAO transactionsDao;
+	private ACLDAO aclDao;
 	private LogWriter logWriter;
 
 	public static Controller getInstance() {
@@ -37,6 +39,7 @@ public class Controller {
 		userDao = new UserDAO();
 		addressDao = new AddressDAO();
 		transactionsDao = new TransactionsDAO();
+		aclDao = new ACLDAO();
 		logWriter = new LogWriter();
 	}
 
@@ -168,4 +171,16 @@ public class Controller {
 		// TODO Auto-generated method stub
 		logWriter.write(logString);
 	}
+	
+	public boolean hasAccess(int role, String page)
+	{
+		return aclDao.hasAccess(role, page);
+	}
+	
+	public String getDefaultRedirect(int role)
+	{
+		return aclDao.getDefaultRedirect(role);
+	}
+	
+	
 }

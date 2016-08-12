@@ -24,7 +24,24 @@ public class SessionCheckProductMngr implements Filter {
 
 			System.out.println("Ehem");
 
-			if (c.getUserType(((User) request.getSession().getAttribute("user")).getUserType()).equals("Customer")) {
+			String url = "";
+			String queryString = "";
+			if (request instanceof HttpServletRequest) {
+				 url = ((HttpServletRequest)request).getRequestURI().toString();
+				 queryString = ((HttpServletRequest)request).getQueryString();
+			}
+			
+			System.out.println("QUERY STRING FROM REQUEST ~" + queryString + "~");
+			if(c.hasAccess(((User) request.getSession().getAttribute("user")).getUserType(), url))
+			{
+				arg2.doFilter(request, response);				
+			}
+			else
+			{
+				response.sendRedirect(c.getDefaultRedirect(((User) request.getSession().getAttribute("user")).getUserType()));
+			}
+			
+			/*if (c.getUserType(((User) request.getSession().getAttribute("user")).getUserType()).equals("Customer")) {
 				response.sendRedirect("index.jsp");
 			} else if (c.getUserType(((User) request.getSession().getAttribute("user")).getUserType())
 					.equals("Accounting Manager")) {
@@ -42,7 +59,7 @@ public class SessionCheckProductMngr implements Filter {
 			// response.sendRedirect("account-manager.jsp");
 			// //return;
 			// System.out.println("hello");
-			// }
+			// }*/
 			
 		}
 		
