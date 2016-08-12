@@ -203,6 +203,23 @@ public class UserDAO {
 		}
 		return null;
 	}
+	
+	public void updatePassword(int userID, String password){
+		String query = "UPDATE "+User.TABLE_NAME+" SET "+User.COLUMN_PASSWORD+" = ? "
+					 + "WHERE "+User.COLUMN_ID+" = ?;";
+		
+		Connection connection = DBConnection.getConnection();
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = connection.prepareStatement(query);
+			pstmt.setString(1, password);
+			pstmt.setInt(2, userID);
+			pstmt.executeUpdate();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+	}
 
 	public void addUser(User user) {
 

@@ -41,6 +41,10 @@ public class Controller {
 		return userDao.getAllUsersForTable();
 	}
 
+	public void updatePassword(int userId, String password){
+		userDao.updatePassword(userId, password);
+	}
+	
 	public ArrayList<String> getCategories(){
 		return categoriesDao.getAllCategories();
 	}
