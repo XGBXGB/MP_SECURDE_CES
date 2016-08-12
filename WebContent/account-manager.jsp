@@ -16,7 +16,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Shop Homepage - Start Bootstrap Template</title>
+<title>Talaria Footwear</title>
 
 <!-- Bootstrap Core CSS -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -52,7 +52,7 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">Start Bootstrap</a>
+			<p class="navbar-brand" style="cursor:default">Talaria Footwear</p>
 		</div>
 		<ul class="nav navbar-nav navbar-right">
 			<li><a href="#"><span class="glyphicon glyphicon-user"></span>
@@ -71,7 +71,6 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a href="#">About</a></li>
 				<li><a href="changepass.jsp">Change Password</a></li>
 			</ul>
 		</div>
@@ -136,7 +135,7 @@
 		<footer>
 		<div class="row">
 			<div class="col-lg-12">
-				<p>Copyright &copy; Your Website 2014</p>
+				<p>Copyright &copy; Your Website 2016</p>
 			</div>
 		</div>
 		</footer>

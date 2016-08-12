@@ -14,7 +14,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Shop Homepage - Start Bootstrap Template</title>
+<title>Talaria Footwear</title>
 
 <!-- Bootstrap Core CSS -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -48,11 +48,7 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<%if(u.getUserType()==2){ %>
-			<a class="navbar-brand" href="home_product_manager.jsp">Talaria Footwear</a>
-			<%}else if(u.getUserType()==3){ %>
-			<a class="navbar-brand" href="account-manager.jsp">Talaria Footwear</a>
-			<%} %>
+			<p class="navbar-brand" style="cursor:default">Talaria Footwear</p>
 		</div>
 		<ul class="nav navbar-nav navbar-right">
 			<li><a href="#"><span class="glyphicon glyphicon-user"></span>
@@ -70,7 +66,11 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a href="#">About</a></li>
+			<%if(u.getUserType()==2){ %>
+				<li><a href="home_product_manager.jsp">Home</a></li>
+			<%}else if(u.getUserType()==3){ %>
+				<li><a href="account-manager.jsp">Home</a></li>
+			<%} %>
 			</ul>
 		</div>
 		<!-- /.navbar-collapse -->
@@ -140,7 +140,7 @@
 		<footer>
 		<div class="row">
 			<div class="col-lg-12">
-				<p>Copyright &copy; Your Website 2014</p>
+				<p>Copyright &copy; Your Website 2016</p>
 			</div>
 		</div>
 		</footer>

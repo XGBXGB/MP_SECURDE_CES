@@ -15,7 +15,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Shop Homepage - Start Bootstrap Template</title>
+    <title>Talaria Footwear</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -54,7 +54,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Start Bootstrap</a>
+                <p class="navbar-brand" style="cursor:default">Talaria Footwear</p>
             </div>
             <ul class="nav navbar-nav navbar-right">
             <%if(u!=null) {%>
@@ -73,13 +73,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#">About</a>
-                    </li>
-                    <li>
-                        <a href="#">Services</a>
-                    </li>
-                    <li>
-                        <a href="#">Contact</a>
+                        <a href="index.jsp">Home</a>
                     </li>
                 </ul>
             </div>
@@ -121,13 +115,13 @@
                             </ol>
                             <div class="carousel-inner">
                                 <div class="item active">
-                                    <img class="slide-image" src="http://placehold.it/800x300" alt="">
+                                    <img class="slide-image" src="https://placehold.it/800x300" alt="">
                                 </div>
                                 <div class="item">
-                                    <img class="slide-image" src="http://placehold.it/800x300" alt="">
+                                    <img class="slide-image" src="https://placehold.it/800x300" alt="">
                                 </div>
                                 <div class="item">
-                                    <img class="slide-image" src="http://placehold.it/800x300" alt="">
+                                    <img class="slide-image" src="https://placehold.it/800x300" alt="">
                                 </div>
                             </div>
                             <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
@@ -158,7 +152,7 @@
 						for(int i=0; i<products.size(); i++){ %>
 	                    <div class="col-sm-4 col-lg-4 col-md-4">
 	                        <div class="thumbnail">
-	                            <img src="http://placehold.it/320x150" alt="">
+	                            <img src="https://placehold.it/320x150" alt="">
 	                            <div class="caption">
 	                                <h4 class="pull-right">$<%=products.get(i).getPrice() %></h4>
 	                                <h4><a id="<%=products.get(i).getId() %>" href="javascript:{}" onclick="pressed(this);document.getElementById('productform').submit(); return false;"><%=products.get(i).getName() %></a>
@@ -201,7 +195,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright &copy; Your Website 2014</p>
+                    <p>Copyright &copy; Your Website 2016</p>
                 </div>
             </div>
         </footer>
@@ -246,7 +240,7 @@
     				var outerDiv = $("<div></div>").addClass("col-sm-4 col-lg-4 col-md-4");
             		
             		var thumbnailDiv = $("<div></div>").addClass("thumbnail");
-            		var imgDiv = $("<img></img>").attr("src","http://placehold.it/320x150");
+            		var imgDiv = $("<img></img>").attr("src","https://placehold.it/320x150");
             		var captionDiv = $("<div></div>").addClass("caption");
             		var h4PullRight = $("<h4></h4>").addClass("pull-right");
             		h4PullRight.html("$"+value['price']);
