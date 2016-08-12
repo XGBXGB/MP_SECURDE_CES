@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import controller.Controller;
 import model.Product;
+import model.User;
 
 /**
  * Servlet implementation class EditProductServlet
@@ -40,10 +41,17 @@ public class EditProductServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		Controller c = Controller.getInstance();
 		if(request.getSession().getAttribute("user")==null){
 			response.getWriter().print("timeout");
+			String logString = System.currentTimeMillis() + " " 
+					+ "EditProduct " 
+					+ "-" + " " 
+					+ request.getRemoteAddr() 
+					+ " timeout";
+			c.log(logString);
 		}else{
-			Controller c = Controller.getInstance();
+			User user = (User)request.getSession().getAttribute("user");
 			
 			String productId = request.getParameter("id");
 			String name = request.getParameter("name");
@@ -58,6 +66,12 @@ public class EditProductServlet extends HttpServlet {
 			if (!(nameP.matcher(name).matches() && priceP.matcher(price).matches()
 					&& descP.matcher(description).matches())) {
 				response.getWriter().print("syntax error");
+				String logString = System.currentTimeMillis() + " " 
+						+ "EditProduct " 
+						+ user.getId() + " " 
+						+ request.getRemoteAddr() 
+						+ " syntaxError";
+			c.log(logString);
 			}else{
 				Product p = new Product();
 				p.setId(Integer.parseInt(productId));
@@ -68,6 +82,13 @@ public class EditProductServlet extends HttpServlet {
 				
 				c.editProduct(p);
 				response.getWriter().print("ok");
+				response.getWriter().print("ok");
+				String logString = System.currentTimeMillis() + " " 
+								+ "EditProduct " 
+								+ user.getId() + " " 
+								+ request.getRemoteAddr() + " "
+								+ "successful";
+				c.log(logString);
 			}
 		}
 	}

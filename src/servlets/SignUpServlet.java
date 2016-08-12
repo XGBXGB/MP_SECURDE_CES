@@ -79,7 +79,7 @@ public class SignUpServlet extends HttpServlet {
 		Pattern singleLetter = Pattern.compile("[A-z]");
 		Pattern letters_numbers = Pattern.compile("^[_A-z0-9]{1,}$");
 		Pattern numbers = Pattern.compile("^[0-9]{1,}$");
-
+		Controller controller = new Controller();
 		if (!(name.matcher(fName).matches() && name.matcher(lName).matches() && name.matcher(streetB).matches()
 				&& name.matcher(subdivisionB).matches() && name.matcher(cityB).matches()
 				&& name.matcher(streetS).matches() && name.matcher(subdivisionS).matches()
@@ -93,9 +93,15 @@ public class SignUpServlet extends HttpServlet {
 			out.println("alert('Double check format of input fields');");
 			out.println("location='SignUp.jsp';");
 			out.println("</script>");
+			String logString = System.currentTimeMillis() + " " 
+					+ "Signup " 
+					+ "-" + " " 
+					+ request.getRemoteAddr() + " "
+					+ "wrongFormat";
+			controller.log(logString);
 		} else {
 			// SIGNUP FUCNTION
-			Controller controller = new Controller();
+			
 			if (controller.validateUsername(userName)) {
 				if (controller.validateEmail(email)) {
 					// encrypt the password to check against what's stored in DB
@@ -128,6 +134,9 @@ public class SignUpServlet extends HttpServlet {
 					out.println("alert('You can now login using your account!');");
 					out.println("location='login.jsp';");
 					out.println("</script>");
+					String logString = System.currentTimeMillis() + " " + "Signup - " + request.getRemoteAddr();
+					controller.log(logString);
+					System.out.println(logString);
 
 					// String url = "login.jsp";
 					// response.sendRedirect(url);
@@ -139,14 +148,24 @@ public class SignUpServlet extends HttpServlet {
 					out.println("<script type=\"text/javascript\">");
 					out.println("alert('That email already exists! Choose a different one.');");
 					out.println("</script>");
-
+					String logString = System.currentTimeMillis() + " " 
+							+ "Signup " 
+							+ "-" + " " 
+							+ request.getRemoteAddr() + " "
+							+ "existingEmail";
+					controller.log(logString);
 				}
 			} else {
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('That username already exists! Choose a different one.');");
 				out.println("</script>");
-
+				String logString = System.currentTimeMillis() + " " 
+						+ "Signup " 
+						+ "-" + " " 
+						+ request.getRemoteAddr() + " "
+						+ "existingUsername";
+				controller.log(logString);
 			}
 		}
 

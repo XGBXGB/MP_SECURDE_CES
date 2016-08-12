@@ -61,9 +61,16 @@ public class ChangePassServlet extends HttpServlet {
 			out.println("alert('Session Expired! Please try logging in again.');");
 			out.println("location='login.jsp';");
 			out.println("</script>");
+			String logString = System.currentTimeMillis() + " " 
+					+ "ChangePassword " 
+					+ "-" + " " 
+					+ request.getRemoteAddr() 
+					+ " timeout";
+			c.log(logString);
 		} else {
 			Pattern letters_numbers = Pattern.compile("^[_A-z0-9]{1,}$");
-			
+
+			User user = (User)request.getSession().getAttribute("user");
 			if (letters_numbers.matcher(oldPassword).matches() && letters_numbers.matcher(newPassword).matches()
 					&& letters_numbers.matcher(confPassword).matches()) {
 				if (c.authenticateUser(username, oldPassword) != null) {
@@ -74,6 +81,9 @@ public class ChangePassServlet extends HttpServlet {
 						out.println("alert('Password successfully changed!');");
 						out.println("location='changepass.jsp';");
 						out.println("</script>");
+						String logString = System.currentTimeMillis() + " " + "ChangePassword " + user.getId() + " " + request.getRemoteAddr();
+						c.log(logString);
+						System.out.println(logString);
 					}
 				} else {
 					PrintWriter out = response.getWriter();
@@ -81,6 +91,12 @@ public class ChangePassServlet extends HttpServlet {
 					out.println("alert('Old password incorrect!');");
 					out.println("location='changepass.jsp';");
 					out.println("</script>");
+					String logString = System.currentTimeMillis() + " " 
+							+ "ChangePassword " 
+							+ user.getId() + " " 
+							+ request.getRemoteAddr() 
+							+ " wrongPassword";
+					c.log(logString);
 				}
 			}else{
 				PrintWriter out = response.getWriter();
@@ -88,6 +104,12 @@ public class ChangePassServlet extends HttpServlet {
 				out.println("alert('Please recheck format of input fields.');");
 				out.println("location='changepass.jsp';");
 				out.println("</script>");
+				String logString = System.currentTimeMillis() + " " 
+						+ "ChangePassword " 
+						+ user.getId() + " " 
+						+ request.getRemoteAddr() 
+						+ " wrongFormat";
+				c.log(logString);
 			}
 		}
 	}

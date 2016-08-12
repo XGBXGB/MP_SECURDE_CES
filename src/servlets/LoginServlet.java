@@ -68,6 +68,7 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		session = request.getSession();
 		String currToken = request.getParameter("CSRFToken");
+		Controller controller = Controller.getInstance();
 		// get the number of logins
 		String existingToken = (String) session.getAttribute("token");
 		if (currToken.equals(existingToken.toString())) {
@@ -102,7 +103,6 @@ public class LoginServlet extends HttpServlet {
 				// encrypt the password to check against what's stored in DB
 				// create a user helper class to make database calls, and call
 				// authenticate user method
-				Controller controller = Controller.getInstance();
 				User user = controller.authenticateUser(username, password);
 
 				// we've found a user that matches the credentials
@@ -145,6 +145,10 @@ public class LoginServlet extends HttpServlet {
 						url = "admin.jsp";
 					}
 					session.setAttribute( "activation-time", System.currentTimeMillis() );
+					
+					String logString = System.currentTimeMillis() + " " + "Login " + user.getId() + " " + request.getRemoteAddr();
+					controller.log(logString);
+					System.out.println(logString);
 				}
 				// user doesn't exist, redirect to previous page and show error
 				else {
@@ -154,6 +158,12 @@ public class LoginServlet extends HttpServlet {
 					request.setAttribute("errorMessage", errorMessage);
 					if(loginAttempts==2){
 						session.setAttribute("loginLockout", System.currentTimeMillis());
+						String logString = System.currentTimeMillis() + " " 
+								+ "Login " 
+								+ "-" + " " 
+								+ request.getRemoteAddr() + " "
+								+ "loginLockout";
+						controller.log(logString);
 					}
 					// track login attempts (combats: brute force attacks)
 					session.setAttribute("loginAttempts", loginAttempts++);
@@ -163,6 +173,12 @@ public class LoginServlet extends HttpServlet {
 		}else{
 			System.out.println("not matching token");
 			url="login.jsp";
+			String logString = System.currentTimeMillis() + " " 
+					+ "Login " 
+					+ "-" + " " 
+					+ request.getRemoteAddr() + " "
+					+ "wrongCSRFToken";
+			controller.log(logString);
 		}
 		// forward our request along
 		System.out.println("url: "+url);

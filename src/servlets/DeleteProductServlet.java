@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import controller.Controller;
+import model.User;
 
 /**
  * Servlet implementation class DeleteProductServlet
@@ -41,15 +42,28 @@ public class DeleteProductServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		Controller c = Controller.getInstance();
+		User user = (User)request.getSession().getAttribute("user");
 		if (request.getSession().getAttribute("user") == null) {
 			response.getWriter().print("timeout");
+			String logString = System.currentTimeMillis() + " " 
+						+ "DeleteProduct " 
+						+ "-" + " " 
+						+ request.getRemoteAddr() 
+						+ " timeout";
+			c.log(logString);
 		} else {
-			Controller c = Controller.getInstance();
-
 			String productId = request.getParameter("id");
 
 			c.deleteProduct(productId);
 			response.getWriter().print("ok");
+			String logString = System.currentTimeMillis() + " " 
+						+ "DeleteProduct " 
+						+ user.getId() + " " 
+						+ request.getRemoteAddr() 
+						+ " successful";
+			c.log(logString);
+			System.out.println(logString);
 		}
 	}
 
