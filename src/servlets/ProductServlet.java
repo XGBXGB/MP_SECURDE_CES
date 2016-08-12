@@ -69,6 +69,12 @@ public class ProductServlet extends HttpServlet {
 		{
 			System.out.println("Wrong password when buying");
 			response.getWriter().print("false");
+			String logString = System.currentTimeMillis() + " " 
+					+ "BuyProduct " 
+					+ "-" + " " 
+					+ request.getRemoteAddr() + " "
+					+ "wrongPassword";
+			con.log(logString);
 			//request.setAttribute("bought", "wrong pw");
 			//response.sendRedirect("product.jsp");
 		}

@@ -33,6 +33,8 @@
 </head>
 
 <body>
+<input type="hidden" class="form-control" id="CSRFToken" name="CSRFToken" value="<%=session.getAttribute("token") %>"
+									required>
 	<input type="hidden" id="editId"/>
 	<div class="modal fade" id="deleteModal" role="dialog">
 		<div class="modal-dialog">
@@ -294,8 +296,14 @@
     	    	var price = $("#addPrice").val();
     	    	var description = $("#addDescription").val();
     	    	var imagePath = $("#addImagePath").val();
+    	    	var token = $("#CSRFToken").val();
     	    	
-    	    	$.post('AddProductServlet', { name: name, categoryId: categoryId, price: price, description: description, imagePath: imagePath}, function(response) {
+    	    	$.post('AddProductServlet', { name: name, 
+    	    		categoryId: categoryId, 
+    	    		price: price, 
+    	    		description: description, 
+    	    		imagePath: imagePath,
+    	    		token: token}, function(response) {
     	    		if(response == "ok"){
     	    			loadProducts(-1);
     	    			$('#addModal').modal('hide');
@@ -322,8 +330,15 @@
     	    	var price = $("#editPrice").val();
     	    	var description = $("#editDescription").val();
     	    	var imagePath = $("#editImagePath").val();
+    	    	var token = $("#CSRFToken").val();
     	    	
-    	    	$.post('EditProductServlet', { id: id, name: name, categoryId: categoryId, price: price, description: description, imagePath: imagePath}, function(response) {
+    	    	$.post('EditProductServlet', { id: id, 
+    	    		name: name, 
+    	    		categoryId: categoryId, 
+    	    		price: price, 
+    	    		description: description, 
+    	    		imagePath: imagePath, 
+    	    		token: token}, function(response) {
     	    		if(response == "ok"){
     	    			loadProducts(-1);
     	    			$('#editModal').modal('hide');
@@ -426,7 +441,7 @@
    	});
     
     function deleteProduct(productId) {
-    	$.post('DeleteProductServlet', { id: productId}, function(response) {
+    	$.post('DeleteProductServlet', { id: productId, token: $("$CSRFToken").val()}, function(response) {
     		if(response == "ok"){
     			loadProducts(-1);
     		}else{

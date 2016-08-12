@@ -31,7 +31,6 @@
 
 <body>
 
-
 	<!-- Navigation -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	<div class="container">
@@ -167,6 +166,9 @@
 								<option>Product Manager</option>
 							</select>
 						</div>
+						
+						<input type="hidden" class="form-control" id="CSRFToken" name="CSRFToken" value="<%=session.getAttribute("token") %>"
+									required>
 						<label class="col-md-3 control-label" for="firstname">Name</label>
 						<div class="form-group col-md-4">
 							<input pattern="^[ A-z]{1,}$" type="text" class="form-control"
@@ -306,7 +308,8 @@
 					lastname: document.getElementById("lastname").value,
 					username: document.getElementById("username").value,
 					pw:document.getElementById("pw").value,
-					userType: document.getElementById("sel1").value}, function(data){
+					userType: document.getElementById("sel1").value, 
+					token: document.getElementById("CSRFToken").value}, function(data){
 					if(data == "true")
 					{
 						$('#SuccessCreatingModal').modal("show");

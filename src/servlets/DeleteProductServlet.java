@@ -43,27 +43,33 @@ public class DeleteProductServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		Controller c = Controller.getInstance();
-		User user = (User)request.getSession().getAttribute("user");
+		String token = request.getParameter("token");
+		String existingToken = (String) request.getSession().getAttribute("token");
+		User user = (User) request.getSession().getAttribute("user");
 		if (request.getSession().getAttribute("user") == null) {
 			response.getWriter().print("timeout");
-			String logString = System.currentTimeMillis() + " " 
-						+ "DeleteProduct " 
-						+ "-" + " " 
-						+ request.getRemoteAddr() 
-						+ " timeout";
+			String logString = System.currentTimeMillis() + " " + "DeleteProduct " + "-" + " " + request.getRemoteAddr()
+					+ " timeout";
 			c.log(logString);
 		} else {
-			String productId = request.getParameter("id");
+			if (token.equals(existingToken.toString())) {
+				String productId = request.getParameter("id");
 
-			c.deleteProduct(productId);
-			response.getWriter().print("ok");
-			String logString = System.currentTimeMillis() + " " 
+				c.deleteProduct(productId);
+				response.getWriter().print("ok");
+				String logString = System.currentTimeMillis() + " " + "DeleteProduct " + user.getId() + " "
+						+ request.getRemoteAddr() + " successful";
+				c.log(logString);
+				System.out.println(logString);
+			} else {
+				String logString = System.currentTimeMillis() + " " 
 						+ "DeleteProduct " 
-						+ user.getId() + " " 
-						+ request.getRemoteAddr() 
-						+ " successful";
-			c.log(logString);
-			System.out.println(logString);
+						+ "-" + " " 
+						+ request.getRemoteAddr() + " "
+						+ "wrongCSRFToken";
+				c.log(logString);
+
+			}
 		}
 	}
 

@@ -34,7 +34,8 @@
 </head>
 
 <body>
-
+	<input type="hidden" class="form-control" id="CSRFToken" name="CSRFToken" value="<%=session.getAttribute("token") %>"
+									required>
 	<%User u = (User) session.getAttribute("user"); %>
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -508,7 +509,7 @@
 		alert("RATING " + retValue);
 		if(retValue == true)
 		{	
-			$.post('RatingServlet', {retVal:retValue, rateScore:document.getElementById("rateScore").value, rateReview: document.getElementById("rateReview").value}, function(data){
+			$.post('RatingServlet', {token: $("CSRFToken").val(), retVal:retValue, rateScore:document.getElementById("rateScore").value, rateReview: document.getElementById("rateReview").value}, function(data){
 				if(data == "true")
 				{
 					$('#SuccessRatingModal').modal("show");

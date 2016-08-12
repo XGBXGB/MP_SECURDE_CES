@@ -31,7 +31,7 @@ public class IndexServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		SecureRandom random = new SecureRandom();
-		request.getSession().setAttribute("token", new BigInteger(130, random).toString(32)); 
+		request.getSession().setAttribute("token", new BigInteger(130, random).toString(32));
 		System.out.println("INSIDE INDEX SERVLET");
 		response.sendRedirect("index.jsp");
 	}

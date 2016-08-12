@@ -47,12 +47,11 @@ public class AddProductServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		Controller c = Controller.getInstance();
+		String token = request.getParameter("token");
+		String existingToken = (String) request.getSession().getAttribute("token");
 		if (request.getSession().getAttribute("user") == null) {
 			response.getWriter().print("timeout");
-			String logString = System.currentTimeMillis() + " " 
-					+ "AddProduct " 
-					+ "-" + " " 
-					+ request.getRemoteAddr() 
+			String logString = System.currentTimeMillis() + " " + "AddProduct " + "-" + " " + request.getRemoteAddr()
 					+ " timeout";
 			c.log(logString);
 		} else {
@@ -66,27 +65,34 @@ public class AddProductServlet extends HttpServlet {
 			Pattern nameP = Pattern.compile("^[ A-z]{1,}$");
 			Pattern priceP = Pattern.compile("[0-9]+(.[0-9]+)?");
 			Pattern descP = Pattern.compile("^[,.!; A-z]{1,}$");
-			if (!(nameP.matcher(name).matches() && priceP.matcher(price).matches()
-					&& descP.matcher(description).matches())) {
-				response.getWriter().print("syntax error");
+			if (token.equals(existingToken.toString())) {
+				if (!(nameP.matcher(name).matches() && priceP.matcher(price).matches()
+						&& descP.matcher(description).matches())) {
+					response.getWriter().print("syntax error");
+					String logString = System.currentTimeMillis() + " " + "AddProduct " + user.getId() + " "
+							+ request.getRemoteAddr() + " syntaxError";
+					c.log(logString);
+				} else {
+					Product p = new Product();
+					p.setName(name);
+					p.setCategoryId(Integer.parseInt(categoryId));
+					p.setDescription(description);
+					p.setPrice(Double.parseDouble(price));
+
+					c.addProduct(p);
+					response.getWriter().print("ok");
+					String logString = System.currentTimeMillis() + " " + "AddProduct " + user.getId() + " "
+							+ request.getRemoteAddr() + " successful";
+					c.log(logString);
+					System.out.println(logString);
+				}
+			} else {
 				String logString = System.currentTimeMillis() + " " 
 						+ "AddProduct " 
-						+ user.getId() + " " 
-						+ request.getRemoteAddr() 
-						+ " syntaxError";
+						+ "-" + " " 
+						+ request.getRemoteAddr() + " "
+						+ "wrongCSRFToken";
 				c.log(logString);
-			} else {
-				Product p = new Product();
-				p.setName(name);
-				p.setCategoryId(Integer.parseInt(categoryId));
-				p.setDescription(description);
-				p.setPrice(Double.parseDouble(price));
-
-				c.addProduct(p);
-				response.getWriter().print("ok");
-				String logString = System.currentTimeMillis() + " " + "AddProduct " + user.getId() + " " + request.getRemoteAddr();
-				c.log(logString);
-				System.out.println(logString);
 			}
 		}
 	}

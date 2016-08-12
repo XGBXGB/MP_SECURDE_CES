@@ -225,21 +225,29 @@ public class UserDAO {
 
 		String query = "";
 		if (user.getUserType() == 4) {
-			query = "INSERT INTO " + User.TABLE_NAME + " " + " (" + User.COLUMN_USERNAME + "," + User.COLUMN_PASSWORD
-					+ "," + User.COLUMN_LNAME + "," + User.COLUMN_FNAME + "," + User.COLUMN_MNAME + ","
-					+ User.COLUMN_EMAIL + "," + User.COLUMN_BILLING + "," + User.COLUMN_SHIPPING + ","
-					+ User.COLUMN_TYPE + ") " + " VALUES ('" + user.getUsername() + "', '" + user.getpassword() + "', '"
-					+ user.getLastName() + "', '" + user.getFirstName() + "', '" + user.getMiddleName() + "', '"
-					+ user.getEmail() + "', " + user.getBillingAddressId() + ", " + user.getShippingAddressId() + ", "
-					+ user.getUserType() + ");";
+			
+			query = "INSERT INTO " + User.TABLE_NAME + " " + " (" 
+					+ User.COLUMN_USERNAME + "," 
+					+ User.COLUMN_PASSWORD+ "," 
+					+ User.COLUMN_LNAME + "," 
+					+ User.COLUMN_FNAME + "," 
+					+ User.COLUMN_MNAME + ","
+					+ User.COLUMN_EMAIL + "," 
+					+ User.COLUMN_BILLING + "," 
+					+ User.COLUMN_SHIPPING + ","
+					+ User.COLUMN_TYPE + ") " + " VALUES (?,?,?,?,?,?,?,?,?);";
 		} else {
-			query = "INSERT INTO " + User.TABLE_NAME + " " + " (" + User.COLUMN_USERNAME + "," + User.COLUMN_PASSWORD
-					+ "," + User.COLUMN_LNAME + "," + User.COLUMN_FNAME + "," + User.COLUMN_MNAME + ","
-					+ User.COLUMN_EMAIL + "," + User.COLUMN_BILLING + "," + User.COLUMN_SHIPPING + ","
-					+ User.COLUMN_TYPE + "," + User.COLUMN_EXPIRY + ") " + " VALUES ('" + user.getUsername() + "', '"
-					+ user.getpassword() + "', '" + user.getLastName() + "', '" + user.getFirstName() + "', '"
-					+ user.getMiddleName() + "', '" + user.getEmail() + "', " + user.getBillingAddressId() + ", "
-					+ user.getShippingAddressId() + ", " + user.getUserType() + ", NOW() + INTERVAL 1 DAY);";
+			query = "INSERT INTO " + User.TABLE_NAME + " " + " (" 
+					+ User.COLUMN_USERNAME + "," 
+					+ User.COLUMN_PASSWORD + "," 
+					+ User.COLUMN_LNAME + "," 
+					+ User.COLUMN_FNAME + "," 
+					+ User.COLUMN_MNAME + ","
+					+ User.COLUMN_EMAIL + "," 
+					+ User.COLUMN_BILLING + "," 
+					+ User.COLUMN_SHIPPING + ","
+					+ User.COLUMN_TYPE + "," 
+					+ User.COLUMN_EXPIRY + ") " + " VALUES (?,?,?,?,?,?,?,?,?, NOW() + INTERVAL 1 DAY);";
 
 		}
 
@@ -248,6 +256,26 @@ public class UserDAO {
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = connection.prepareStatement(query);
+			/*query = "INSERT INTO " + User.TABLE_NAME + " " + " (" + User.COLUMN_USERNAME + "," + User.COLUMN_PASSWORD
+			+ "," + User.COLUMN_LNAME + "," + User.COLUMN_FNAME + "," + User.COLUMN_MNAME + ","
+			+ User.COLUMN_EMAIL + "," + User.COLUMN_BILLING + "," + User.COLUMN_SHIPPING + ","
+			+ User.COLUMN_TYPE + ") " + " VALUES ('" + user.getUsername() + "', '" + user.getpassword() + "', '"
+			+ user.getLastName() + "', '" + user.getFirstName() + "', '" + user.getMiddleName() + "', '"
+			+ user.getEmail() + "', " + user.getBillingAddressId() + ", " + user.getShippingAddressId() + ", "
+			+ user.getUserType() + ");";*/
+			pstmt.setString(1, user.getUsername());
+			pstmt.setString(2, user.getpassword());
+			pstmt.setString(3, user.getLastName());
+			pstmt.setString(4, user.getFirstName());
+			pstmt.setString(5, user.getMiddleName());
+			if(user.getEmail() != null) {
+				pstmt.setString(6, user.getEmail());
+			} else {
+				pstmt.setString(6, user.getUsername()+"@email.com");
+			}
+			pstmt.setInt(7, user.getBillingAddressId());
+			pstmt.setInt(8, user.getShippingAddressId());
+			pstmt.setInt(9, user.getUserType());
 			pstmt.executeUpdate();
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
