@@ -149,7 +149,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Oxford Shoes','Highly Stylish',2,999.75,1),(2,'Havaianas Slippers','For the beach',4,499.5,1);
+INSERT INTO `products` VALUES (1,'Oxford Shoes','Highly Stylish',2,999.75,1),(2,'Havaianas Slipperss','For the beach',4,499.5,1);
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -167,6 +167,7 @@ CREATE TABLE `transactions` (
   `score` double DEFAULT NULL,
   `review` varchar(200) DEFAULT NULL,
   `date` datetime NOT NULL,
+  `price` double NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `productID_key_idx` (`productID`),
@@ -180,7 +181,7 @@ CREATE TABLE `transactions` (
 
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-INSERT INTO `transactions` VALUES (16,1,4,2,'panget tlga aug 11','2016-08-11 10:55:53');
+INSERT INTO `transactions` VALUES (16,1,4,2,'panget tlga aug 11','2016-08-11 10:55:53',777);
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -209,7 +210,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `email_UNIQUE` (`email`),
   KEY `typeID_key_idx` (`typeID`),
   CONSTRAINT `typeID_key` FOREIGN KEY (`typeID`) REFERENCES `usertypes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -218,7 +219,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'userTwo','$2a$10$agtTqmNjEaRewOYujI1oueRo/YSPV2xNiSwibbBLl8Zri1HsetitG','Two','ACTMAN','W','acctman@dlsu.edu.ph',-1,-1,1,NULL),(4,'userOne','$2a$10$agtTqmNjEaRewOYujI1oueRo/YSPV2xNiSwibbBLl8Zri1HsetitG','One','user','N','user@dlsu.edu.ph',-1,8,4,NULL),(5,'daebak','$2a$10$qTPqtBMciVEC8WDLDL8L7etGiMODIInpuidFsXnmznYuyP35cn4qq','daebak','daebak','d','email@email.com',9,-1,1,NULL),(9,'daebak2','$2a$10$RGDvgi/hlp/ObCWzTnbybuHvVee6IfLLd9nIWoXmU0DHAfS8RhNRy','daebak','daebak','d','email2@email.com',-1,-1,2,NULL),(10,'daebak3','$2a$10$XQFjIYCqVeYtIyKB8WnqOOK5Z9ZzeYeZ5GPeZwYoENWMgV/DCAebe','daebak','daebak','d','email3@email.com',-1,-1,3,NULL),(11,'daebak4','$2a$10$dkUGt/H10WsXzljqetftI.pMCSVkTClHJSgygHQHSSnwvjl.xZTxm','daebak','daebak','d','email4@email.com',-1,10,4,NULL);
+INSERT INTO `users` VALUES (1,'userTwo','$2a$10$agtTqmNjEaRewOYujI1oueRo/YSPV2xNiSwibbBLl8Zri1HsetitG','Two','ACTMAN','W','acctman@dlsu.edu.ph',-1,-1,1,NULL),(4,'userOne','$2a$10$agtTqmNjEaRewOYujI1oueRo/YSPV2xNiSwibbBLl8Zri1HsetitG','One','user','N','user@dlsu.edu.ph',-1,8,4,NULL),(5,'daebak','$2a$10$qTPqtBMciVEC8WDLDL8L7etGiMODIInpuidFsXnmznYuyP35cn4qq','daebak','daebak','d','email@email.com',9,-1,1,NULL),(9,'daebak2','$2a$10$RGDvgi/hlp/ObCWzTnbybuHvVee6IfLLd9nIWoXmU0DHAfS8RhNRy','daebak','daebak','d','email2@email.com',-1,-1,2,NULL),(10,'daebak3','$2a$10$XQFjIYCqVeYtIyKB8WnqOOK5Z9ZzeYeZ5GPeZwYoENWMgV/DCAebe','daebak','daebak','d','email3@email.com',-1,-1,3,NULL),(11,'daebak4','$2a$10$dkUGt/H10WsXzljqetftI.pMCSVkTClHJSgygHQHSSnwvjl.xZTxm','daebak','daebak','d','email4@email.com',-1,10,4,NULL),(12,'usTri','$2a$10$agtTqmNjEaRewOYujI1oueRo/YSPV2xNiSwibbBLl8Zri1HsetitG','asd','d','asd','email5@email.com',-1,-1,3,NULL),(13,'prdmnger','$2a$10$B.g7NWrO/vl7OAkh8f6yGOEXb/DL0OBjC4C7oHiDNkLUxXmZE/f6m','asd','asd','d','prdmnger@email.com',0,0,2,'2016-08-14 09:48:44'),(14,'prdmnger2','$2a$10$7N55Hdqb/aUf2uuebxWae.Ns8BQV4eHiTeeUJySqIfUA4tJBVMDRW','asd','asd','d','prdmnger2@email.com',0,0,3,'2016-08-14 10:02:48');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -258,4 +259,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-13  1:41:03
+-- Dump completed on 2016-08-13 10:09:21
