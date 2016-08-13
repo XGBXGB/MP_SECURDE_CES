@@ -78,7 +78,7 @@
                             <p><h2>Are you sure you want to add this User?</h2></p>
                             <p><h5>Please place your password below to confirm.</h5></p>
                             <div class="form-group">
-							<input pattern="^[_A-z0-9]{1,}$" id="passwd" type="password" class="form-control" name="password"
+							<input pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" id="passwd" type="password" class="form-control" name="password"
 								placeholder="Enter password" required>
 							<div class="help-block with-errors"></div>
 							</div>
@@ -196,15 +196,15 @@
 						</div>
 						<label for="password" class="col-md-3 control-label">Password</label>
 						<div class="form-group col-md-9">
-							<input pattern="^[_A-z0-9]{1,}$" data-minlength="6" id="pw"
+							<input pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" data-minlength="6" id="pw"
 								type="password" class="form-control" name="pw"
-								placeholder="Minimum of 6 characters" required>
+								placeholder="Minimum of 8 characters atleast 1 letter 1 number" required>
 							<div class="help-block with-errors"></div>
 						</div>
 						<label for="password" class="col-md-3 control-label">Confirm
 							Pass</label>
 						<div class="form-group col-md-9">
-							<input data-match="#pw" pattern="^[_A-z0-9]{1,}$" data-minlength="6" type="password" class="form-control"
+							<input data-match="#pw" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" data-minlength="6" type="password" class="form-control"
 								name="confirmpassword" id = "confirmpassword" placeholder="Match input with password"
 								required>
 							<div class="help-block with-errors"

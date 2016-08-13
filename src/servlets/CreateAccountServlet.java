@@ -78,11 +78,12 @@ public class CreateAccountServlet extends HttpServlet {
 				Pattern name = Pattern.compile("^[ A-z]{1,}$");
 				Pattern singleLetter = Pattern.compile("[A-z]");
 				Pattern letters_numbers = Pattern.compile("^[_A-z0-9]{1,}$");
+				Pattern passwordP = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$");
 				if (createAccountToken.equals(createAccountTokenFromSession.toString())) {
 					if (!(name.matcher(fName).matches() && name.matcher(lName).matches()
 							&& singleLetter.matcher(mInitial).matches()) && letters_numbers.matcher(userName).matches()
-							&& letters_numbers.matcher(password).matches()
-							&& letters_numbers.matcher(confPassword).matches()) {
+							&& passwordP.matcher(password).matches()
+							&& passwordP.matcher(confPassword).matches()) {
 						response.getWriter().print("syntax error");
 
 						String logString = System.currentTimeMillis() + " " + "CreateAccount " + user.getId() + " "
@@ -120,6 +121,7 @@ public class CreateAccountServlet extends HttpServlet {
 								// out.println("location='admincreate.jsp';");
 								// out.println("</script>");
 							}else{
+								System.out.println("PASSWORD NOT MATCHING: "+confPassword+" "+password);
 								response.getWriter().print("password not matching");
 							}
 						} else {

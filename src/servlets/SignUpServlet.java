@@ -78,6 +78,7 @@ public class SignUpServlet extends HttpServlet {
 		Pattern name = Pattern.compile("^[ A-z]{1,}$");
 		Pattern singleLetter = Pattern.compile("[A-z]");
 		Pattern letters_numbers = Pattern.compile("^[_A-z0-9]{1,}$");
+		Pattern passwordP = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$");
 		Pattern numbers = Pattern.compile("^[0-9]{1,}$");
 		Controller controller = new Controller();
 		if (!(name.matcher(fName).matches() && name.matcher(lName).matches() && name.matcher(streetB).matches()
@@ -86,7 +87,7 @@ public class SignUpServlet extends HttpServlet {
 				&& name.matcher(cityS).matches() && numbers.matcher("" + houseNoB).matches()
 				&& numbers.matcher(postalCodeB).matches() && numbers.matcher("" + houseNoS).matches()
 				&& numbers.matcher(postalCodeS).matches() && singleLetter.matcher(mInitial).matches()
-				&& letters_numbers.matcher(userName).matches() && letters_numbers.matcher(password).matches())) {
+				&& letters_numbers.matcher(userName).matches() && passwordP.matcher(password).matches())) {
 
 			PrintWriter out = response.getWriter();
 			out.println("<script type=\"text/javascript\">");

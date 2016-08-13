@@ -39,7 +39,7 @@
 							<div class="input-group">
 								<span class="input-group-addon"><i
 									class="glyphicon glyphicon-user"></i></span> <input id="login-username"
-									type="text" class="form-control" name="username" value=""
+									type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" name="username" value=""
 									placeholder="username or email" required>
 							</div>
     						<div class="help-block with-errors"></div>
@@ -49,7 +49,7 @@
 							<div class="input-group">
 								<span class="input-group-addon"><i
 									class="glyphicon glyphicon-lock"></i></span> <input id="login-password"
-									type="password" class="form-control" name="password"
+									pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" type="password" class="form-control" name="password"
 									placeholder="password" required>
 							</div>
 							<div class="help-block with-errors" style="margin:0 !important; padding:0 !important"></div>

@@ -172,7 +172,7 @@
                             <br>
                             <p><h5>Please place your password below.</h5></p>
                             <div class="form-group">
-							<input pattern="^[_A-z0-9]{1,}$" id="passwd" type="password" class="form-control" name="password"
+							<input pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" id="passwd" type="password" class="form-control" name="password"
 								placeholder="Enter password" required>
 							<div class="help-block with-errors"></div>
 							</div>
