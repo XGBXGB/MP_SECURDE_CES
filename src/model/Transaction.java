@@ -16,6 +16,7 @@ public class Transaction {
 	int productId;
 	int userId;
 	double score;
+	double price;
 	String review;
 	Timestamp date;
 	
@@ -23,7 +24,7 @@ public class Transaction {
 		super();
 	}
 
-	public Transaction(int id, int productId, int userId, double score, String review, Timestamp date) {
+	public Transaction(int id, int productId, int userId, double score, String review, Timestamp date, double price) {
 		super();
 		this.id = id;
 		this.productId = productId;
@@ -31,6 +32,7 @@ public class Transaction {
 		this.review = review;
 		this.date = date;
 		this.score = score;
+		this.price = price;
 	}
 	
 	public double getScore() {

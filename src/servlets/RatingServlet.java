@@ -66,7 +66,7 @@ public class RatingServlet extends HttpServlet {
 				t = new Transaction(0, ((Product) request.getSession().getAttribute("product")).getId(),
 						((User) request.getSession().getAttribute("user")).getId(),
 						Double.parseDouble(request.getParameter("rateScore")), request.getParameter("rateReview"),
-						new Timestamp(1));
+						new Timestamp(1),((Product) request.getSession().getAttribute("product")).getPrice());
 				con.addTransactionWithReview(t);
 				response.getWriter().print("true");
 				String logString = System.currentTimeMillis() + " " + "BuyProductWithReview " + user.getId() + " "
@@ -75,7 +75,8 @@ public class RatingServlet extends HttpServlet {
 
 			} else {
 				t = new Transaction(0, ((Product) request.getSession().getAttribute("product")).getId(),
-						((User) request.getSession().getAttribute("user")).getId(), 5.0, "", new Timestamp(1));
+						((User) request.getSession().getAttribute("user")).getId(), 5.0, "", new Timestamp(1),
+						((Product) request.getSession().getAttribute("product")).getPrice());
 				con.addTransaction(t);
 				response.getWriter().print("false");
 				String logString = System.currentTimeMillis() + " " + "BuyProduct " + user.getId() + " "

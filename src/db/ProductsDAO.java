@@ -192,9 +192,8 @@ public class ProductsDAO {
 	}
 	
 	public double getTotalPriceAllProducts(){
-		String query = "SELECT SUM(p.price) AS total "
-				+ "FROM transactions t, products p "
-				+ "WHERE t.productID = p.id;";
+		String query = "SELECT SUM(t.price) AS total "
+				+ "FROM transactions t;";
 		Connection connection = dbConnection.getConnection();
 		PreparedStatement pstmt = null;
 		try {
@@ -217,7 +216,7 @@ public class ProductsDAO {
 	}
 	
 	public ArrayList<FinancialRecord> getTotalPriceByProduct(){
-		String query = "SELECT p.name, SUM(p.price) AS total "
+		String query = "SELECT p.name, SUM(t.price) AS total "
 				+ "FROM transactions t, products p "
 				+ "WHERE t.productID = p.id "
 				+ "GROUP BY p.name;";
@@ -244,7 +243,7 @@ public class ProductsDAO {
 	}
 	
 	public ArrayList<FinancialRecord> getTotalPriceByCategory(){
-		String query = "SELECT c.category, SUM(p.price) AS total "
+		String query = "SELECT c.category, SUM(t.price) AS total "
 				+ "FROM transactions t "
 				+ "INNER JOIN products p "
 				+ "ON t.productID = p.id "

@@ -153,6 +153,7 @@
 			<div class="col-md-9 user-records-table">
 
 				<!-- -->
+				<form id="addUserForm" class="form-horizontal" data-toggle="validator" role="form">
 				<div class="panel-body">
 					<!-- form id="signupform" class="form-horizontal"
 						data-toggle="validator" role="form" action="CreateAccountServlet"
@@ -203,7 +204,7 @@
 						<label for="password" class="col-md-3 control-label">Confirm
 							Pass</label>
 						<div class="form-group col-md-9">
-							<input pattern="^[_A-z0-9]{1,}$" data-minlength="6" type="password" class="form-control"
+							<input data-match="#pw" pattern="^[_A-z0-9]{1,}$" data-minlength="6" type="password" class="form-control"
 								name="confirmpassword" id = "confirmpassword" placeholder="Match input with password"
 								required>
 							<div class="help-block with-errors"
@@ -215,15 +216,16 @@
 									href="#" class="btn btn-info"> <i class="icon-hand-right"></i>
 									Create User
 								</a-->
-								<a onclick="checkAdd();" id="btn-signup"
+								<button type="submit" id="btn-signup"
 									href="#" class="btn btn-info"> <i class="icon-hand-right"></i>
 									Create User
-								</a>
+								</button>
 							</div>
 						</div>
 
 					<!--/form-->
 				</div>
+				</form>
 			</div>
 
 		</div>
@@ -251,6 +253,16 @@
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/validator.js"></script>
 	<script>
+	$('#addUserForm').validator().on('submit', function (e) {
+  	  if (e.isDefaultPrevented()) {
+  	    // handle the invalid form...
+  	  } else {
+  	    	checkAdd();
+  	  }
+  	  e.preventDefault();
+  	});
+	
+	
 		function sort(sortBy) {
 			$.post('UserRecordServlet', {
 				sortBy : sortBy
@@ -303,6 +315,7 @@
 			if(retValue)
 			{	
 				$.post('CreateAccountServlet', {password:document.getElementById("passwd").value,
+					confirmpassword:document.getElementById("confirmpassword").value,
 					firstname:document.getElementById("firstname").value,
 					middleinitial: document.getElementById("middleinitial").value,
 					lastname: document.getElementById("lastname").value,

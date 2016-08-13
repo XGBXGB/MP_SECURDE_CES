@@ -194,7 +194,7 @@
 		            <button type="button" class="btn btn-default" data-dismiss="modal"> Cancel </button>
 		            <div class="form-group">
 		                
-		                <button id="editButton" class="btn btn-primary"> Save Changes </button>
+		                <button id="editButton" type="submit" class="btn btn-primary"> Save Changes </button>
 		            </div>
 	            
 	            </form>
@@ -288,7 +288,6 @@
     <script>
     $('#addProdForm').validator().on('submit', function (e) {
     	  if (e.isDefaultPrevented()) {
-    		  alert("prevented");
     	    // handle the invalid form...
     	  } else {
     		  var name = $("#addProductName").val();
@@ -322,7 +321,6 @@
     $('#editProdForm').validator().on('submit', function (e) {
     	  if (e.isDefaultPrevented()) {
     	    // handle the invalid form...
-    	    alert("prevented");
     	  } else {
     		  var id = $("#editId").val();
     	    	var name = $("#editProductName").val();
