@@ -160,8 +160,10 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h2 class="modal-title">Confirmation</h2>
                     </div>
+                    <form id="confirmBuy" class="form-horizontal" data-toggle="validator" role="form">
                     <div class="modal-body my-modal-body">
                     	<!--form id="BuyProductForm" class="form-horizontal" data-toggle="validator" role="form" action="ProductServlet" method="post"-->
+                    	
                     	<input type = "hidden" name = "wasbought" id = "wasbought" value = "false">
                         <div class="col-xs-12">
                             <p><h2>Are you sure you want to buy this Product?</h2></p>
@@ -172,9 +174,9 @@
                             <br>
                             <p><h5>Please place your password below.</h5></p>
                             <div class="form-group">
-							<input pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" id="passwd" type="password" class="form-control" name="password"
-								placeholder="Enter password" required>
-							<div class="help-block with-errors"></div>
+								<input pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" id="passwd" type="password" class="form-control" name="password"
+									placeholder="Enter password" required>
+								<div class="help-block with-errors"></div>
 							</div>
                             <br>
                             <!-- p><h5>Please fill up the info below. The price will be deducted from your account. You will no longer be able to refund after you submit.</h5></p>
@@ -200,15 +202,17 @@
 							<div class="help-block with-errors"></div>
 							</div>
                         	<br-->
+                        	
                         </div>
-                        <div class="form-group clearfloat"></div>
-                        <div class="floatright">
-                            <button type="button" class="btn" onclick="setConfirmation(true);">Yes</button>
-                            <button type="button" class="btn" onclick="setConfirmation(false);"data-dismiss="modal">No</button>    
-                        </div>
-                        <div class="clearfloat"></div>
+                      <div class="clearfloat"></div>
+	                        <div class="form-group floatright">
+	                            <button type="submit" class="btn">Yes</button>
+	                            <button type="button" class="btn" onclick="setConfirmation(false);" data-dismiss="modal">No</button>    
+	                        </div>
+	                        <div class="clearfloat"></div>
                         <!-- /form-->
                     </div>
+                      </form>
                 </div>
             </div>
         </div>
@@ -220,6 +224,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h2 class="modal-title">SUCCESS!</h2>
                     </div>
+                    <form id="confirmRate" class="form-horizontal" data-toggle="validator" role="form">
                     <div class="modal-body my-modal-body">
                         <div class="col-xs-12">
                             <p><h2>You have successfully bought this product!</h2></p>
@@ -230,17 +235,21 @@
                             <br>
                             
                             <p><h5>The price has been deducted from your account. Please rate this product?</h5></p>
-                            <input type="number" step="0.5" id="rateScore" name="rateScore" placeHolder="Score over five">
-                            <input type="text" id="rateReview" name="rateReview" placeHolder="Review">
+                            <div class="form-group">
+                            	<input class="form-control" type="number" step="0.5" id="rateScore" name="rateScore" placeHolder="Score over five">
+                            </div>
+                            <div class="form-group">
+                            	<input class="form-control" type="text" id="rateReview" pattern="^[,.!; A-z]{1,}$" name="rateReview" placeHolder="Review">
+                        	</div>
                         </div>
-                        <div class="form-group clearfloat"></div>
-                        <div class="floatright">
-                            <button type="button" class="btn" onclick="RatingModal(true);">Review the Product</button>
+                        <div class="clearfloat"></div>
+                        <div class="form-group floatright">
+                            <button type="submit" class="btn">Review the Product</button>
                             <button type="button" class="btn" onclick="RatingModal(false);">Don't review the product</button>    
-                        
                         </div>
                         <div class="clearfloat"></div>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -296,31 +305,33 @@
 
 				<!-- form action= "ProductServlet" method = "post" data-toggle="validator" id="BuyProductForm" onsubmit="return checkBuy();"-->      
 				<!-- form data-toggle="validator"-->      
-                        <p><h5>Please fill up the info below. The price will be deducted from your account. You will no longer be able to refund after you submit.</h5></p>
-                       	<div class="form-group">
-                       	<input class="form-control" pattern="([0-9]{4} ){3}[0-9]{4}" type = "text" placeholder = "Credit card number" required></input>
-                       	<div class="help-block with-errors"></div>
-                       	</div>
-                       	<div class="form-group">
-                       	<input class="form-control" type = "date" placeholder = "Expiry mm/yy" required></input>
-						<div class="help-block with-errors"></div>
-						</div>
-						<div class="form-group">
-                       	<input class="form-control" pattern="([0-9]{4})" type = "text" placeholder = "CVS Pin" data-maxlength="6" required></input>
-						<div class="help-block with-errors"></div>
-						</div>
-						<div class="form-group">                     
-                       	<input class="form-control" pattern="([0-9]{4,7})" type = "text" placeholder = "Zipcode" data-maxlength="4" required></input>
-                       	<div class="help-block with-errors"></div>
-                       	</div>
-                       	<br>             
-		               <div class="text-right">
-		                	<%if(u != null){ %>
-		                    <input type = "button" value ="Buy This" class="btn btn-success" href="javascript:{}" onclick="return checkBuy();">
-		                    <%}else{ %>
-		                    <a id="btn-login" href="login.jsp" class="btn btn-success">Buy This </a>
-		                    <%} %>
-		                </div>
+                        <form id="buyProdForm" class="form-horizontal" data-toggle="validator" role="form">
+	                        <p><h5>Please fill up the info below. The price will be deducted from your account. You will no longer be able to refund after you submit.</h5></p>
+	                       	<div class="form-group">
+	                       	<input class="form-control" pattern="([0-9]{4} ){3}[0-9]{4}" type = "text" placeholder = "Credit card number" required></input>
+	                       	<div class="help-block with-errors"></div>
+	                       	</div>
+	                       	<div class="form-group">
+	                       	<input class="form-control" type = "date" placeholder = "Expiry mm/yy" required></input>
+							<div class="help-block with-errors"></div>
+							</div>
+							<div class="form-group">
+	                       	<input class="form-control" pattern="([0-9]{4})" type = "text" placeholder = "CVS Pin" data-maxlength="6" required></input>
+							<div class="help-block with-errors"></div>
+							</div>
+							<div class="form-group">                     
+	                       	<input class="form-control" pattern="([0-9]{4,7})" type = "text" placeholder = "Zipcode" data-maxlength="4" required></input>
+	                       	<div class="help-block with-errors"></div>
+	                       	</div>
+	                       	<br>             
+			               <div class="form-group text-right">
+			                	<%if(u != null){ %>
+			                    <button type = "submit" value ="Buy This" class="form-control btn btn-success" href="javascript:{}">Buy This</button>
+			                    <%}else{ %>
+			                    <a id="btn-login" href="login.jsp" class="btn btn-success">Buy This </a>
+			                    <%} %>
+			                </div>
+		                </form>
 				<!--/form-->
 				
                 <hr>
@@ -446,6 +457,32 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
 	<script>
+	
+	$('#confirmRate').validator().on('submit', function (e) {
+	  	  if (e.isDefaultPrevented()) {
+	  	    // handle the invalid form...
+	  	  } else {
+	  			RatingModal(true);
+	  	  }
+	  	  e.preventDefault();
+	  	});
+	$('#confirmBuy').validator().on('submit', function (e) {
+	  	  if (e.isDefaultPrevented()) {
+	  	    // handle the invalid form...
+	  	  } else {
+	  			setConfirmation(true);
+	  	  }
+	  	  e.preventDefault();
+	  	});
+	$('#buyProdForm').validator().on('submit', function (e) {
+	  	  if (e.isDefaultPrevented()) {
+	  	    // handle the invalid form...
+	  	  } else {
+	  	    	checkBuy();
+	  	  }
+	  	  e.preventDefault();
+	  	});
+	
 	function viewProducts(categoryId){
 		$.post('GoToHomeServlet', {clickedCategoryInSingleProducts:categoryId}, function(data){
 			window.location.replace(data);
@@ -470,6 +507,11 @@
 				if(data == "true")
 				{
 					$('#SuccessBuyingModal').modal("show");
+				}
+				else if(data=="timeout")
+				{
+					alert('Session Expired! Please try logging in again.');
+	    			$(location).attr('href',"index.jsp");
 				}
 				else
 				{

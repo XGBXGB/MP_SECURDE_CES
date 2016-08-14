@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,81 +27,99 @@ import model.User;
 @WebServlet("/ProductServlet")
 public class ProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ProductServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ProductServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		
-		//$(this).closest('form').submit()
+		// response.getWriter().append("Served at:
+		// ").append(request.getContextPath());
+
+		// $(this).closest('form').submit()
 		Controller controller = new Controller();
-		System.out.println("ID " +Integer.parseInt(request.getParameter("selectedProduct")));
+		System.out.println("ID " + Integer.parseInt(request.getParameter("selectedProduct")));
 		Product product = controller.getProduct(Integer.parseInt(request.getParameter("selectedProduct")));
 		request.getSession().setAttribute("product", product);
-		//request.getSession().setAttribute("user", request.getSession().getAttribute("user"));
+		// request.getSession().setAttribute("user",
+		// request.getSession().getAttribute("user"));
 		response.sendRedirect("product.jsp");
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-		Controller con = new Controller();
+
+		Controller con = Controller.getInstance();
 		System.out.println("Password in Prod " + request.getParameter("password"));
-		if(con.authenticateUser(((User)request.getSession().getAttribute("user")).getUsername(), request.getParameter("password"))!= null)
-		{
-			System.out.println("correct password when buying");
-			response.getWriter().print("true");
-			//response.sendRedirect("product.jsp");
-			//doGet(request, response);
+		con.checkExpired();
+		User u = (User) request.getSession().getAttribute("user");
+		if (u != null) {
+			User user = con.getUser(u.getId());
+			if (user == null) {
+				request.getSession().invalidate();
+				request.getSession().setAttribute("token", new BigInteger(130, new SecureRandom()).toString(32));
+			}
 		}
-		else
-		{
-			System.out.println("Wrong password when buying");
-			response.getWriter().print("false");
-			String logString = System.currentTimeMillis() + " " 
-					+ "BuyProduct " 
-					+ "-" + " " 
-					+ request.getRemoteAddr() + " "
-					+ "wrongPassword";
+
+		if (request.getSession().getAttribute("user") == null) {
+			response.getWriter().print("timeout");
+			String logString = System.currentTimeMillis() + " " + "BuyProduct " + "-" + " " + request.getRemoteAddr()
+					+ " timeout";
 			con.log(logString);
-			//request.setAttribute("bought", "wrong pw");
-			//response.sendRedirect("product.jsp");
+		} else {
+			if (con.authenticateUser(((User) request.getSession().getAttribute("user")).getUsername(),
+					request.getParameter("password")) != null) {
+				System.out.println("correct password when buying");
+				response.getWriter().print("true");
+				// response.sendRedirect("product.jsp");
+				// doGet(request, response);
+			} else {
+				System.out.println("Wrong password when buying");
+				response.getWriter().print("false");
+				String logString = System.currentTimeMillis() + " " + "BuyProduct " + "-" + " "
+						+ request.getRemoteAddr() + " " + "wrongPassword";
+				con.log(logString);
+				// request.setAttribute("bought", "wrong pw");
+				// response.sendRedirect("product.jsp");
+			}
 		}
-		
-		//System.out.println("SUP HEY");
-		/*Controller con = new Controller();
-		
-		if(con.authenticateUser(((User)request.getSession().getAttribute("user")).getUsername(), request.getParameter("password"))!= null)
-		{
-			Transaction t = new Transaction(0, ((Product)request.getSession().getAttribute("product")).getId(), ((User)request.getSession().getAttribute("user")).getId(), 5.0, "", "2016-07-27");
-			con.addTransaction(t);
-			request.setAttribute("product",request.getSession().getAttribute("product"));
-			request.setAttribute("user",request.getSession().getAttribute("user"));		
-			//response.getOutputStream().println("<script type='text/javascript'>$('#SuccessBuyingModal').modal(\"show\");</script>");	
-			//request.setAttribute("bought", "bought");
-			System.out.println("correct password when buying");
-			//response.sendRedirect("product.jsp");
-			//doGet(request, response);
-		}
-		else
-		{
-			System.out.println("Wrong password when buying");
-			//request.setAttribute("bought", "wrong pw");
-			//response.sendRedirect("product.jsp");
-		}*/
+		// System.out.println("SUP HEY");
+		/*
+		 * Controller con = new Controller();
+		 * 
+		 * if(con.authenticateUser(((User)request.getSession().getAttribute(
+		 * "user")).getUsername(), request.getParameter("password"))!= null) {
+		 * Transaction t = new Transaction(0,
+		 * ((Product)request.getSession().getAttribute("product")).getId(),
+		 * ((User)request.getSession().getAttribute("user")).getId(), 5.0, "",
+		 * "2016-07-27"); con.addTransaction(t);
+		 * request.setAttribute("product",request.getSession().getAttribute(
+		 * "product"));
+		 * request.setAttribute("user",request.getSession().getAttribute("user")
+		 * ); //response.getOutputStream().println(
+		 * "<script type='text/javascript'>$('#SuccessBuyingModal').modal(\"show\");</script>"
+		 * ); //request.setAttribute("bought", "bought"); System.out.println(
+		 * "correct password when buying");
+		 * //response.sendRedirect("product.jsp"); //doGet(request, response); }
+		 * else { System.out.println("Wrong password when buying");
+		 * //request.setAttribute("bought", "wrong pw");
+		 * //response.sendRedirect("product.jsp"); }
+		 */
 	}
 
 }

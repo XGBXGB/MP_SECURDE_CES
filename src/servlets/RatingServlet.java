@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
@@ -59,39 +61,54 @@ public class RatingServlet extends HttpServlet {
 		Transaction t = null;
 		String token = request.getParameter("token");
 		String existingToken = (String) request.getSession().getAttribute("token");
-		if (token.equals(existingToken.toString())) {
-			// if(retVal.equals("false"))
-			if (retVal) {
-				System.out.println("Score for prod " + request.getParameter("rateScore"));
-				t = new Transaction(0, ((Product) request.getSession().getAttribute("product")).getId(),
-						((User) request.getSession().getAttribute("user")).getId(),
-						Double.parseDouble(request.getParameter("rateScore")), request.getParameter("rateReview"),
-						new Timestamp(1),((Product) request.getSession().getAttribute("product")).getPrice());
-				con.addTransactionWithReview(t);
-				response.getWriter().print("true");
-				String logString = System.currentTimeMillis() + " " + "BuyProductWithReview " + user.getId() + " "
-						+ request.getRemoteAddr() + " " + "successful";
-				con.log(logString);
 
-			} else {
-				t = new Transaction(0, ((Product) request.getSession().getAttribute("product")).getId(),
-						((User) request.getSession().getAttribute("user")).getId(), 5.0, "", new Timestamp(1),
-						((Product) request.getSession().getAttribute("product")).getPrice());
-				con.addTransaction(t);
-				response.getWriter().print("false");
-				String logString = System.currentTimeMillis() + " " + "BuyProduct " + user.getId() + " "
-						+ request.getRemoteAddr() + " " + "successful";
-				con.log(logString);
-
+		con.checkExpired();
+		User u = (User) request.getSession().getAttribute("user");
+		if (u != null) {
+			User userCheck = con.getUser(u.getId());
+			if (userCheck == null) {
+				request.getSession().invalidate();
+				request.getSession().setAttribute("token", new BigInteger(130, new SecureRandom()).toString(32));
 			}
-		} else {
+		}
 
-			String logString = System.currentTimeMillis() + " " 
-					+ "BuyProduct " 
-					+ "-" + " " 
-					+ request.getRemoteAddr() + " "
-					+ "wrongCSRFToken";
+		if (request.getSession().getAttribute("user") == null) {
+			response.getWriter().print("timeout");
+			String logString = System.currentTimeMillis() + " " + "RateProduct " + "-" + " " + request.getRemoteAddr()
+					+ " timeout";
 			con.log(logString);
+		} else {
+			if (token.equals(existingToken.toString())) {
+				// if(retVal.equals("false"))
+				if (retVal) {
+					System.out.println("Score for prod " + request.getParameter("rateScore"));
+					t = new Transaction(0, ((Product) request.getSession().getAttribute("product")).getId(),
+							((User) request.getSession().getAttribute("user")).getId(),
+							Double.parseDouble(request.getParameter("rateScore")), request.getParameter("rateReview"),
+							new Timestamp(1), ((Product) request.getSession().getAttribute("product")).getPrice());
+					con.addTransactionWithReview(t);
+					response.getWriter().print("true");
+					String logString = System.currentTimeMillis() + " " + "BuyProductWithReview " + user.getId() + " "
+							+ request.getRemoteAddr() + " " + "successful";
+					con.log(logString);
+
+				} else {
+					t = new Transaction(0, ((Product) request.getSession().getAttribute("product")).getId(),
+							((User) request.getSession().getAttribute("user")).getId(), 5.0, "", new Timestamp(1),
+							((Product) request.getSession().getAttribute("product")).getPrice());
+					con.addTransaction(t);
+					response.getWriter().print("false");
+					String logString = System.currentTimeMillis() + " " + "BuyProduct " + user.getId() + " "
+							+ request.getRemoteAddr() + " " + "successful";
+					con.log(logString);
+
+				}
+			} else {
+
+				String logString = System.currentTimeMillis() + " " + "BuyProduct " + "-" + " "
+						+ request.getRemoteAddr() + " " + "wrongCSRFToken";
+				con.log(logString);
+			}
 		}
 		// response.sendRedirect("product.jsp");
 	}
