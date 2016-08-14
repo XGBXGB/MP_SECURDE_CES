@@ -205,8 +205,9 @@ public class UserDAO {
 	}
 	
 	public void updatePassword(int userID, String password){
-		String query = "UPDATE "+User.TABLE_NAME+" SET "+User.COLUMN_PASSWORD+" = ? "
+		String query = "UPDATE "+User.TABLE_NAME+" SET expiry=null, "+User.COLUMN_PASSWORD+" = ? "
 					 + "WHERE "+User.COLUMN_ID+" = ?;";
+		
 		
 		Connection connection = DBConnection.getConnection();
 		PreparedStatement pstmt = null;
