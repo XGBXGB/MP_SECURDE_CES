@@ -1,6 +1,9 @@
 package servlets;
 
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -45,6 +48,17 @@ public class DeleteProductServlet extends HttpServlet {
 		Controller c = Controller.getInstance();
 		String token = request.getParameter("token");
 		String existingToken = (String) request.getSession().getAttribute("token");
+		
+		c.checkExpired();
+		User u = (User) request.getSession().getAttribute("user");
+		if (u != null) {
+			User user = c.getUser(u.getId());
+			if (user == null) {
+				request.getSession().invalidate();
+				request.getSession().setAttribute("token", new BigInteger(130, new SecureRandom()).toString(32));
+			}
+		}
+		
 		User user = (User) request.getSession().getAttribute("user");
 		if (request.getSession().getAttribute("user") == null) {
 			response.getWriter().print("timeout");

@@ -35,10 +35,7 @@
 <body>
 
 	<%	
-	Controller co = new Controller();
-	co.checkExpired();
 	User u = (User) session.getAttribute("user"); 
-	session.setAttribute("user", u);
  	if(session.getAttribute("product")!=null){
 	  session.removeAttribute("product");
   	}

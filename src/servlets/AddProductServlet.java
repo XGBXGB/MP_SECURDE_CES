@@ -2,6 +2,8 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
@@ -49,6 +51,17 @@ public class AddProductServlet extends HttpServlet {
 		Controller c = Controller.getInstance();
 		String token = request.getParameter("token");
 		String existingToken = (String) request.getSession().getAttribute("token");
+		
+		c.checkExpired();
+		User u = (User) request.getSession().getAttribute("user");
+		if (u != null) {
+			User user = c.getUser(u.getId());
+			if (user == null) {
+				request.getSession().invalidate();
+				request.getSession().setAttribute("token", new BigInteger(130, new SecureRandom()).toString(32));
+			}
+		}
+		
 		if (request.getSession().getAttribute("user") == null) {
 			response.getWriter().print("timeout");
 			String logString = System.currentTimeMillis() + " " + "AddProduct " + "-" + " " + request.getRemoteAddr()

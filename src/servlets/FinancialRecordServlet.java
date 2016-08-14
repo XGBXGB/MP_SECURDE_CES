@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,7 @@ import com.google.gson.reflect.TypeToken;
 import controller.Controller;
 import model.FinancialRecord;
 import model.Product;
+import model.User;
 
 /**
  * Servlet implementation class FinancialRecordServlet
@@ -52,10 +55,21 @@ public class FinancialRecordServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		Controller controller = Controller.getInstance();
+		controller.checkExpired();
+		User u = (User) request.getSession().getAttribute("user");
+		if (u != null) {
+			User user = controller.getUser(u.getId());
+			if (user == null) {
+				request.getSession().invalidate();
+				request.getSession().setAttribute("token", new BigInteger(130, new SecureRandom()).toString(32));
+			}
+		}
+
 		if (request.getSession().getAttribute("user") == null) {
 			response.getWriter().print("timeout");
 		} else {
-			Controller controller = Controller.getInstance();
+			controller = Controller.getInstance();
 			String sortBy = request.getParameter("sortBy");
 			System.out.println("sortBy: " + sortBy);
 			if (sortBy.equals("all")) {

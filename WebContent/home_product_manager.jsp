@@ -439,7 +439,7 @@
    	});
     
     function deleteProduct(productId) {
-    	$.post('DeleteProductServlet', { id: productId, token: $("$CSRFToken").val()}, function(response) {
+    	$.post('DeleteProductServlet', { id: productId, token: $("#CSRFToken").val()}, function(response) {
     		if(response == "ok"){
     			loadProducts(-1);
     		}else{

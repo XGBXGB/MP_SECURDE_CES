@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.Controller;
+
 /**
  * Servlet implementation class IndexServlet
  */
@@ -30,6 +32,8 @@ public class IndexServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		Controller c = Controller.getInstance();
+		c.checkExpired();
 		SecureRandom random = new SecureRandom();
 		request.getSession().setAttribute("token", new BigInteger(130, random).toString(32));
 		System.out.println("INSIDE INDEX SERVLET");
